@@ -1,0 +1,35 @@
+{
+    "itemGroup.libri": "Libri",
+
+    "block.libri.alchemy_table": "Алхимический стол",
+    "block.libri.pedestal": "Пьедестал",
+
+    "container.libri.alchemy_table": "Алхимический стол",
+    "message.libri.pedestals_needed": "Все 5 пьедесталов должны содержать предметы!",
+
+    "enchantment.libri.eternity": "Вечность",
+    "enchantment.libri.telekinesis": "Телекинез",
+    "enchantment.libri.phoenix": "Феникс",
+    "enchantment.libri.sacrifice": "Жертвоприношение",
+    "enchantment.libri.swift_strike": "Быстрый удар",
+    "item.minecraft.enchanted_book": "Зачарованная книга",
+
+    "enchantment.libri.eternity.desc": "Предмет никогда не теряет прочность",
+    "enchantment.libri.telekinesis.desc": "Предметы попадают прямо в инвентарь",
+    "enchantment.libri.phoenix.desc": "Медленно восстанавливает прочность предметов",
+    "enchantment.libri.sacrifice.desc": "Преобразует весь дроп мобов в опыт, масштабируется с Добычей",
+    "enchantment.libri.swift_strike.desc": "Увеличивает скорость атаки",
+    "enchantment.libri.smelting_speed": "Скорость плавки",
+    "enchantment.libri.smelting_speed.desc": "Ускоряет плавку в печи за уровень",
+    "enchantment.libri.fuel_efficiency": "Экономия топлива",
+    "enchantment.libri.fuel_efficiency.desc": "Увеличивает время горения топлива за уровень",
+
+    "config.libri.title": "Настройки Libri",
+    "config.libri.category.general": "Основные",
+    "config.libri.remove_anvil_cap": "Убрать лимит наковальни",
+    "config.libri.remove_anvil_cap.tooltip": "Убирает ограничение в 40 уровней на наковальне",
+    "config.libri.enchantment_max_level_mode": "Максимальный уровень чар",
+    "config.libri.enchantment_max_level_mode.tooltip": "Ванильный — оригинальные уровни, Кастомный — свой уровень",
+    "config.libri.enchantment_custom_max_level": "Кастомный уровень",
+    "config.libri.enchantment_custom_max_level.tooltip": "Максимальный уровень для всех зачарований (1-10000)"
+}

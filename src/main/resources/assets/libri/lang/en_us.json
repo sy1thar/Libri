@@ -1,0 +1,35 @@
+{
+    "itemGroup.libri": "Libri",
+
+    "block.libri.alchemy_table": "Alchemy Table",
+    "block.libri.pedestal": "Pedestal",
+
+    "container.libri.alchemy_table": "Alchemy Table",
+    "message.libri.pedestals_needed": "All 5 pedestals must contain items!",
+
+    "enchantment.libri.eternity": "Eternity",
+    "enchantment.libri.telekinesis": "Telekinesis",
+    "enchantment.libri.phoenix": "Phoenix",
+    "enchantment.libri.sacrifice": "Sacrifice",
+    "enchantment.libri.swift_strike": "Swift Strike",
+    "item.minecraft.enchanted_book": "Enchanted Book",
+
+    "enchantment.libri.eternity.desc": "Item never loses durability",
+    "enchantment.libri.telekinesis.desc": "Items go directly to your inventory",
+    "enchantment.libri.phoenix.desc": "Slowly repairs items over time",
+    "enchantment.libri.sacrifice.desc": "Converts all mob drops into experience, scales with Looting",
+    "enchantment.libri.swift_strike.desc": "Increases attack speed",
+    "enchantment.libri.smelting_speed": "Smelting Speed",
+    "enchantment.libri.smelting_speed.desc": "Speeds up furnace smelting per level",
+    "enchantment.libri.fuel_efficiency": "Fuel Efficiency",
+    "enchantment.libri.fuel_efficiency.desc": "Increases fuel burn time per level",
+
+    "config.libri.title": "Libri Config",
+    "config.libri.category.general": "General",
+    "config.libri.remove_anvil_cap": "Remove Anvil Cap",
+    "config.libri.remove_anvil_cap.tooltip": "Removes the 40-level limit in anvils",
+    "config.libri.enchantment_max_level_mode": "Enchantment Max Level",
+    "config.libri.enchantment_max_level_mode.tooltip": "Vanilla leaves original max levels, Custom sets your own",
+    "config.libri.enchantment_custom_max_level": "Custom Max Level",
+    "config.libri.enchantment_custom_max_level.tooltip": "Max level for all enchantments (1-10000)"
+}

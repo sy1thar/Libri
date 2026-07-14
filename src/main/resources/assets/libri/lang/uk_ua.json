@@ -1,0 +1,35 @@
+{
+    "itemGroup.libri": "Libri",
+
+    "block.libri.alchemy_table": "Алхімічний стіл",
+    "block.libri.pedestal": "П'єдестал",
+
+    "container.libri.alchemy_table": "Алхімічний стіл",
+    "message.libri.pedestals_needed": "Усі 5 п'єдесталів мають містити предмети!",
+
+    "enchantment.libri.eternity": "Вічність",
+    "enchantment.libri.telekinesis": "Телекінез",
+    "enchantment.libri.phoenix": "Фенікс",
+    "enchantment.libri.sacrifice": "Жертвоприношення",
+    "enchantment.libri.swift_strike": "Швидкий удар",
+    "item.minecraft.enchanted_book": "Зачарована книга",
+
+    "enchantment.libri.eternity.desc": "Предмет ніколи не втрачає міцність",
+    "enchantment.libri.telekinesis.desc": "Предмети потрапляють прямо в інвентар",
+    "enchantment.libri.phoenix.desc": "Повільно відновлює міцність предметів",
+    "enchantment.libri.sacrifice.desc": "Перетворює весь дріп мобів на досвід, масштабується з Здобиччю",
+    "enchantment.libri.swift_strike.desc": "Збільшує швидкість атаки",
+    "enchantment.libri.smelting_speed": "Швидкість плавки",
+    "enchantment.libri.smelting_speed.desc": "Прискорює плавку в печі за рівень",
+    "enchantment.libri.fuel_efficiency": "Економія палива",
+    "enchantment.libri.fuel_efficiency.desc": "Збільшує час горіння палива за рівень",
+
+    "config.libri.title": "Налаштування Libri",
+    "config.libri.category.general": "Основні",
+    "config.libri.remove_anvil_cap": "Прибрати ліміт ковадла",
+    "config.libri.remove_anvil_cap.tooltip": "Прибирає обмеження в 40 рівнів на ковадлі",
+    "config.libri.enchantment_max_level_mode": "Максимальний рівень чар",
+    "config.libri.enchantment_max_level_mode.tooltip": "Ванільний залишає оригінальні рівні, Кастомний — свій рівень",
+    "config.libri.enchantment_custom_max_level": "Кастомний рівень",
+    "config.libri.enchantment_custom_max_level.tooltip": "Максимальний рівень для всіх зачарувань (1-10000)"
+}

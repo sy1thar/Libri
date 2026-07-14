@@ -1,0 +1,28 @@
+{
+    "required": true,
+    "package": "com.libri.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "EnchantmentMixin",
+        "EnchantmentIsAcceptableMixin",
+        "EnchantmentHelperMixin",
+        "ItemStackMixin",
+        "EnchantmentLevelMixin",
+        "AnvilScreenHandlerMixin",
+        "BlockDropMixin",
+        "EntityDropMixin",
+        "LivingEntityDropMixin",
+        "SacrificeMixin",
+        "FurnaceBlockEntityMixin",
+        "FurnaceBlockEntityAccessor",
+        "BlockItemMixin",
+        "LootingMixin",
+        "SharpnessMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "client": [
+        "AnvilScreenMixin"
+    ]
+}
