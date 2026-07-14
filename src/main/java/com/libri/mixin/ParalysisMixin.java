@@ -18,9 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ParalysisMixin {
 
     @Inject(method = "damage", at = @At("HEAD"))
-    private void onDamage(net.minecraft.server.world.ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (world.isClient) return;
-
+    private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (source.getSource() instanceof PersistentProjectileEntity arrow
                 && source.getAttacker() instanceof ServerPlayerEntity player) {
             ItemStack weapon = player.getMainHandStack();
