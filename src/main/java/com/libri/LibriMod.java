@@ -16,6 +16,7 @@ public class LibriMod implements ModInitializer {
         ModConfig.load();
         ModEventHandlers.register();
         ModLootTables.register();
+        ModCreativeTab.register();
         LOGGER.info("Libri mod initialized with 7 enchantments");
     }
 }
