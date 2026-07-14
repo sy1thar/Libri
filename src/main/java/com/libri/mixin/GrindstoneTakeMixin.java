@@ -23,16 +23,7 @@ public class GrindstoneTakeMixin {
     @Shadow(remap = false) @Final
     private GrindstoneScreenHandler field_16780;
 
-    @Unique
-    private ItemStack libri$savedTool = ItemStack.EMPTY;
-    @Unique
-    private ItemEnchantmentsComponent libri$savedRemainingEnch = ItemEnchantmentsComponent.DEFAULT;
-    @Unique
-    private int libri$savedEnchSlot = -1;
-    @Unique
-    private int libri$savedLevel = 0;
-
-    @Inject(method = "onTakeItem", at = @At("HEAD"))
+    @Inject(method = "onTakeItem", at = @At("HEAD"), cancellable = true)
     private void preOnTakeItem(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
         GrindstoneScreenHandler handler = this.field_16780;
         Inventory input = ((GrindstoneScreenHandlerAccessor) handler).libri$getInput();
@@ -51,7 +42,7 @@ public class GrindstoneTakeMixin {
 
         if (enchSlot < 0) return;
 
-        ItemStack enchantedItem = input.getStack(enchSlot).copy();
+        ItemStack enchantedItem = input.getStack(enchSlot);
         ItemStack bookStack = input.getStack(bookSlot);
 
         var enchantments = enchantedItem.getOrDefault(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
@@ -69,11 +60,6 @@ public class GrindstoneTakeMixin {
         }
         ItemEnchantmentsComponent remainingEnch = newBuilder.build();
 
-        this.libri$savedTool = enchantedItem;
-        this.libri$savedRemainingEnch = remainingEnch;
-        this.libri$savedEnchSlot = enchSlot;
-        this.libri$savedLevel = level;
-
         enchantedItem.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
         enchantedItem.set(DataComponentTypes.REPAIR_COST, 0);
         input.setStack(enchSlot, enchantedItem);
@@ -90,18 +76,10 @@ public class GrindstoneTakeMixin {
                 slot.markDirty();
             }
         }
-    }
 
-    @Inject(method = "onTakeItem", at = @At("RETURN"))
-    private void postOnTakeItem(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
-        if (this.libri$savedEnchSlot < 0) return;
-
-        GrindstoneScreenHandler handler = this.field_16780;
-        Inventory input = ((GrindstoneScreenHandlerAccessor) handler).libri$getInput();
-
-        this.libri$savedTool.set(DataComponentTypes.ENCHANTMENTS, this.libri$savedRemainingEnch);
-        this.libri$savedTool.set(DataComponentTypes.REPAIR_COST, 0);
-        input.setStack(this.libri$savedEnchSlot, this.libri$savedTool);
+        enchantedItem.set(DataComponentTypes.ENCHANTMENTS, remainingEnch);
+        enchantedItem.set(DataComponentTypes.REPAIR_COST, 0);
+        input.setStack(enchSlot, enchantedItem);
         for (var slot : handler.slots) {
             if (slot.inventory == input) {
                 slot.markDirty();
@@ -111,11 +89,11 @@ public class GrindstoneTakeMixin {
         ScreenHandlerContext context = ((GrindstoneScreenHandlerAccessor) handler).libri$getContext();
         context.run((world, pos) -> {
             if (world instanceof ServerWorld sw) {
-                int xp = (int) Math.ceil(this.libri$savedLevel / 2.0);
+                int xp = (int) Math.ceil(level / 2.0);
                 player.addExperience(xp);
             }
         });
 
-        this.libri$savedEnchSlot = -1;
+        ci.cancel();
     }
 }
