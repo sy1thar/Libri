@@ -1,13 +1,14 @@
 package com.libri.mixin;
 
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.GrindstoneScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,49 +16,48 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.inventory.Inventory;
-
 @Mixin(GrindstoneScreenHandler.class)
 public class GrindstoneDisenchantMixin {
 
     @Shadow @Final private Inventory input;
-
     @Shadow @Final private Inventory result;
 
-    @Shadow @Final private ScreenHandlerContext context;
+    @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
+    private void handleUpdateResult(CallbackInfo ci) {
+        ItemStack slot0 = this.input.getStack(0);
+        ItemStack slot1 = this.input.getStack(1);
 
-    @Inject(method = "updateResult", at = @At("TAIL"))
-    private void onUpdateResult(CallbackInfo ci) {
-        ItemStack input0 = this.input.getStack(0);
-        ItemStack input1 = this.input.getStack(1);
+        int enchSlot = -1;
+        int bookSlot = -1;
+        ItemStack enchanted = ItemStack.EMPTY;
 
-        boolean hasEnchanted = false;
-        ItemStack enchantedItem = ItemStack.EMPTY;
-
-        if (input0.hasEnchantments() && input1.isOf(Items.BOOK)) {
-            enchantedItem = input0;
-            hasEnchanted = true;
-        } else if (input1.hasEnchantments() && input0.isOf(Items.BOOK)) {
-            enchantedItem = input1;
-            hasEnchanted = true;
+        if (slot0.hasEnchantments() && slot1.isOf(Items.BOOK) && !slot1.isEmpty()) {
+            enchSlot = 0; bookSlot = 1; enchanted = slot0;
+        } else if (slot1.hasEnchantments() && slot0.isOf(Items.BOOK) && !slot0.isEmpty()) {
+            enchSlot = 1; bookSlot = 0; enchanted = slot1;
         }
 
-        if (!hasEnchanted) return;
+        if (enchSlot < 0) return;
 
-        var baseEnch = EnchantmentHelper.getEnchantments(enchantedItem);
-        if (baseEnch.isEmpty()) return;
+        var enchantments = EnchantmentHelper.getEnchantments(enchanted);
+        var it = enchantments.getEnchantmentEntries().iterator();
+        if (!it.hasNext()) return;
 
-        ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
-        var bookEnch = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        for (var entry : baseEnch.getEnchantmentEntries()) {
-            bookEnch.add(entry.getKey(), entry.getIntValue());
+        var topEntry = it.next();
+
+        boolean isModEnchant = topEntry.getKey().getKey()
+                .map(key -> key.getValue().getNamespace().equals("libri"))
+                .orElse(false);
+
+        ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+        var bb = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+        bb.add(topEntry.getKey(), topEntry.getIntValue());
+        book.set(DataComponentTypes.STORED_ENCHANTMENTS, bb.build());
+        if (isModEnchant) {
+            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
         }
-        enchantedBook.set(DataComponentTypes.ENCHANTMENTS, bookEnch.build());
 
-        this.context.run((world, pos) -> {
-            if (!world.isClient && !enchantedBook.isEmpty()) {
-                world.spawnEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, enchantedBook));
-            }
-        });
+        this.result.setStack(0, book);
+        ci.cancel();
     }
 }

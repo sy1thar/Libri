@@ -1,6 +1,5 @@
 package com.libri.mixin;
 
-import com.libri.LibriMod;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableTextContent;
@@ -18,7 +17,6 @@ public class EnchantmentIsAcceptableMixin {
         if (self.description().getContent() instanceof TranslatableTextContent translatable) {
             String key = translatable.getKey();
             if (key.startsWith("enchantment.libri.")) {
-                LibriMod.LOGGER.info("[Libri Debug] isAcceptableItem('{}') on '{}' → true (override)", key, stack.getItem());
                 cir.setReturnValue(true);
             }
         }

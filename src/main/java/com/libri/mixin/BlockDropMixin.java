@@ -37,8 +37,9 @@ public class BlockDropMixin {
         if (!(entity instanceof ServerPlayerEntity player)) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
-        boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) > 0;
-        boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, EnchantmentHelper.getEnchantments(tool)) > 0;
+        var ench = EnchantmentHelper.getEnchantments(tool);
+        boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
+        boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         boolean enchantedFurnace = false;
 
         if (blockEntity instanceof AbstractFurnaceBlockEntity furnace) {
@@ -103,8 +104,9 @@ public class BlockDropMixin {
 
         ItemStack tool = player.getMainHandStack();
         if (tool.isEmpty()) return;
-        boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) > 0;
-        boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, EnchantmentHelper.getEnchantments(tool)) > 0;
+        var ench = EnchantmentHelper.getEnchantments(tool);
+        boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
+        boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         if (!telekinesis && !smeltingTouch) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
@@ -131,12 +133,18 @@ public class BlockDropMixin {
         List<ItemStack> smelted = new ArrayList<>();
         for (ItemStack drop : drops) {
             if (drop.isEmpty()) continue;
+            ItemStack matchInput = drop;
             var recipe = world.getRecipeManager()
-                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(drop), world);
+                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+            if (!recipe.isPresent()) {
+                matchInput = new ItemStack(drop.getItem(), drop.getCount());
+                recipe = world.getRecipeManager()
+                        .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+            }
             if (recipe.isPresent()) {
-                ItemStack result = recipe.get().value().getResult(world.getRegistryManager());
+                ItemStack result = recipe.get().value().getResult(world.getRegistryManager()).copy();
                 if (!result.isEmpty()) {
-                    result.setCount(result.getCount() * drop.getCount());
+                    result.setCount(Math.min(drop.getCount(), 64));
                     smelted.add(result);
                     continue;
                 }

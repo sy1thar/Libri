@@ -54,7 +54,7 @@ public class ModEventHandlers {
         for (int i = 0; i < 40; i++) {
             ItemStack stack = i < 36 ? player.getInventory().main.get(i) : player.getInventory().armor.get(i - 36);
             if (stack.isEmpty() || !stack.hasEnchantments() || stack.getDamage() == 0) continue;
-            int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, EnchantmentHelper.getEnchantments(stack));
+            int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, stack);
             if (level > 0 && tick % Math.max(1, 100 / level) == 0) {
                 stack.setDamage(Math.max(0, stack.getDamage() - 1));
             }

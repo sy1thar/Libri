@@ -6,4 +6,6 @@ build/
 *.iws
 out/
 data/
-libs/
+# Loom decompiled sources
+assets/
+net/
