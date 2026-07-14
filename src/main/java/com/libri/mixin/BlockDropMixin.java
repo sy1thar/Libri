@@ -136,7 +136,8 @@ public class BlockDropMixin {
             if (recipe.isPresent()) {
                 ItemStack result = recipe.get().value().getResult(world.getRegistryManager());
                 if (!result.isEmpty()) {
-                    result.setCount(result.getCount() * drop.getCount());
+                    int count = Math.min(drop.getCount(), 64);
+                    result.setCount(result.getCount() * count);
                     smelted.add(result);
                     continue;
                 }

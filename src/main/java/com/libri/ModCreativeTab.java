@@ -1,5 +1,6 @@
 package com.libri;
 
+import com.libri.config.ModConfig;
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.DataComponentTypes;
@@ -23,13 +24,13 @@ public class ModCreativeTab {
                         .displayName(Text.translatable("itemGroup.libri"))
                         .entries((context, entries) -> {
                             context.lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
-                                addEnchantedBook(entries, registry, ModEnchantments.ETERNITY, 1);
-                                addEnchantedBook(entries, registry, ModEnchantments.TELEKINESIS, 1);
-                                addEnchantedBook(entries, registry, ModEnchantments.PHOENIX, 3);
-                                addEnchantedBook(entries, registry, ModEnchantments.SACRIFICE, 3);
-                                addEnchantedBook(entries, registry, ModEnchantments.SWIFT_STRIKE, 3);
-                                addEnchantedBook(entries, registry, ModEnchantments.SMELTING_TOUCH, 1);
-                                addEnchantedBook(entries, registry, ModEnchantments.PARALYSIS, 3);
+                                addEnchantedBook(entries, registry, ModEnchantments.ETERNITY);
+                                addEnchantedBook(entries, registry, ModEnchantments.TELEKINESIS);
+                                addEnchantedBook(entries, registry, ModEnchantments.PHOENIX);
+                                addEnchantedBook(entries, registry, ModEnchantments.SACRIFICE);
+                                addEnchantedBook(entries, registry, ModEnchantments.SWIFT_STRIKE);
+                                addEnchantedBook(entries, registry, ModEnchantments.SMELTING_TOUCH);
+                                addEnchantedBook(entries, registry, ModEnchantments.PARALYSIS);
                             });
                         })
                         .build()
@@ -37,12 +38,13 @@ public class ModCreativeTab {
     }
 
     private static void addEnchantedBook(ItemGroup.Entries entries, RegistryWrapper.Impl<net.minecraft.enchantment.Enchantment> registry,
-                                          net.minecraft.registry.RegistryKey<net.minecraft.enchantment.Enchantment> key, int level) {
+                                          net.minecraft.registry.RegistryKey<net.minecraft.enchantment.Enchantment> key) {
         registry.getOptional(key).ifPresent(entry -> {
+            int level = entry.value().getMaxLevel();
             ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
             var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
             builder.add(entry, level);
-            book.set(DataComponentTypes.ENCHANTMENTS, builder.build());
+            book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
             entries.add(book);
         });
     }
