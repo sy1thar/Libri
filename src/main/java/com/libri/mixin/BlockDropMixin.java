@@ -131,27 +131,27 @@ public class BlockDropMixin {
     }
 
     private static List<ItemStack> smeltDrops(ServerWorld world, List<ItemStack> drops) {
-        LOGGER.warn("[DEBUG] smeltDrops called with {} drops", drops.size());
         List<ItemStack> smelted = new ArrayList<>();
         for (ItemStack drop : drops) {
             if (drop.isEmpty()) continue;
-            LOGGER.warn("[DEBUG] smeltDrops processing: {} x{}", drop.getItem().toString(), drop.getCount());
+            ItemStack matchInput = drop;
             var recipe = world.getRecipeManager()
-                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(drop), world);
+                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+            if (!recipe.isPresent()) {
+                matchInput = new ItemStack(drop.getItem(), drop.getCount());
+                recipe = world.getRecipeManager()
+                        .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+            }
             if (recipe.isPresent()) {
-                ItemStack result = recipe.get().value().getResult(world.getRegistryManager());
+                ItemStack result = recipe.get().value().getResult(world.getRegistryManager()).copy();
                 if (!result.isEmpty()) {
-                    int count = Math.min(drop.getCount(), 64);
-                    result.setCount(result.getCount() * count);
+                    result.setCount(Math.min(drop.getCount(), 64));
                     smelted.add(result);
-                    LOGGER.warn("[DEBUG] smeltDrops smelted into {} x{}", result.getItem().toString(), result.getCount());
                     continue;
                 }
             }
             smelted.add(drop.copy());
-            LOGGER.warn("[DEBUG] smeltDrops no recipe, kept original");
         }
-        LOGGER.warn("[DEBUG] smeltDrops returning {} drops", smelted.size());
         return smelted;
     }
 }

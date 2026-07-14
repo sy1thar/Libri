@@ -18,8 +18,10 @@
         "BlockItemMixin",
         "LootingMixin",
         "SharpnessMixin",
-        "ParalysisMixin",
-        "GrindstoneDisenchantMixin"
+        "GrindstoneDisenchantMixin",
+        "GrindstoneScreenHandlerAccessor",
+        "GrindstoneSlotMixin",
+        "GrindstoneTakeMixin"
     ],
     "injectors": {
         "defaultRequire": 1

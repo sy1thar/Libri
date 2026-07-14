@@ -21,7 +21,11 @@ public class ModCreativeTab {
         Registry.register(Registries.ITEM_GROUP,
                 Identifier.of("libri", "main"),
                 FabricItemGroup.builder()
-                        .icon(() -> new ItemStack(Items.ENCHANTED_BOOK))
+                        .icon(() -> {
+                            ItemStack iconStack = new ItemStack(Items.ENCHANTED_BOOK);
+                            iconStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+                            return iconStack;
+                        })
                         .displayName(Text.translatable("itemGroup.libri"))
                         .entries((context, entries) -> {
                             context.lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
@@ -31,7 +35,6 @@ public class ModCreativeTab {
                                 addEnchantedBook(entries, registry, ModEnchantments.SACRIFICE);
                                 addEnchantedBook(entries, registry, ModEnchantments.SWIFT_STRIKE);
                                 addEnchantedBook(entries, registry, ModEnchantments.SMELTING_TOUCH);
-                                addEnchantedBook(entries, registry, ModEnchantments.PARALYSIS);
                             });
                         })
                         .build()

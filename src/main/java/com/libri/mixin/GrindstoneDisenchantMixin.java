@@ -8,12 +8,13 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.GrindstoneScreenHandler;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GrindstoneScreenHandler.class)
 public class GrindstoneDisenchantMixin {
@@ -21,12 +22,8 @@ public class GrindstoneDisenchantMixin {
     @Shadow @Final private Inventory input;
     @Shadow @Final private Inventory result;
 
-    @Unique private boolean libri$processing = false;
-
-    @ModifyArg(method = "updateResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/Inventory;setStack(ILnet/minecraft/item/ItemStack;)V"), index = 1)
-    private ItemStack modifyResult(ItemStack original) {
-        if (libri$processing) return original;
-
+    @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
+    private void handleUpdateResult(CallbackInfo ci) {
         ItemStack slot0 = this.input.getStack(0);
         ItemStack slot1 = this.input.getStack(1);
 
@@ -40,38 +37,27 @@ public class GrindstoneDisenchantMixin {
             enchSlot = 1; bookSlot = 0; enchanted = slot1;
         }
 
-        if (enchSlot < 0) return original;
+        if (enchSlot < 0) return;
 
         var enchantments = EnchantmentHelper.getEnchantments(enchanted);
         var it = enchantments.getEnchantmentEntries().iterator();
-        if (!it.hasNext()) return original;
+        if (!it.hasNext()) return;
 
         var topEntry = it.next();
 
-        // Create enchanted book result
+        boolean isModEnchant = topEntry.getKey().getKey()
+                .map(key -> key.getValue().getNamespace().equals("libri"))
+                .orElse(false);
+
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
         var bb = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
         bb.add(topEntry.getKey(), topEntry.getIntValue());
         book.set(DataComponentTypes.STORED_ENCHANTMENTS, bb.build());
-        book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
-
-        // Modify the enchanted item in-place (remove top enchant)
-        libri$processing = true;
-        var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        boolean skip = true;
-        for (var entry : enchantments.getEnchantmentEntries()) {
-            if (skip) { skip = false; continue; }
-            builder.add(entry.getKey(), entry.getIntValue());
+        if (isModEnchant) {
+            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
         }
-        ItemEnchantmentsComponent newEnch = builder.build();
-        if (newEnch.isEmpty()) {
-            enchanted.remove(DataComponentTypes.ENCHANTMENTS);
-        } else {
-            enchanted.set(DataComponentTypes.ENCHANTMENTS, newEnch);
-        }
-        this.input.setStack(enchSlot, enchanted);
-        libri$processing = false;
 
-        return book;
+        this.result.setStack(0, book);
+        ci.cancel();
     }
 }
