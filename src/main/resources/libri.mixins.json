@@ -18,7 +18,6 @@
         "BlockItemMixin",
         "LootingMixin",
         "SharpnessMixin",
-        "SmeltingTouchMixin",
         "ParalysisMixin",
         "GrindstoneDisenchantMixin"
     ],

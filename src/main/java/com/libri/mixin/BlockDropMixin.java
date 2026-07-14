@@ -13,6 +13,8 @@ import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -23,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(Block.class)
@@ -35,6 +38,7 @@ public class BlockDropMixin {
 
         ServerWorld serverWorld = (ServerWorld) world;
         boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) > 0;
+        boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, EnchantmentHelper.getEnchantments(tool)) > 0;
         boolean enchantedFurnace = false;
 
         if (blockEntity instanceof AbstractFurnaceBlockEntity furnace) {
@@ -44,7 +48,7 @@ public class BlockDropMixin {
             enchantedFurnace = speed > 0 || fuel > 0;
         }
 
-        if (!telekinesis && !enchantedFurnace) return;
+        if (!telekinesis && !enchantedFurnace && !smeltingTouch) return;
 
         try {
             if (telekinesis) {
@@ -53,6 +57,10 @@ public class BlockDropMixin {
 
             ci.cancel();
             List<ItemStack> drops = Block.getDroppedStacks(state, serverWorld, pos, blockEntity, entity, tool);
+
+            if (smeltingTouch) {
+                drops = smeltDrops(serverWorld, drops);
+            }
 
             if (enchantedFurnace) {
                 var registry = serverWorld.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
@@ -95,16 +103,46 @@ public class BlockDropMixin {
 
         ItemStack tool = player.getMainHandStack();
         if (tool.isEmpty()) return;
-        if (ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) <= 0) return;
+        boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) > 0;
+        boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, EnchantmentHelper.getEnchantments(tool)) > 0;
+        if (!telekinesis && !smeltingTouch) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
         ci.cancel();
         List<ItemStack> drops = Block.getDroppedStacks(state, serverWorld, pos, null, player, tool);
+
+        if (smeltingTouch) {
+            drops = smeltDrops(serverWorld, drops);
+        }
+
         for (ItemStack drop : drops) {
             if (!drop.isEmpty()) {
-                player.getInventory().offerOrDrop(drop);
+                if (telekinesis) {
+                    player.getInventory().offerOrDrop(drop);
+                } else {
+                    Block.dropStack(world, pos, drop);
+                }
             }
         }
         state.onStacksDropped(serverWorld, pos, tool, true);
+    }
+
+    private static List<ItemStack> smeltDrops(ServerWorld world, List<ItemStack> drops) {
+        List<ItemStack> smelted = new ArrayList<>();
+        for (ItemStack drop : drops) {
+            if (drop.isEmpty()) continue;
+            var recipe = world.getRecipeManager()
+                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(drop), world);
+            if (recipe.isPresent()) {
+                ItemStack result = recipe.get().value().getResult(world.getRegistryManager());
+                if (!result.isEmpty()) {
+                    result.setCount(result.getCount() * drop.getCount());
+                    smelted.add(result);
+                    continue;
+                }
+            }
+            smelted.add(drop.copy());
+        }
+        return smelted;
     }
 }
