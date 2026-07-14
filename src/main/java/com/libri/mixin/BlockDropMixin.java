@@ -20,6 +20,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,6 +32,7 @@ import java.util.List;
 
 @Mixin(Block.class)
 public class BlockDropMixin {
+    private static final Logger LOGGER = LoggerFactory.getLogger("libri/BlockDrop");
 
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
     private static void onDropStacks(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack tool, CallbackInfo ci) {
@@ -128,9 +131,11 @@ public class BlockDropMixin {
     }
 
     private static List<ItemStack> smeltDrops(ServerWorld world, List<ItemStack> drops) {
+        LOGGER.warn("[DEBUG] smeltDrops called with {} drops", drops.size());
         List<ItemStack> smelted = new ArrayList<>();
         for (ItemStack drop : drops) {
             if (drop.isEmpty()) continue;
+            LOGGER.warn("[DEBUG] smeltDrops processing: {} x{}", drop.getItem().toString(), drop.getCount());
             var recipe = world.getRecipeManager()
                     .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(drop), world);
             if (recipe.isPresent()) {
@@ -139,11 +144,14 @@ public class BlockDropMixin {
                     int count = Math.min(drop.getCount(), 64);
                     result.setCount(result.getCount() * count);
                     smelted.add(result);
+                    LOGGER.warn("[DEBUG] smeltDrops smelted into {} x{}", result.getItem().toString(), result.getCount());
                     continue;
                 }
             }
             smelted.add(drop.copy());
+            LOGGER.warn("[DEBUG] smeltDrops no recipe, kept original");
         }
+        LOGGER.warn("[DEBUG] smeltDrops returning {} drops", smelted.size());
         return smelted;
     }
 }

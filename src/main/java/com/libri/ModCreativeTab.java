@@ -4,6 +4,7 @@ import com.libri.config.ModConfig;
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -45,6 +46,7 @@ public class ModCreativeTab {
             var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
             builder.add(entry, level);
             book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
+            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
             entries.add(book);
         });
     }
