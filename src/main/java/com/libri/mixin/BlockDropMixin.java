@@ -20,8 +20,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,7 +30,6 @@ import java.util.List;
 
 @Mixin(Block.class)
 public class BlockDropMixin {
-    private static final Logger LOGGER = LoggerFactory.getLogger("libri/BlockDrop");
 
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
     private static void onDropStacks(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack tool, CallbackInfo ci) {
@@ -40,8 +37,9 @@ public class BlockDropMixin {
         if (!(entity instanceof ServerPlayerEntity player)) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
-        boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) > 0;
-        boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, EnchantmentHelper.getEnchantments(tool)) > 0;
+        var ench = EnchantmentHelper.getEnchantments(tool);
+        boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
+        boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         boolean enchantedFurnace = false;
 
         if (blockEntity instanceof AbstractFurnaceBlockEntity furnace) {
@@ -106,8 +104,9 @@ public class BlockDropMixin {
 
         ItemStack tool = player.getMainHandStack();
         if (tool.isEmpty()) return;
-        boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, EnchantmentHelper.getEnchantments(tool)) > 0;
-        boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, EnchantmentHelper.getEnchantments(tool)) > 0;
+        var ench = EnchantmentHelper.getEnchantments(tool);
+        boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
+        boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         if (!telekinesis && !smeltingTouch) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
