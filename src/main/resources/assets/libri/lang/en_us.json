@@ -23,6 +23,10 @@
     "enchantment.libri.smelting_speed.desc": "Speeds up furnace smelting per level",
     "enchantment.libri.fuel_efficiency": "Fuel Efficiency",
     "enchantment.libri.fuel_efficiency.desc": "Increases fuel burn time per level",
+    "enchantment.libri.smelting_touch": "Smelting Touch",
+    "enchantment.libri.smelting_touch.desc": "Automatically smelts mined ores",
+    "enchantment.libri.paralysis": "Paralysis",
+    "enchantment.libri.paralysis.desc": "Chance to immobilize enemies on arrow hit, lasts longer per level",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",

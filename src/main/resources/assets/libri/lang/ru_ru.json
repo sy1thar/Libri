@@ -23,6 +23,10 @@
     "enchantment.libri.smelting_speed.desc": "Ускоряет плавку в печи за уровень",
     "enchantment.libri.fuel_efficiency": "Экономия топлива",
     "enchantment.libri.fuel_efficiency.desc": "Увеличивает время горения топлива за уровень",
+    "enchantment.libri.smelting_touch": "Автоплавка",
+    "enchantment.libri.smelting_touch.desc": "Автоматически переплавляет добытую руду",
+    "enchantment.libri.paralysis": "Паралич",
+    "enchantment.libri.paralysis.desc": "Шанс обездвижить врага при попадании из лука, длится дольше за уровень",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",

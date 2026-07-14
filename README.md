@@ -13,9 +13,12 @@ Lightweight enchantment overhaul with unique enchantments, deep customization, a
 | **Swift Strike** | Increases attack speed |
 | **Smelting Speed** | Speeds up furnace smelting per level |
 | **Fuel Efficiency** | Increases fuel burn time per level |
+| **Smelting Touch** | Auto-smelts mined ores |
+| **Paralysis** | Immobilizes enemies on arrow hit (3 levels) |
 
-## Customization
+## Features
 
+- **Disenchantment** — Put an enchanted item + a book in a grindstone to extract enchantments into an enchanted book
 - Adjustable anvil level cap (remove or keep)
 - Adjustable maximum enchantment level (1–10000)
 - Fully configurable via ModMenu + Cloth Config
