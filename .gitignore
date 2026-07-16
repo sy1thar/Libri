@@ -5,7 +5,7 @@ build/
 *.ipr
 *.iws
 out/
-data/
+/data/
 # Loom decompiled sources
-assets/
-net/
+/assets/
+/net/

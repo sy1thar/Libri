@@ -21,7 +21,9 @@
         "GrindstoneDisenchantMixin",
         "GrindstoneScreenHandlerAccessor",
         "GrindstoneSlotMixin",
-        "GrindstoneTakeMixin"
+        "GrindstoneTakeMixin",
+        "ParalysisArrowMixin",
+        "ParalysisCreeperMixin"
     ],
     "injectors": {
         "defaultRequire": 1

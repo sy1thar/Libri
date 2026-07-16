@@ -1,0 +1,18 @@
+{
+  "weight": 2,
+  "anvil_cost": 10,
+  "max_level": 1,
+  "supported_items": [
+    "minecraft:bow"
+  ],
+  "primary_items": [
+    "minecraft:bow"
+  ],
+  "description": {
+    "translate": "enchantment.libri.paralysis"
+  },
+  "effects": {
+    "minecraft:prevent_armor_change": {},
+    "minecraft:prevent_block_spawning": {}
+  }
+}
