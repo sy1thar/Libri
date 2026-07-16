@@ -14,7 +14,7 @@ Lightweight enchantment overhaul with unique enchantments, deep customization, a
 | **Smelting Speed** | Speeds up furnace smelting per level |
 | **Fuel Efficiency** | Increases fuel burn time per level |
 | **Smelting Touch** | Auto-smelts mined ores |
-| **Paralysis** | Immobilizes enemies on arrow hit (3 levels) |
+| **Paralysis** | Immobilizes enemies on arrow hit |
 
 ## Features
 
