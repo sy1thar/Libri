@@ -26,7 +26,7 @@
     "enchantment.libri.smelting_touch": "Автоплавка",
     "enchantment.libri.smelting_touch.desc": "Автоматически переплавляет добытую руду",
     "enchantment.libri.paralysis": "Паралич",
-    "enchantment.libri.paralysis.desc": "Обездвиживает врагов при попадании стрелой",
+    "enchantment.libri.paralysis.desc": "Обездвиживает врагов и блокирует их атаки при попадании стрелой",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",

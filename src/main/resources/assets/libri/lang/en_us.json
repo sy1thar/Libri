@@ -26,7 +26,7 @@
     "enchantment.libri.smelting_touch": "Smelting Touch",
     "enchantment.libri.smelting_touch.desc": "Automatically smelts mined ores",
     "enchantment.libri.paralysis": "Paralysis",
-    "enchantment.libri.paralysis.desc": "Immobilizes enemies on arrow hit",
+    "enchantment.libri.paralysis.desc": "Immobilizes enemies and blocks their attacks on arrow hit",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",
