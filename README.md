@@ -28,7 +28,7 @@
 | Enchantment | Max Level | Effect |
 | :--- | :---: | :--- |
 | **Eternity** | `I` | The item becomes indestructible and will never lose durability. |
-| **Phoenix** | `I` | Slowly and passively repairs the item's durability over time. |
+| **Phoenix** | `I+` | Slowly and passively repairs the item's durability over time. |
 
 #### ⛏️ Mining & Utility
 | Enchantment | Max Level | Effect |
@@ -43,7 +43,7 @@
 | :--- | :---: | :--- |
 | **Sacrifice** | `I+` | Converts mob drops directly into extra XP (scales with *Looting*). |
 | **Swift Strike** | `I+` | Increases your weapon's attack speed. |
-| **Paralysis** | `III` | Immobilizes enemies for a short duration when hit by an arrow. |
+| **Paralysis** | `I` | Immobilizes enemies for a short duration when hit by an arrow. |
 
 ### 📦 Requirements & Dependencies
 
@@ -78,7 +78,7 @@ To run **Libri**, ensure you have the following installed:
 | Зачарование | Макс. уровень | Эффект |
 | :--- | :---: | :--- |
 | **Eternity (Вечность)** | `I` | Предмет становится неразрушимым и больше никогда не теряет прочность. |
-| **Phoenix (Феникс)** | `I` | Медленно и пассивно восстанавливает прочность предмета со временем. |
+| **Phoenix (Феникс)** | `I+` | Медленно и пассивно восстанавливает прочность предмета со временем. |
 
 #### ⛏️ Добыча и утилиты
 | Зачарование | Макс. уровень | Эффект |
@@ -93,7 +93,7 @@ To run **Libri**, ensure you have the following installed:
 | :--- | :---: | :--- |
 | **Sacrifice (Жертва)** | `I+` | Превращает лут из мобов напрямую в дополнительный опыт (масштабируется с чарами *Добыча / Looting*). |
 | **Swift Strike (Быстрый удар)** | `I+` | Увеличивает скорость атаки вашим оружием. |
-| **Paralysis (Паралич)** | `III` | Обездвиживает врагов на короткое время при попадании стрелой. |
+| **Paralysis (Паралич)** | `I` | Обездвиживает врагов на короткое время при попадании стрелой. |
 
 ### 📦 Требования и зависимости
 
