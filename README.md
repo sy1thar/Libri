@@ -43,7 +43,6 @@
 | :--- | :---: | :--- |
 | **Sacrifice** | `I+` | Converts mob drops directly into extra XP (scales with *Looting*). |
 | **Swift Strike** | `I+` | Increases your weapon's attack speed. |
-| **Paralysis** | `I` | Immobilizes enemies for a short duration when hit by an arrow. |
 
 ### 📦 Requirements & Dependencies
 
