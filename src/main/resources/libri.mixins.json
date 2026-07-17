@@ -22,7 +22,7 @@
         "GrindstoneScreenHandlerAccessor",
         "GrindstoneSlotMixin",
         "GrindstoneTakeMixin",
-
+        "HushMixin"
     ],
     "injectors": {
         "defaultRequire": 1

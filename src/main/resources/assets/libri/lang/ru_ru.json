@@ -25,8 +25,8 @@
     "enchantment.libri.fuel_efficiency.desc": "Увеличивает время горения топлива за уровень",
     "enchantment.libri.smelting_touch": "Автоплавка",
     "enchantment.libri.smelting_touch.desc": "Автоматически переплавляет добытую руду",
-    "enchantment.libri.paralysis": "Паралич",
-    "enchantment.libri.paralysis.desc": "Обездвиживает врагов и блокирует их атаки при попадании стрелой",
+    "enchantment.libri.hush": "Тишина",
+    "enchantment.libri.hush.desc": "Ломание блоков становится полностью бесшумным",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",

@@ -25,8 +25,8 @@
     "enchantment.libri.fuel_efficiency.desc": "Increases fuel burn time per level",
     "enchantment.libri.smelting_touch": "Smelting Touch",
     "enchantment.libri.smelting_touch.desc": "Automatically smelts mined ores",
-    "enchantment.libri.paralysis": "Paralysis",
-    "enchantment.libri.paralysis.desc": "Immobilizes enemies and blocks their attacks on arrow hit",
+    "enchantment.libri.hush": "Hush",
+    "enchantment.libri.hush.desc": "Makes block breaking completely silent",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",

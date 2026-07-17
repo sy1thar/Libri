@@ -1,0 +1,11 @@
+{
+    "replace": false,
+    "values": [
+        "libri:phoenix",
+        "libri:sacrifice",
+        "libri:swift_strike",
+        "libri:telekinesis",
+        "libri:smelting_speed",
+        "libri:fuel_efficiency"
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "description": {
+        "translate": "enchantment.libri.telekinesis"
+    },
+    "supported_items": "#libri:enchantable/telekinesis",
+    "primary_items": "#libri:enchantable/telekinesis",
+    "weight": 2,
+    "max_level": 1,
+    "min_cost": {
+        "base": 20,
+        "per_level_above_first": 5
+    },
+    "max_cost": {
+        "base": 40,
+        "per_level_above_first": 5
+    },
+    "anvil_cost": 4,
+    "slots": [
+        "mainhand"
+    ],
+    "treasure": false
+}

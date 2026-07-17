@@ -1,0 +1,22 @@
+{
+    "description": {
+        "translate": "enchantment.libri.smelting_speed"
+    },
+    "supported_items": "#libri:enchantable/furnace",
+    "primary_items": "#libri:enchantable/furnace",
+    "weight": 2,
+    "max_level": 10,
+    "min_cost": {
+        "base": 10,
+        "per_level_above_first": 5
+    },
+    "max_cost": {
+        "base": 50,
+        "per_level_above_first": 5
+    },
+    "anvil_cost": 4,
+    "slots": [
+        "mainhand"
+    ],
+    "treasure": false
+}
