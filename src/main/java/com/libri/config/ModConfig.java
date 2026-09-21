@@ -29,6 +29,12 @@ public class ModConfig {
             "minecraft:gravel"
     );
 
+    public int trophyMaxLevel = 3;
+    public float trophyHeadBaseChance = 0.05f;
+    public float trophyHeadLevelMultiplier = 0.05f;
+    public int trophyEggMinLevel = 3;
+    public float trophyEggChance = 0.01f;
+
     public enum EnchantmentMaxLevelMode {
         VANILLA,
         CUSTOM

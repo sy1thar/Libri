@@ -46,6 +46,7 @@
 | :--- | :---: | :--- |
 | **Sacrifice** | `I+` | Converts mob drops directly into extra XP (scales with *Looting*). |
 | **Swift Strike** | `I+` | Increases your weapon's attack speed. |
+| **Trophy** | `I-III` | Increases the chance of dropping mob heads and rarely drops spawn eggs. |
 
 ### 📦 Requirements & Dependencies
 
@@ -98,6 +99,7 @@ To run **Libri**, ensure you have the following installed:
 | :--- | :---: | :--- |
 | **Sacrifice (Жертва)** | `I+` | Превращает лут из мобов напрямую в дополнительный опыт (масштабируется с чарами *Добыча / Looting*). |
 | **Swift Strike (Быстрый удар)** | `I+` | Увеличивает скорость атаки вашим оружием. |
+| **Trophy (Трофей)** | `I-III` | Повышает шанс выбить голову моба, а на высоком уровне с небольшим шансом выбивает яйцо призыва. |
 
 ### 📦 Требования и зависимости
 
