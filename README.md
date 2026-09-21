@@ -38,6 +38,8 @@
 | **Smelting Touch** | `I` | Automatically smelts mined ores (e.g., Iron Ore drops Iron Ingot). |
 | **Smelting Speed** | `I+` | Speeds up furnace smelting time per level. |
 | **Fuel Efficiency** | `I+` | Increases fuel burn time per level. |
+| **Sifting** | `I` | Automatically destroys junk blocks like cobblestone and diorite while mining. |
+| **Resonance** | `I` | Vein mines identical ores in a chain reaction and perfectly stacks the drops. |
 
 #### ⚔️ Combat & Hunting
 | Enchantment | Max Level | Effect |
@@ -88,6 +90,8 @@ To run **Libri**, ensure you have the following installed:
 | **Smelting Touch (Плавильное касание)** | `I` | Автоматически переплавляет добытые руды (например, из железной руды сразу выпадает слиток). |
 | **Smelting Speed (Скорость переплавки)** | `I+` | Ускоряет процесс переплавки в печи с каждым уровнем. |
 | **Fuel Efficiency (Эффективность топлива)** | `I+` | Увеличивает время горения топлива с каждым уровнем. |
+| **Sifting (Просеивание)** | `I` | Автоматически удаляет мусорные блоки (булыжник, диорит и др.) при копании. |
+| **Resonance (Резонанс)** | `I` | Ломает цепочку из одинаковых руд за один удар и собирает лут в один стак. |
 
 #### ⚔️ Бой и охота
 | Зачарование | Макс. уровень | Эффект |

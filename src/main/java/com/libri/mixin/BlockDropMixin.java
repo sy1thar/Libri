@@ -43,6 +43,12 @@ public class BlockDropMixin {
         boolean sifting = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
         boolean enchantedFurnace = false;
 
+        BlockPos originPos = TelepathyHelper.RESONANCE_ORIGIN.get();
+        java.util.List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
+        boolean resonanceRedirect = originPos != null && !originPos.equals(pos);
+        boolean isResonating = resDrops != null;
+        BlockPos dropPos = originPos != null ? originPos : pos;
+
         if (blockEntity instanceof AbstractFurnaceBlockEntity furnace) {
             FurnaceEnchantmentData data = (FurnaceEnchantmentData) furnace;
             int speed = data.libri$getSmeltingSpeed();
@@ -50,7 +56,7 @@ public class BlockDropMixin {
             enchantedFurnace = speed > 0 || fuel > 0;
         }
 
-        if (!telekinesis && !enchantedFurnace && !smeltingTouch && !sifting) return;
+        if (!telekinesis && !enchantedFurnace && !smeltingTouch && !sifting && !resonanceRedirect && !isResonating) return;
 
         try {
             if (telekinesis) {
@@ -90,13 +96,15 @@ public class BlockDropMixin {
                 if (!drop.isEmpty()) {
                     if (telekinesis) {
                         player.getInventory().offerOrDrop(drop);
+                    } else if (resDrops != null) {
+                        resDrops.add(drop);
                     } else {
-                        Block.dropStack(world, pos, drop);
+                        Block.dropStack(world, dropPos, drop);
                     }
                 }
             }
 
-            state.onStacksDropped(serverWorld, pos, tool, true);
+            state.onStacksDropped(serverWorld, dropPos, tool, true);
         } finally {
             TelepathyHelper.BLOCK_MINER.remove();
         }
@@ -114,7 +122,14 @@ public class BlockDropMixin {
         boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
         boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         boolean sifting = ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
-        if (!telekinesis && !smeltingTouch && !sifting) return;
+        
+        BlockPos originPos = TelepathyHelper.RESONANCE_ORIGIN.get();
+        java.util.List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
+        boolean resonanceRedirect = originPos != null && !originPos.equals(pos);
+        boolean isResonating = resDrops != null;
+        BlockPos dropPos = originPos != null ? originPos : pos;
+
+        if (!telekinesis && !smeltingTouch && !sifting && !resonanceRedirect && !isResonating) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
         ci.cancel();
@@ -133,12 +148,14 @@ public class BlockDropMixin {
             if (!drop.isEmpty()) {
                 if (telekinesis) {
                     player.getInventory().offerOrDrop(drop);
+                } else if (resDrops != null) {
+                    resDrops.add(drop);
                 } else {
-                    Block.dropStack(world, pos, drop);
+                    Block.dropStack(world, dropPos, drop);
                 }
             }
         }
-        state.onStacksDropped(serverWorld, pos, tool, true);
+        state.onStacksDropped(serverWorld, dropPos, tool, true);
     }
 
     private static List<ItemStack> smeltDrops(ServerWorld world, List<ItemStack> drops) {

@@ -28,6 +28,8 @@
     "enchantment.libri.soulbound.desc": "При смерті предмет не випадає, а залишається в інвентарі",
     "enchantment.libri.sifting": "Просіювання",
     "enchantment.libri.sifting.desc": "Автоматично видаляє сміттєві блоки при видобутку",
+    "enchantment.libri.resonance": "Резонанс",
+    "enchantment.libri.resonance.desc": "Руйнує ланцюжок однакових рудних блоків при видобутку",
 
     "config.libri.title": "Налаштування Libri",
     "config.libri.category.general": "Основні",
@@ -38,5 +40,7 @@
     "config.libri.enchantment_custom_max_level": "Кастомний рівень",
     "config.libri.enchantment_custom_max_level.tooltip": "Максимальний рівень для всіх зачарувань (1-10000)",
     "config.libri.sifting_junk_blocks": "Сміттєві блоки",
-    "config.libri.sifting_junk_blocks.tooltip": "Блоки, які будуть знищуватися зачаруванням Просіювання"
+    "config.libri.sifting_junk_blocks.tooltip": "Блоки, які будуть знищуватися зачаруванням Просіювання",
+    "config.libri.resonance_max_blocks": "Максимум блоків Резонансу",
+    "config.libri.resonance_max_blocks.tooltip": "Скільки максимум блоків буде зламано за раз"
 }

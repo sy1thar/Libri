@@ -31,6 +31,8 @@
     "enchantment.libri.soulbound.desc": "При смерти предмет не выпадает, а сохраняется в инвентаре",
     "enchantment.libri.sifting": "Просеивание",
     "enchantment.libri.sifting.desc": "Автоматически удаляет мусорные блоки при добыче",
+    "enchantment.libri.resonance": "Резонанс",
+    "enchantment.libri.resonance.desc": "Разрушает цепочку одинаковых рудных блоков при добыче",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",
@@ -41,5 +43,7 @@
     "config.libri.enchantment_custom_max_level": "Кастомный уровень",
     "config.libri.enchantment_custom_max_level.tooltip": "Максимальный уровень для всех зачарований (1-10000)",
     "config.libri.sifting_junk_blocks": "Мусорные блоки",
-    "config.libri.sifting_junk_blocks.tooltip": "Блоки, которые будут уничтожаться зачарованием Просеивание"
+    "config.libri.sifting_junk_blocks.tooltip": "Блоки, которые будут уничтожаться зачарованием Просеивание",
+    "config.libri.resonance_max_blocks": "Максимум блоков Резонанса",
+    "config.libri.resonance_max_blocks.tooltip": "Сколько максимум блоков будет сломано за раз"
 }

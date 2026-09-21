@@ -17,6 +17,7 @@ public class ModConfig {
     public boolean removeAnvilCap = true;
     public EnchantmentMaxLevelMode enchantmentMaxLevelMode = EnchantmentMaxLevelMode.CUSTOM;
     public int enchantmentCustomMaxLevel = 10;
+    public int resonanceMaxBlocks = 16;
     public List<String> siftingJunkBlocks = Arrays.asList(
             "minecraft:cobblestone",
             "minecraft:cobbled_deepslate",

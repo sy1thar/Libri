@@ -31,6 +31,8 @@
     "enchantment.libri.soulbound.desc": "Item is not dropped on death and remains in inventory",
     "enchantment.libri.sifting": "Sifting",
     "enchantment.libri.sifting.desc": "Automatically removes junk blocks when mining",
+    "enchantment.libri.resonance": "Resonance",
+    "enchantment.libri.resonance.desc": "Breaks a chain of identical ore blocks when mining",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",
@@ -41,5 +43,7 @@
     "config.libri.enchantment_custom_max_level": "Custom Max Level",
     "config.libri.enchantment_custom_max_level.tooltip": "Max level for all enchantments (1-10000)",
     "config.libri.sifting_junk_blocks": "Junk Blocks",
-    "config.libri.sifting_junk_blocks.tooltip": "Blocks that will be destroyed by the Sifting enchantment"
+    "config.libri.sifting_junk_blocks.tooltip": "Blocks that will be destroyed by the Sifting enchantment",
+    "config.libri.resonance_max_blocks": "Max Resonance Blocks",
+    "config.libri.resonance_max_blocks.tooltip": "Maximum number of blocks broken at once"
 }
