@@ -8,7 +8,7 @@
     "base": 65,
     "per_level_above_first": 20
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 15,
     "per_level_above_first": 15
@@ -17,5 +17,6 @@
     "mainhand"
   ],
   "supported_items": "#libri:enchantable/trophy",
+  "primary_items": "#libri:enchantable/trophy",
   "weight": 2
 }

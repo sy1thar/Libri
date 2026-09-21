@@ -8,6 +8,10 @@
         "libri:telekinesis",
         "libri:smelting_speed",
         "libri:fuel_efficiency",
+        "libri:soulbound",
+        "libri:sifting",
+        "libri:resonance",
+        "libri:trophy",
         "libri:smelting_touch",
         "libri:hush"
     ]

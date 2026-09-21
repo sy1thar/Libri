@@ -11,3 +11,19 @@
 /gamemode creative
 /gamemode spectator
 /gamemode survival
+/gamemode creative
+/enchant @s libri:resonance
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative
+/gamemode survival
+/gamemode creative

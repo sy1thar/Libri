@@ -9,6 +9,10 @@
         "libri:smelting_speed",
         "libri:fuel_efficiency",
         "libri:smelting_touch",
+        "libri:soulbound",
+        "libri:sifting",
+        "libri:resonance",
+        "libri:trophy",
         "libri:hush"
     ]
 }
