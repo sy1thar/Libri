@@ -36,6 +36,7 @@ public class ModCreativeTab {
                                 addEnchantedBook(entries, registry, ModEnchantments.SWIFT_STRIKE);
                                 addEnchantedBook(entries, registry, ModEnchantments.SMELTING_TOUCH);
                                 addEnchantedBook(entries, registry, ModEnchantments.HUSH);
+                                addEnchantedBook(entries, registry, ModEnchantments.SOULBOUND);
                             });
                         })
                         .build()

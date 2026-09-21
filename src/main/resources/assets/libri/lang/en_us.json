@@ -27,6 +27,8 @@
     "enchantment.libri.smelting_touch.desc": "Automatically smelts mined ores",
     "enchantment.libri.hush": "Hush",
     "enchantment.libri.hush.desc": "Makes block breaking completely silent",
+    "enchantment.libri.soulbound": "Soulbound",
+    "enchantment.libri.soulbound.desc": "Item is not dropped on death and remains in inventory",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",

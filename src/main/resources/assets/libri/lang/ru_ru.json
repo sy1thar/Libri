@@ -27,6 +27,8 @@
     "enchantment.libri.smelting_touch.desc": "Автоматически переплавляет добытую руду",
     "enchantment.libri.hush": "Тишина",
     "enchantment.libri.hush.desc": "Ломание блоков становится полностью бесшумным",
+    "enchantment.libri.soulbound": "Завещание",
+    "enchantment.libri.soulbound.desc": "При смерти предмет не выпадает, а сохраняется в инвентаре",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",

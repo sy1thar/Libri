@@ -29,6 +29,7 @@
 | :--- | :---: | :--- |
 | **Eternity** | `I` | The item becomes indestructible and will never lose durability. |
 | **Phoenix** | `I+` | Slowly and passively repairs the item's durability over time. |
+| **Soulbound** | `I` | Prevents the item from dropping on death; keeps it in your inventory instead. |
 
 #### ⛏️ Mining & Utility
 | Enchantment | Max Level | Effect |
@@ -78,6 +79,7 @@ To run **Libri**, ensure you have the following installed:
 | :--- | :---: | :--- |
 | **Eternity (Вечность)** | `I` | Предмет становится неразрушимым и больше никогда не теряет прочность. |
 | **Phoenix (Феникс)** | `I+` | Медленно и пассивно восстанавливает прочность предмета со временем. |
+| **Завещание (Soulbound)** | `I` | Предмет не выпадает при смерти, а гарантированно сохраняется в инвентаре. |
 
 #### ⛏️ Добыча и утилиты
 | Зачарование | Макс. уровень | Эффект |

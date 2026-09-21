@@ -2,6 +2,7 @@ package com.libri.event;
 
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -18,6 +19,17 @@ public class ModEventHandlers {
 
     public static void register() {
         ServerTickEvents.END_SERVER_TICK.register(ModEventHandlers::onServerTick);
+        
+        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
+            if (!alive) {
+                for (int i = 0; i < oldPlayer.getInventory().size(); i++) {
+                    ItemStack stack = oldPlayer.getInventory().getStack(i);
+                    if (!stack.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SOULBOUND, stack) > 0) {
+                        newPlayer.getInventory().setStack(i, stack.copy());
+                    }
+                }
+            }
+        });
     }
 
     private static void onServerTick(MinecraftServer server) {

@@ -31,8 +31,13 @@ public class ModLootTables {
 
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            if (source.isBuiltin() && isChestTable(key)) {
-                tableBuilder.pool(createTreasurePool(registries, 0.15f));
+            if (source.isBuiltin()) {
+                if (isChestTable(key)) {
+                    tableBuilder.pool(createTreasurePool(registries, 0.15f));
+                }
+                if (key.getValue().equals(Identifier.of("minecraft", "chests/ancient_city"))) {
+                    tableBuilder.pool(createSoulboundPool(registries, 0.025f));
+                }
             }
         });
     }
@@ -69,6 +74,23 @@ public class ModLootTables {
         }
         if (valid) {
             pool.apply(builder.build());
+        }
+
+        pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));
+        return pool;
+    }
+
+    private static LootPool.Builder createSoulboundPool(RegistryWrapper.WrapperLookup registries, float chance) {
+        LootPool.Builder pool = LootPool.builder()
+                .rolls(ConstantLootNumberProvider.create(1))
+                .conditionally(RandomChanceLootCondition.builder(chance));
+
+        var builder = EnchantRandomlyLootFunction.builder(registries);
+        RegistryWrapper<Enchantment> registry = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        try {
+            builder.option(registry.getOrThrow(ModEnchantments.SOULBOUND));
+            pool.apply(builder.build());
+        } catch (Exception ignored) {
         }
 
         pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));

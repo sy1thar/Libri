@@ -1,0 +1,9 @@
+/enchant @s libri:soulbound
+/kill
+/gamemode survival
+/kill
+/gamemode
+/gamemode creative
+/kill
+/enchant @s libri:soulbound
+/kill

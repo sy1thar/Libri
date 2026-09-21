@@ -12,6 +12,8 @@
     "enchantment.libri.phoenix": "Фенікс",
     "enchantment.libri.sacrifice": "Жертвоприношення",
     "enchantment.libri.swift_strike": "Швидкий удар",
+    "enchantment.libri.hush": "Тиша",
+    "enchantment.libri.soulbound": "Душевна прив'язка",
     "item.minecraft.enchanted_book": "Зачарована книга",
 
     "enchantment.libri.eternity.desc": "Предмет ніколи не втрачає міцність",
@@ -23,6 +25,7 @@
     "enchantment.libri.smelting_speed.desc": "Прискорює плавку в печі за рівень",
     "enchantment.libri.fuel_efficiency": "Економія палива",
     "enchantment.libri.fuel_efficiency.desc": "Збільшує час горіння палива за рівень",
+    "enchantment.libri.soulbound.desc": "При смерті предмет не випадає, а залишається в інвентарі",
 
     "config.libri.title": "Налаштування Libri",
     "config.libri.category.general": "Основні",
