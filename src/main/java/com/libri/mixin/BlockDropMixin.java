@@ -40,6 +40,7 @@ public class BlockDropMixin {
         var ench = EnchantmentHelper.getEnchantments(tool);
         boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
         boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
+        boolean sifting = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
         boolean enchantedFurnace = false;
 
         if (blockEntity instanceof AbstractFurnaceBlockEntity furnace) {
@@ -49,7 +50,7 @@ public class BlockDropMixin {
             enchantedFurnace = speed > 0 || fuel > 0;
         }
 
-        if (!telekinesis && !enchantedFurnace && !smeltingTouch) return;
+        if (!telekinesis && !enchantedFurnace && !smeltingTouch && !sifting) return;
 
         try {
             if (telekinesis) {
@@ -61,6 +62,11 @@ public class BlockDropMixin {
 
             if (smeltingTouch) {
                 drops = smeltDrops(serverWorld, drops);
+            }
+
+            if (sifting) {
+                java.util.List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
+                drops.removeIf(stack -> junk.contains(net.minecraft.registry.Registries.ITEM.getId(stack.getItem()).toString()));
             }
 
             if (enchantedFurnace) {
@@ -107,7 +113,8 @@ public class BlockDropMixin {
         var ench = EnchantmentHelper.getEnchantments(tool);
         boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
         boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
-        if (!telekinesis && !smeltingTouch) return;
+        boolean sifting = ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
+        if (!telekinesis && !smeltingTouch && !sifting) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
         ci.cancel();
@@ -115,6 +122,11 @@ public class BlockDropMixin {
 
         if (smeltingTouch) {
             drops = smeltDrops(serverWorld, drops);
+        }
+
+        if (sifting) {
+            java.util.List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
+            drops.removeIf(stack -> junk.contains(net.minecraft.registry.Registries.ITEM.getId(stack.getItem()).toString()));
         }
 
         for (ItemStack drop : drops) {

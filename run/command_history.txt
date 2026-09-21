@@ -7,3 +7,7 @@
 /kill
 /enchant @s libri:soulbound
 /kill
+/enchant @s libri:sifting
+/gamemode creative
+/gamemode spectator
+/gamemode survival

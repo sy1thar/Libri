@@ -29,6 +29,8 @@
     "enchantment.libri.hush.desc": "Makes block breaking completely silent",
     "enchantment.libri.soulbound": "Soulbound",
     "enchantment.libri.soulbound.desc": "Item is not dropped on death and remains in inventory",
+    "enchantment.libri.sifting": "Sifting",
+    "enchantment.libri.sifting.desc": "Automatically removes junk blocks when mining",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",
@@ -37,5 +39,7 @@
     "config.libri.enchantment_max_level_mode": "Enchantment Max Level",
     "config.libri.enchantment_max_level_mode.tooltip": "Vanilla leaves original max levels, Custom sets your own",
     "config.libri.enchantment_custom_max_level": "Custom Max Level",
-    "config.libri.enchantment_custom_max_level.tooltip": "Max level for all enchantments (1-10000)"
+    "config.libri.enchantment_custom_max_level.tooltip": "Max level for all enchantments (1-10000)",
+    "config.libri.sifting_junk_blocks": "Junk Blocks",
+    "config.libri.sifting_junk_blocks.tooltip": "Blocks that will be destroyed by the Sifting enchantment"
 }

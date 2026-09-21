@@ -17,6 +17,7 @@ public class ModEnchantments {
     public static final RegistryKey<Enchantment> SMELTING_TOUCH = of("smelting_touch");
     public static final RegistryKey<Enchantment> HUSH = of("hush");
     public static final RegistryKey<Enchantment> SOULBOUND = of("soulbound");
+    public static final RegistryKey<Enchantment> SIFTING = of("sifting");
 
     private static RegistryKey<Enchantment> of(String name) {
         return RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(LibriMod.MOD_ID, name));
