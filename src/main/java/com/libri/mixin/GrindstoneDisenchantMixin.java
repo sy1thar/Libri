@@ -8,7 +8,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.GrindstoneScreenHandler;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,13 +27,12 @@ public class GrindstoneDisenchantMixin {
         ItemStack slot1 = this.input.getStack(1);
 
         int enchSlot = -1;
-        int bookSlot = -1;
         ItemStack enchanted = ItemStack.EMPTY;
 
         if (slot0.hasEnchantments() && slot1.isOf(Items.BOOK) && !slot1.isEmpty()) {
-            enchSlot = 0; bookSlot = 1; enchanted = slot0;
+            enchSlot = 0; enchanted = slot0;
         } else if (slot1.hasEnchantments() && slot0.isOf(Items.BOOK) && !slot0.isEmpty()) {
-            enchSlot = 1; bookSlot = 0; enchanted = slot1;
+            enchSlot = 1; enchanted = slot1;
         }
 
         if (enchSlot < 0) return;

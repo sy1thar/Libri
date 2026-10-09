@@ -29,7 +29,7 @@ public class LibriClient implements ClientModInitializer {
             if (sharpnessLevel <= 0) return;
 
             float baseDamage = 0f;
-            var attrModifiers = stack.getItem().getAttributeModifiers();
+            var attrModifiers = stack.getOrDefault(net.minecraft.component.DataComponentTypes.ATTRIBUTE_MODIFIERS, net.minecraft.component.type.AttributeModifiersComponent.DEFAULT);
             for (var modifier : attrModifiers.modifiers()) {
                 if (modifier.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE
                         && modifier.slot() == AttributeModifierSlot.MAINHAND) {

@@ -1,8 +1,6 @@
 package com.libri;
 
 import com.libri.config.ModConfig;
-import com.libri.enchantment.ModEnchantmentHelper;
-import com.libri.enchantment.ModEnchantments;
 import com.libri.enchantment.ParalysisEffect;
 import com.libri.event.ModEventHandlers;
 import com.libri.event.ModLootTables;

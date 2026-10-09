@@ -87,7 +87,7 @@ public class GrindstoneTakeMixin {
 
         ScreenHandlerContext context = ((GrindstoneScreenHandlerAccessor) handler).libri$getContext();
         context.run((world, pos) -> {
-            if (world instanceof ServerWorld sw) {
+            if (world instanceof ServerWorld) {
                 int xp = (int) Math.ceil(level / 2.0);
                 player.addExperience(xp);
             }

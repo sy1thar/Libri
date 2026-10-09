@@ -14,7 +14,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.registry.Registries;
-import net.minecraft.block.Block;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,7 +104,6 @@ public class ModEventHandlers {
                     java.util.List<net.minecraft.item.ItemStack> compressed = new java.util.ArrayList<>();
                     for (net.minecraft.item.ItemStack stack : drops) {
                         if (stack.isEmpty()) continue;
-                        boolean merged = false;
                         for (net.minecraft.item.ItemStack c : compressed) {
                             if (net.minecraft.item.ItemStack.areItemsAndComponentsEqual(c, stack)) {
                                 int space = c.getMaxCount() - c.getCount();
@@ -114,7 +112,6 @@ public class ModEventHandlers {
                                     c.increment(toAdd);
                                     stack.decrement(toAdd);
                                     if (stack.isEmpty()) {
-                                        merged = true;
                                         break;
                                     }
                                 }

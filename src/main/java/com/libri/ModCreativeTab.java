@@ -1,6 +1,5 @@
 package com.libri;
 
-import com.libri.config.ModConfig;
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.DataComponentTypes;
