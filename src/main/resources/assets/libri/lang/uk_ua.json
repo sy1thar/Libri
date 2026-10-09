@@ -1,17 +1,12 @@
 {
     "itemGroup.libri": "Libri",
 
-    "block.libri.alchemy_table": "Алхімічний стіл",
-    "block.libri.pedestal": "П'єдестал",
-
-    "container.libri.alchemy_table": "Алхімічний стіл",
-    "message.libri.pedestals_needed": "Усі 5 п'єдесталів мають містити предмети!",
-
     "enchantment.libri.eternity": "Вічність",
     "enchantment.libri.telekinesis": "Телекінез",
     "enchantment.libri.phoenix": "Фенікс",
     "enchantment.libri.sacrifice": "Жертвоприношення",
     "enchantment.libri.swift_strike": "Швидкий удар",
+    "enchantment.libri.paralysis": "Параліч",
     "enchantment.libri.hush": "Тиша",
     "enchantment.libri.soulbound": "Душевна прив'язка",
     "item.minecraft.enchanted_book": "Зачарована книга",
@@ -27,6 +22,7 @@
     "enchantment.libri.fuel_efficiency.desc": "Збільшує час горіння палива за рівень",
     "enchantment.libri.smelting_touch": "Автоплавка",
     "enchantment.libri.smelting_touch.desc": "Автоматично переплавляє видобуту руду",
+    "enchantment.libri.paralysis.desc": "Знерухомлює ворога при влучанні з лука",
     "enchantment.libri.hush.desc": "Ламання блоків стає повністю безшумним, а скалк-сенсори більше не відчувають ваших кроків",
     "enchantment.libri.soulbound.desc": "При смерті предмет не випадає, а залишається в інвентарі",
     "enchantment.libri.sifting": "Просіювання",

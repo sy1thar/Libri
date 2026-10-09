@@ -1,12 +1,6 @@
 {
     "itemGroup.libri": "Libri",
 
-    "block.libri.alchemy_table": "Alchemy Table",
-    "block.libri.pedestal": "Pedestal",
-
-    "container.libri.alchemy_table": "Alchemy Table",
-    "message.libri.pedestals_needed": "All 5 pedestals must contain items!",
-
     "enchantment.libri.eternity": "Eternity",
     "enchantment.libri.telekinesis": "Telekinesis",
     "enchantment.libri.phoenix": "Phoenix",
@@ -16,6 +10,7 @@
     "enchantment.libri.resonance": "Resonance",
     "enchantment.libri.trophy": "Trophy",
     "enchantment.libri.swift_strike": "Swift Strike",
+    "enchantment.libri.paralysis": "Paralysis",
     "item.minecraft.enchanted_book": "Enchanted Book",
 
     "enchantment.libri.eternity.desc": "Item never loses durability",
@@ -29,6 +24,7 @@
     "enchantment.libri.fuel_efficiency.desc": "Increases fuel burn time per level",
     "enchantment.libri.smelting_touch": "Smelting Touch",
     "enchantment.libri.smelting_touch.desc": "Automatically smelts mined ores",
+    "enchantment.libri.paralysis.desc": "Immobilizes enemies on arrow hit",
     "enchantment.libri.hush": "Hush",
     "enchantment.libri.hush.desc": "Makes block breaking completely silent and hides footsteps from sculk sensors",
     "enchantment.libri.soulbound": "Soulbound",

@@ -27,6 +27,7 @@ public class SacrificeMixin {
     @Inject(method = "dropLoot(Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
     private void onDropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
         if (!causedByPlayer) return;
+        if ((Object) this instanceof net.minecraft.entity.player.PlayerEntity) return;
         if (!(source.getAttacker() instanceof ServerPlayerEntity player)) return;
 
         ItemStack weapon = player.getMainHandStack();

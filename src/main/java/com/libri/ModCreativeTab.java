@@ -39,6 +39,7 @@ public class ModCreativeTab {
                                 addEnchantedBook(entries, registry, ModEnchantments.SIFTING);
                                 addEnchantedBook(entries, registry, ModEnchantments.RESONANCE);
                                 addEnchantedBook(entries, registry, ModEnchantments.TROPHY);
+                                addEnchantedBook(entries, registry, ModEnchantments.PARALYSIS);
                             });
                         })
                         .build()

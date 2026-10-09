@@ -146,6 +146,8 @@ public class ModEventHandlers {
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
                 SWIFT_LEVEL_CACHE.remove(handler.getPlayer().getUuid()));
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) ->
+                SWIFT_LEVEL_CACHE.remove(oldPlayer.getUuid()));
     }
 
     private static void onServerTick(MinecraftServer server) {
@@ -179,8 +181,8 @@ public class ModEventHandlers {
     }
 
     private static void handlePhoenix(ServerPlayerEntity player) {
-        for (int i = 0; i < 40; i++) {
-            ItemStack stack = i < 36 ? player.getInventory().main.get(i) : player.getInventory().armor.get(i - 36);
+        for (int i = 0; i < 41; i++) {
+            ItemStack stack = i < 36 ? player.getInventory().main.get(i) : (i < 40 ? player.getInventory().armor.get(i - 36) : player.getInventory().offHand.get(0));
             if (stack.isEmpty() || !stack.hasEnchantments() || stack.getDamage() == 0) continue;
             int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, stack);
             if (level > 0 && player.age % Math.max(1, 100 / level) == 0) {

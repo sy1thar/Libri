@@ -63,7 +63,8 @@ public class ModLootTables {
                 ModEnchantments.TELEKINESIS,
                 ModEnchantments.PHOENIX,
                 ModEnchantments.SACRIFICE,
-                ModEnchantments.SWIFT_STRIKE
+                ModEnchantments.SWIFT_STRIKE,
+                ModEnchantments.PARALYSIS
         }) {
             try {
                 builder.option(registry.getOrThrow(key));
@@ -73,10 +74,12 @@ public class ModLootTables {
             }
         }
         if (valid) {
+            pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));
             pool.apply(builder.build());
+        } else {
+            pool.with(ItemEntry.builder(Items.BOOK));
         }
 
-        pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));
         return pool;
     }
 
@@ -89,11 +92,12 @@ public class ModLootTables {
         RegistryWrapper<Enchantment> registry = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
         try {
             builder.option(registry.getOrThrow(ModEnchantments.SOULBOUND));
+            pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));
             pool.apply(builder.build());
         } catch (Exception ignored) {
+            pool.with(ItemEntry.builder(Items.BOOK));
         }
 
-        pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));
         return pool;
     }
 }

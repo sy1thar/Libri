@@ -24,6 +24,8 @@ public abstract class LivingEntityDropMixin {
     @Inject(method = "drop(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("HEAD"))
     private void onDropStart(ServerWorld world, DamageSource source, CallbackInfo ci) {
         TelepathyHelper.TELEKINESIS_ATTACKER.set(null);
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (entity instanceof net.minecraft.entity.player.PlayerEntity) return;
         if (source.getAttacker() instanceof ServerPlayerEntity player) {
             ItemStack weapon = player.getMainHandStack();
             if (!weapon.isEmpty() && weapon.hasEnchantments()) {
@@ -35,7 +37,6 @@ public abstract class LivingEntityDropMixin {
 
                 int trophyLevel = ModEnchantmentHelper.getLevel(ModEnchantments.TROPHY, ench);
                 if (trophyLevel > 0) {
-                    LivingEntity entity = (LivingEntity) (Object) this;
                     ModConfig config = ModConfig.get();
 
                     float headChance = config.trophyHeadBaseChance + (trophyLevel * config.trophyHeadLevelMultiplier);

@@ -1,17 +1,12 @@
 {
     "itemGroup.libri": "Libri",
 
-    "block.libri.alchemy_table": "Алхимический стол",
-    "block.libri.pedestal": "Пьедестал",
-
-    "container.libri.alchemy_table": "Алхимический стол",
-    "message.libri.pedestals_needed": "Все 5 пьедесталов должны содержать предметы!",
-
     "enchantment.libri.eternity": "Вечность",
     "enchantment.libri.telekinesis": "Телекинез",
     "enchantment.libri.phoenix": "Феникс",
     "enchantment.libri.sacrifice": "Жертвоприношение",
     "enchantment.libri.swift_strike": "Быстрый удар",
+    "enchantment.libri.paralysis": "Паралич",
     "item.minecraft.enchanted_book": "Зачарованная книга",
 
     "enchantment.libri.eternity.desc": "Предмет никогда не теряет прочность",
@@ -25,6 +20,7 @@
     "enchantment.libri.fuel_efficiency.desc": "Увеличивает время горения топлива за уровень",
     "enchantment.libri.smelting_touch": "Автоплавка",
     "enchantment.libri.smelting_touch.desc": "Автоматически переплавляет добытую руду",
+    "enchantment.libri.paralysis.desc": "Обездвиживает врага при попадании из лука",
     "enchantment.libri.hush": "Тишина",
     "enchantment.libri.hush.desc": "Ломание блоков становится полностью бесшумным, а скалк-сенсоры больше не чувствуют ваши шаги",
     "enchantment.libri.soulbound": "Завещание",
