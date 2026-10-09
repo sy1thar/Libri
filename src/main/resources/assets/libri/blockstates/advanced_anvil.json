@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "libri:block/advanced_anvil", "y": 90 },
+    "facing=south": { "model": "libri:block/advanced_anvil", "y": 270 },
+    "facing=east": { "model": "libri:block/advanced_anvil" },
+    "facing=west": { "model": "libri:block/advanced_anvil", "y": 180 }
+  }
+}

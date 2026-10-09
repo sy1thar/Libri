@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": { "item": "minecraft:iron_block" },
+    "O": { "item": "minecraft:obsidian" },
+    "G": { "item": "minecraft:gold_ingot" },
+    "A": { "item": "minecraft:anvil" }
+  },
+  "pattern": [
+    "III",
+    "GAG",
+    "OOO"
+  ],
+  "result": {
+    "id": "libri:advanced_anvil",
+    "count": 1
+  }
+}

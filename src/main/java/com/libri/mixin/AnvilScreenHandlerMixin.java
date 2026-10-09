@@ -16,7 +16,9 @@ public class AnvilScreenHandlerMixin {
 
     @ModifyConstant(method = "updateResult", constant = @Constant(intValue = 40))
     private int onLevelCap(int original) {
-        if (ModConfig.get().removeAnvilCap) {
+        net.minecraft.screen.ScreenHandlerContext ctx = ((ForgingScreenHandlerAccessor) this).getContext();
+        boolean isAdvanced = ctx.get((world, pos) -> world.getBlockState(pos).isOf(com.libri.LibriMod.ADVANCED_ANVIL)).orElse(false);
+        if (isAdvanced) {
             return 99999;
         }
         return original;

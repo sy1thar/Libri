@@ -1,5 +1,7 @@
 {
     "itemGroup.libri": "Libri",
+    "block.libri.advanced_anvil": "Advanced Anvil",
+    "container.libri.advanced_anvil": "Advanced Anvil",
 
     "enchantment.libri.eternity": "Eternity",
     "enchantment.libri.telekinesis": "Telekinesis",
