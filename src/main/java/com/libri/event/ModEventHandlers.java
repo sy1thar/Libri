@@ -4,6 +4,7 @@ import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -15,15 +16,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.registry.Registries;
 import net.minecraft.block.Block;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+import java.util.HashSet;
 
 public class ModEventHandlers {
-    private static final Map<UUID, Integer> TICKER = new HashMap<>();
+    private static final Map<UUID, Integer> SWIFT_LEVEL_CACHE = new HashMap<>();
     private static final Identifier SWIFT_STRIKE_MODIFIER_ID = Identifier.of("libri", "swift_strike");
     private static final ThreadLocal<Boolean> IS_RESONATING = ThreadLocal.withInitial(() -> false);
 
     public static void register() {
         ServerTickEvents.END_SERVER_TICK.register(ModEventHandlers::onServerTick);
+
         
         ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
             if (!alive) {
@@ -139,44 +147,46 @@ public class ModEventHandlers {
 
             return false;
         });
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+                SWIFT_LEVEL_CACHE.remove(handler.getPlayer().getUuid()));
     }
 
     private static void onServerTick(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-            int ticks = TICKER.getOrDefault(player.getUuid(), 0);
-            TICKER.put(player.getUuid(), ticks + 1);
-
-            handlePhoenix(player, ticks);
-
-            if (ticks % 40 == 0) {
-                handleWeaponEffects(player);
-            }
+            handleWeaponEffects(player);
+            handlePhoenix(player);
         }
     }
 
     private static void handleWeaponEffects(ServerPlayerEntity player) {
         ItemStack weapon = player.getMainHandStack();
-        if (weapon.isEmpty()) return;
+        int swiftLevel = weapon.isEmpty()
+                ? 0
+                : ModEnchantmentHelper.getLevel(ModEnchantments.SWIFT_STRIKE, EnchantmentHelper.getEnchantments(weapon));
 
-        var ench = EnchantmentHelper.getEnchantments(weapon);
-        int swiftLevel = ModEnchantmentHelper.getLevel(ModEnchantments.SWIFT_STRIKE, ench);
+        // Only touch the attribute when the level actually changed, so slot switching
+        // applies on the very next tick instead of a fixed polling interval.
+        Integer cached = SWIFT_LEVEL_CACHE.get(player.getUuid());
+        if (cached != null && cached == swiftLevel) return;
+        SWIFT_LEVEL_CACHE.put(player.getUuid(), swiftLevel);
+
         var attr = player.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED);
-        if (attr != null) {
-            attr.removeModifier(SWIFT_STRIKE_MODIFIER_ID);
-            if (swiftLevel > 0) {
-                attr.addTemporaryModifier(new EntityAttributeModifier(
-                    SWIFT_STRIKE_MODIFIER_ID, swiftLevel * 0.5,
-                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-            }
+        if (attr == null) return;
+
+        attr.removeModifier(SWIFT_STRIKE_MODIFIER_ID);
+        if (swiftLevel > 0) {
+            attr.addTemporaryModifier(new EntityAttributeModifier(
+                SWIFT_STRIKE_MODIFIER_ID, swiftLevel * 0.5,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 
-    private static void handlePhoenix(ServerPlayerEntity player, int tick) {
+    private static void handlePhoenix(ServerPlayerEntity player) {
         for (int i = 0; i < 40; i++) {
             ItemStack stack = i < 36 ? player.getInventory().main.get(i) : player.getInventory().armor.get(i - 36);
             if (stack.isEmpty() || !stack.hasEnchantments() || stack.getDamage() == 0) continue;
             int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, stack);
-            if (level > 0 && tick % Math.max(1, 100 / level) == 0) {
+            if (level > 0 && player.age % Math.max(1, 100 / level) == 0) {
                 stack.setDamage(Math.max(0, stack.getDamage() - 1));
             }
         }

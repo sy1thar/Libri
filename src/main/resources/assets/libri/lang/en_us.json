@@ -30,7 +30,7 @@
     "enchantment.libri.smelting_touch": "Smelting Touch",
     "enchantment.libri.smelting_touch.desc": "Automatically smelts mined ores",
     "enchantment.libri.hush": "Hush",
-    "enchantment.libri.hush.desc": "Makes block breaking completely silent",
+    "enchantment.libri.hush.desc": "Makes block breaking completely silent and hides footsteps from sculk sensors",
     "enchantment.libri.soulbound": "Soulbound",
     "enchantment.libri.soulbound.desc": "Item is not dropped on death and remains in inventory",
     "enchantment.libri.sifting": "Sifting",

@@ -26,7 +26,7 @@
     "enchantment.libri.smelting_touch": "Автоплавка",
     "enchantment.libri.smelting_touch.desc": "Автоматически переплавляет добытую руду",
     "enchantment.libri.hush": "Тишина",
-    "enchantment.libri.hush.desc": "Ломание блоков становится полностью бесшумным",
+    "enchantment.libri.hush.desc": "Ломание блоков становится полностью бесшумным, а скалк-сенсоры больше не чувствуют ваши шаги",
     "enchantment.libri.soulbound": "Завещание",
     "enchantment.libri.soulbound.desc": "При смерти предмет не выпадает, а сохраняется в инвентаре",
     "enchantment.libri.sifting": "Просеивание",
