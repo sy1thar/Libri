@@ -6,7 +6,7 @@ Fabric-мод, оверхоул зачарований. MC 1.21.1, Java 21, Fabr
     LibriMod: init; paralysis StatusEffect + ALLOW_DAMAGE-логика (парализованный не бьёт;стрела с Paralysis → 600т паралича; проверка чар ПО РУКАМ в момент попадания — известный edge)
     client/LibriClient: тултипы .desc (только libri-чары, ENCHANTMENTS — на книгах не видно!)
         расчёт урона Sharpness; client/ModMenuIntegration → ModConfigScreen (Cloth, мгновенное применение)
-    ModCreativeTab: 7 книг (НЕТ smelting_speed, fuel_efficiency, paralysis), CMD=1,кастом-модель через оверрайд minecraft:enchanted_book
+    ModCreativeTab: 11 книг (НЕТ smelting_speed, fuel_efficiency, paralysis), CMD=1,кастом-модель через оверрайд minecraft:enchanted_book
     enchantment/: ModEnchantments — 9 RegistryKey (PARALYSIS нет — инлайн в LibriMod!);ModEnchantmentHelper.getLevel(key, stack|component); ParalysisEffect (speed ×0, HARMFUL)
     config/: ModConfig (gson, config/libri.json, автосоздания/логов/клампов нет:removeAnvilCap, maxLevelMode VANILLA|CUSTOM, customMaxLevel=10), FurnaceEnchantmentData(duck-интерфейс печей; лежит не в своём пакете)
     event/: ModEventHandlers (Swift Strike: +0.5 базы ATTACK_SPEED/ур, UUID-кэш — БАГ: не чиститсяпри смерти; Phoenix: 1пр/100L тиков, main+armor, offhand пропущен);ModLootTables (5 чар × 10 сундуков, 15%; при сбое — пустая зачар. книга)
@@ -23,7 +23,11 @@ Smelting Speed	I+	печь: ÷(1+2L²) квадр.	стол (печка в сл�
 Fuel Efficiency	I+	печь: +1тик с шансом L/(L+10)	стол
 Sacrifice	I+	Sacrifice+EntityDrop+LivingEntityDrop, лут→XP ×(1+0.5·Loot)	сундуки
 Swift Strike	I+	attr-модификатор ATTACK_SPEED	сундуки
-Hush	1	HushMixin: STEP-глушение (ServerWorld), штаны	вкладка
+Hush	1	HushMixin: STEP-глушение и глушение ломания блоков	вкладка
+Soulbound	1	сохранение в инвентаре после смерти	вкладка
+Sifting	1	удаление мусорных блоков при добыче	вкладка
+Resonance	1	цепная добыча руд	вкладка
+Trophy	1	повышенный шанс голов и спавн-яиц	вкладка
 Paralysis	1	LibriMod + ParalysisEffect	НЕТ: не в луте/вкладке, без переводов
 Миксины (20 + client)
 

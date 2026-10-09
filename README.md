@@ -40,6 +40,7 @@
 | **Fuel Efficiency** | `I+` | Increases fuel burn time per level. |
 | **Sifting** | `I` | Automatically destroys junk blocks like cobblestone and diorite while mining. |
 | **Resonance** | `I` | Vein mines identical ores in a chain reaction and perfectly stacks the drops. |
+| **Hush** | `I` | Makes block breaking completely silent and hides footsteps from sculk sensors. |
 
 #### ⚔️ Combat & Hunting
 | Enchantment | Max Level | Effect |
@@ -93,6 +94,7 @@ To run **Libri**, ensure you have the following installed:
 | **Fuel Efficiency (Эффективность топлива)** | `I+` | Увеличивает время горения топлива с каждым уровнем. |
 | **Sifting (Просеивание)** | `I` | Автоматически удаляет мусорные блоки (булыжник, диорит и др.) при копании. |
 | **Resonance (Резонанс)** | `I` | Ломает цепочку из одинаковых руд за один удар и собирает лут в один стак. |
+| **Hush (Тишина)** | `I` | Ломание блоков становится полностью бесшумным, а скалк-сенсоры больше не чувствуют ваши шаги. |
 
 #### ⚔️ Бой и охота
 | Зачарование | Макс. уровень | Эффект |
