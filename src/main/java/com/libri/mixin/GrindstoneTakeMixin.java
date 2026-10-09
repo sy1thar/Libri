@@ -50,7 +50,7 @@ public class GrindstoneTakeMixin {
         if (!it.hasNext()) return;
 
         var topEntry = it.next();
-        int level = topEntry.getValue();
+        int level = topEntry.getIntValue();
 
         var newBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
         while (it.hasNext()) {
