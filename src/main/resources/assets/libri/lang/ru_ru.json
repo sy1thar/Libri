@@ -29,6 +29,8 @@
     "enchantment.libri.sifting.desc": "Автоматически удаляет мусорные блоки при добыче",
     "enchantment.libri.resonance": "Резонанс",
     "enchantment.libri.resonance.desc": "Разрушает цепочку одинаковых рудных блоков при добыче",
+    "enchantment.libri.trophy": "Трофей",
+    "enchantment.libri.trophy.desc": "Повышает шанс выбить голову моба и спавн-яйцо",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",

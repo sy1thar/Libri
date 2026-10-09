@@ -5,9 +5,7 @@
     "enchantment.libri.telekinesis": "Telekinesis",
     "enchantment.libri.phoenix": "Phoenix",
     "enchantment.libri.sacrifice": "Sacrifice",
-    "enchantment.libri.soulbound": "Soulbound",
-    "enchantment.libri.sifting": "Sifting",
-    "enchantment.libri.resonance": "Resonance",
+
     "enchantment.libri.trophy": "Trophy",
     "enchantment.libri.swift_strike": "Swift Strike",
     "enchantment.libri.paralysis": "Paralysis",
@@ -33,6 +31,7 @@
     "enchantment.libri.sifting.desc": "Automatically removes junk blocks when mining",
     "enchantment.libri.resonance": "Resonance",
     "enchantment.libri.resonance.desc": "Breaks a chain of identical ore blocks when mining",
+    "enchantment.libri.trophy.desc": "Increases the chance to drop mob heads and spawn eggs",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",

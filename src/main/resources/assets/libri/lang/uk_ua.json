@@ -29,6 +29,8 @@
     "enchantment.libri.sifting.desc": "Автоматично видаляє сміттєві блоки при видобутку",
     "enchantment.libri.resonance": "Резонанс",
     "enchantment.libri.resonance.desc": "Руйнує ланцюжок однакових рудних блоків при видобутку",
+    "enchantment.libri.trophy": "Трофей",
+    "enchantment.libri.trophy.desc": "Підвищує шанс вибити голову моба та яйце спавну",
 
     "config.libri.title": "Налаштування Libri",
     "config.libri.category.general": "Основні",
