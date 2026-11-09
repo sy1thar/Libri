@@ -2,8 +2,6 @@ package com.libri.mixin;
 
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,8 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
-@Mixin(PlayerInventory.class)
+@Mixin(Inventory.class)
 public class PlayerDropMixin {
     @Unique
     private final Map<Integer, ItemStack> libri$soulboundItems = new HashMap<>();
@@ -21,21 +21,21 @@ public class PlayerDropMixin {
     @Inject(method = "dropAll", at = @At("HEAD"))
     private void extractSoulbound(CallbackInfo ci) {
         libri$soulboundItems.clear();
-        PlayerInventory inventory = (PlayerInventory) (Object) this;
-        for (int i = 0; i < inventory.size(); i++) {
-            ItemStack stack = inventory.getStack(i);
+        Inventory inventory = (Inventory) (Object) this;
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SOULBOUND, stack) > 0) {
                 libri$soulboundItems.put(i, stack.copy());
-                inventory.setStack(i, ItemStack.EMPTY);
+                inventory.setItem(i, ItemStack.EMPTY);
             }
         }
     }
 
     @Inject(method = "dropAll", at = @At("RETURN"))
     private void restoreSoulbound(CallbackInfo ci) {
-        PlayerInventory inventory = (PlayerInventory) (Object) this;
+        Inventory inventory = (Inventory) (Object) this;
         for (Map.Entry<Integer, ItemStack> entry : libri$soulboundItems.entrySet()) {
-            inventory.setStack(entry.getKey(), entry.getValue());
+            inventory.setItem(entry.getKey(), entry.getValue());
         }
         libri$soulboundItems.clear();
     }

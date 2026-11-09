@@ -3,11 +3,11 @@ package com.libri.client;
 import com.libri.enchantment.ModEnchantmentHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 public class LibriClient implements ClientModInitializer {
     @Override
@@ -16,11 +16,11 @@ public class LibriClient implements ClientModInitializer {
             var enchantments = stack.getEnchantments();
             if (enchantments == null) return;
 
-            for (var entry : enchantments.getEnchantmentEntries()) {
-                var key = entry.getKey().getKey().orElse(null);
-                if (key != null && key.getValue().getNamespace().equals("libri")) {
-                    String descKey = key.getValue().toTranslationKey("enchantment") + ".desc";
-                    Text desc = Text.translatable(descKey).copy().formatted(Formatting.DARK_GRAY);
+            for (var entry : enchantments.entrySet()) {
+                var key = entry.getKey().unwrapKey().orElse(null);
+                if (key != null && key.location().getNamespace().equals("libri")) {
+                    String descKey = key.location().toLanguageKey("enchantment") + ".desc";
+                    Component desc = Component.translatable(descKey).copy().withStyle(ChatFormatting.DARK_GRAY);
                     lines.add(desc);
                 }
             }
@@ -29,11 +29,11 @@ public class LibriClient implements ClientModInitializer {
             if (sharpnessLevel <= 0) return;
 
             float baseDamage = 0f;
-            var attrModifiers = stack.getOrDefault(net.minecraft.component.DataComponentTypes.ATTRIBUTE_MODIFIERS, net.minecraft.component.type.AttributeModifiersComponent.DEFAULT);
+            var attrModifiers = stack.getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS, net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY);
             for (var modifier : attrModifiers.modifiers()) {
-                if (modifier.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE
-                        && modifier.slot() == AttributeModifierSlot.MAINHAND) {
-                    baseDamage += (float) modifier.modifier().value();
+                if (modifier.attribute() == Attributes.ATTACK_DAMAGE
+                        && modifier.slot() == EquipmentSlotGroup.MAINHAND) {
+                    baseDamage += (float) modifier.modifier().amount();
                 }
             }
 
@@ -43,8 +43,8 @@ public class LibriClient implements ClientModInitializer {
                     : vanillaBonus;
 
             float totalDamage = baseDamage + totalBonus;
-            lines.add(Text.literal(String.format(" %.1f Attack Damage (enchanted)", totalDamage))
-                    .formatted(Formatting.GRAY));
+            lines.add(Component.literal(String.format(" %.1f Attack Damage (enchanted)", totalDamage))
+                    .withStyle(ChatFormatting.GRAY));
         });
     }
 }

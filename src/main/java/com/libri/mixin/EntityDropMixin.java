@@ -3,11 +3,11 @@ package com.libri.mixin;
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import com.libri.helper.TelepathyHelper;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,23 +22,23 @@ public class EntityDropMixin {
         if (player == null) return;
         if (stack.isEmpty()) return;
 
-        ItemStack weapon = player.getMainHandStack();
-        if (!weapon.isEmpty() && weapon.hasEnchantments()) {
-            var ench = EnchantmentHelper.getEnchantments(weapon);
+        ItemStack weapon = player.getMainHandItem();
+        if (!weapon.isEmpty() && weapon.isEnchanted()) {
+            var ench = EnchantmentHelper.getEnchantmentsForCrafting(weapon);
             if (ModEnchantmentHelper.getLevel(ModEnchantments.SACRIFICE, ench) > 0) {
-                int baseXp = stack.isDamageable() ? 5 : 2;
+                int baseXp = stack.isDamageableItem() ? 5 : 2;
                 int lootingLevel = ModEnchantmentHelper.getLevel(Enchantments.LOOTING, ench);
                 int xp = (int) (stack.getCount() * baseXp * (1.0f + lootingLevel * 0.5f));
                 if (xp > 0) {
-                    player.getWorld().spawnEntity(new ExperienceOrbEntity(
-                        player.getWorld(), player.getX(), player.getY(), player.getZ(), xp));
+                    player.level().addFreshEntity(new ExperienceOrb(
+                        player.level(), player.getX(), player.getY(), player.getZ(), xp));
                 }
                 ci.setReturnValue(null);
                 return;
             }
         }
 
-        player.getInventory().offerOrDrop(stack);
+        player.getInventory().placeItemBackInInventory(stack);
         ci.setReturnValue(null);
     }
 }

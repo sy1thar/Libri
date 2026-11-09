@@ -41,7 +41,7 @@
     "config.libri.enchantment_max_level_mode": "Максимальний рівень чар",
     "config.libri.enchantment_max_level_mode.tooltip": "Ванільний залишає оригінальні рівні, Кастомний — свій рівень",
     "config.libri.enchantment_custom_max_level": "Кастомний рівень",
-    "config.libri.enchantment_custom_max_level.tooltip": "Максимальний рівень для всіх зачарувань (1-10000)",
+    "config.libri.enchantment_custom_max_level.tooltip": "Максимальний рівень для всіх зачарувань (1-255)",
     "config.libri.sifting_junk_blocks": "Сміттєві блоки",
     "config.libri.sifting_junk_blocks.tooltip": "Блоки, які будуть знищуватися зачаруванням Просіювання",
     "config.libri.resonance_max_blocks": "Максимум блоків Резонансу",

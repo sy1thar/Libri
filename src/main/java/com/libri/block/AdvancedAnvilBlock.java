@@ -1,24 +1,24 @@
 package com.libri.block;
 
-import net.minecraft.block.AnvilBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.screen.AnvilScreenHandler;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.inventory.AnvilMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AnvilBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class AdvancedAnvilBlock extends AnvilBlock {
-    public AdvancedAnvilBlock(Settings settings) {
+    public AdvancedAnvilBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-        return new SimpleNamedScreenHandlerFactory((syncId, inventory, player) ->
-                new AnvilScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)),
-                Text.translatable("container.libri.advanced_anvil"));
+    public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
+        return new SimpleMenuProvider((syncId, inventory, player) ->
+                new AnvilMenu(syncId, inventory, ContainerLevelAccess.create(world, pos)),
+                Component.translatable("container.libri.advanced_anvil"));
     }
 }

@@ -3,15 +3,15 @@ package com.libri.mixin;
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import com.libri.helper.TelepathyHelper;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.entity.EntityType;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import com.libri.config.ModConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,14 +22,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityDropMixin {
 
     @Inject(method = "drop(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("HEAD"))
-    private void onDropStart(ServerWorld world, DamageSource source, CallbackInfo ci) {
+    private void onDropStart(ServerLevel world, DamageSource source, CallbackInfo ci) {
         TelepathyHelper.TELEKINESIS_ATTACKER.set(null);
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity instanceof net.minecraft.entity.player.PlayerEntity) return;
-        if (source.getAttacker() instanceof ServerPlayerEntity player) {
-            ItemStack weapon = player.getMainHandStack();
-            if (!weapon.isEmpty() && weapon.hasEnchantments()) {
-                var ench = EnchantmentHelper.getEnchantments(weapon);
+        if (entity instanceof net.minecraft.world.entity.player.Player) return;
+        if (source.getEntity() instanceof ServerPlayer player) {
+            ItemStack weapon = player.getMainHandItem();
+            if (!weapon.isEmpty() && weapon.isEnchanted()) {
+                var ench = EnchantmentHelper.getEnchantmentsForCrafting(weapon);
                 if (ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0
                         || ModEnchantmentHelper.getLevel(ModEnchantments.SACRIFICE, ench) > 0) {
                     TelepathyHelper.TELEKINESIS_ATTACKER.set(player);
@@ -50,15 +50,15 @@ public abstract class LivingEntityDropMixin {
                         else if (entity.getType() == EntityType.PLAYER) headStack = new ItemStack(Items.PLAYER_HEAD);
                         
                         if (!headStack.isEmpty()) {
-                            entity.dropStack(headStack);
+                            entity.spawnAtLocation(headStack);
                         }
                     }
 
                     if (trophyLevel >= config.trophyEggMinLevel) {
                         if (world.random.nextFloat() < config.trophyEggChance) {
-                            SpawnEggItem egg = SpawnEggItem.forEntity(entity.getType());
+                            SpawnEggItem egg = SpawnEggItem.byId(entity.getType());
                             if (egg != null) {
-                                entity.dropStack(new ItemStack(egg));
+                                entity.spawnAtLocation(new ItemStack(egg));
                             }
                         }
                     }
@@ -68,7 +68,7 @@ public abstract class LivingEntityDropMixin {
     }
 
     @Inject(method = "drop(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("RETURN"))
-    private void onDropEnd(ServerWorld world, DamageSource source, CallbackInfo ci) {
+    private void onDropEnd(ServerLevel world, DamageSource source, CallbackInfo ci) {
         TelepathyHelper.TELEKINESIS_ATTACKER.remove();
     }
 }

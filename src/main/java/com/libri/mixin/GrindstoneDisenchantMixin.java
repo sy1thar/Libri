@@ -1,13 +1,13 @@
 package com.libri.mixin;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.CustomModelDataComponent;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.GrindstoneScreenHandler;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.GrindstoneMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,47 +15,47 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(GrindstoneScreenHandler.class)
+@Mixin(GrindstoneMenu.class)
 public class GrindstoneDisenchantMixin {
 
-    @Shadow @Final private Inventory input;
-    @Shadow @Final private Inventory result;
+    @Shadow @Final private Container input;
+    @Shadow @Final private Container result;
 
     @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
     private void handleUpdateResult(CallbackInfo ci) {
-        ItemStack slot0 = this.input.getStack(0);
-        ItemStack slot1 = this.input.getStack(1);
+        ItemStack slot0 = this.input.getItem(0);
+        ItemStack slot1 = this.input.getItem(1);
 
         int enchSlot = -1;
         ItemStack enchanted = ItemStack.EMPTY;
 
-        if (slot0.hasEnchantments() && slot1.isOf(Items.BOOK) && !slot1.isEmpty()) {
+        if (slot0.isEnchanted() && slot1.is(Items.BOOK) && !slot1.isEmpty()) {
             enchSlot = 0; enchanted = slot0;
-        } else if (slot1.hasEnchantments() && slot0.isOf(Items.BOOK) && !slot0.isEmpty()) {
+        } else if (slot1.isEnchanted() && slot0.is(Items.BOOK) && !slot0.isEmpty()) {
             enchSlot = 1; enchanted = slot1;
         }
 
         if (enchSlot < 0) return;
 
-        var enchantments = EnchantmentHelper.getEnchantments(enchanted);
-        var it = enchantments.getEnchantmentEntries().iterator();
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(enchanted);
+        var it = enchantments.entrySet().iterator();
         if (!it.hasNext()) return;
 
         var topEntry = it.next();
 
-        boolean isModEnchant = topEntry.getKey().getKey()
-                .map(key -> key.getValue().getNamespace().equals("libri"))
+        boolean isModEnchant = topEntry.getKey().unwrapKey()
+                .map(key -> key.location().getNamespace().equals("libri"))
                 .orElse(false);
 
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
-        var bb = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        bb.add(topEntry.getKey(), topEntry.getIntValue());
-        book.set(DataComponentTypes.STORED_ENCHANTMENTS, bb.build());
+        var bb = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        bb.upgrade(topEntry.getKey(), topEntry.getIntValue());
+        book.set(DataComponents.STORED_ENCHANTMENTS, bb.toImmutable());
         if (isModEnchant) {
-            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1));
         }
 
-        this.result.setStack(0, book);
+        this.result.setItem(0, book);
         ci.cancel();
     }
 }

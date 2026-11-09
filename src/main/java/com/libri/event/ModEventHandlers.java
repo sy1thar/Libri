@@ -5,15 +5,15 @@ import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.registry.Registries;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 public class ModEventHandlers {
     private static final Map<UUID, Integer> SWIFT_LEVEL_CACHE = new HashMap<>();
-    private static final Identifier SWIFT_STRIKE_MODIFIER_ID = Identifier.of("libri", "swift_strike");
+    private static final ResourceLocation SWIFT_STRIKE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath("libri", "swift_strike");
     private static final ThreadLocal<Boolean> IS_RESONATING = ThreadLocal.withInitial(() -> false);
 
     public static void register() {
@@ -34,27 +34,27 @@ public class ModEventHandlers {
         
         ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
             if (!alive) {
-                for (int i = 0; i < oldPlayer.getInventory().size(); i++) {
-                    ItemStack stack = oldPlayer.getInventory().getStack(i);
+                for (int i = 0; i < oldPlayer.getInventory().getContainerSize(); i++) {
+                    ItemStack stack = oldPlayer.getInventory().getItem(i);
                     if (!stack.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SOULBOUND, stack) > 0) {
-                        newPlayer.getInventory().setStack(i, stack.copy());
+                        newPlayer.getInventory().setItem(i, stack.copy());
                     }
                 }
             }
         });
 
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {
-            if (world.isClient || IS_RESONATING.get()) return true;
+            if (world.isClientSide || IS_RESONATING.get()) return true;
 
-            ItemStack tool = player.getMainHandStack();
+            ItemStack tool = player.getMainHandItem();
             if (tool.isEmpty()) return true;
 
-            var ench = EnchantmentHelper.getEnchantments(tool);
+            var ench = EnchantmentHelper.getEnchantmentsForCrafting(tool);
             int resonance = ModEnchantmentHelper.getLevel(ModEnchantments.RESONANCE, ench);
             if (resonance <= 0) return true;
 
-            String blockName = Registries.BLOCK.getId(state.getBlock()).getPath();
-            boolean isOre = blockName.endsWith("_ore") || blockName.equals("ancient_debris") || state.streamTags().anyMatch(t -> t.id().getPath().endsWith("ores"));
+            String blockName = BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath();
+            boolean isOre = blockName.endsWith("_ore") || blockName.equals("ancient_debris") || state.getTags().anyMatch(t -> t.location().getPath().endsWith("ores"));
 
             if (!isOre) return true;
 
@@ -70,8 +70,8 @@ public class ModEventHandlers {
                 queue.add(pos);
                 visited.add(pos);
 
-                ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-                serverPlayer.interactionManager.tryBreakBlock(pos);
+                ServerPlayer serverPlayer = (ServerPlayer) player;
+                if (!serverPlayer.gameMode.destroyBlock(pos)) return false;
                 int broken = 1;
 
                 while (!queue.isEmpty() && broken < maxBlocks) {
@@ -81,13 +81,13 @@ public class ModEventHandlers {
                         for (int y = -1; y <= 1; y++) {
                             for (int z = -1; z <= 1; z++) {
                                 if (x == 0 && y == 0 && z == 0) continue;
-                                BlockPos neighbor = current.add(x, y, z);
+                                BlockPos neighbor = current.offset(x, y, z);
                                 if (!visited.contains(neighbor)) {
                                     visited.add(neighbor);
-                                    String neighborName = Registries.BLOCK.getId(world.getBlockState(neighbor).getBlock()).getPath();
+                                    String neighborName = BuiltInRegistries.BLOCK.getKey(world.getBlockState(neighbor).getBlock()).getPath();
                                     if (neighborName.replace("deepslate_", "").replace("nether_", "").replace("end_", "").equals(targetOreName)) {
+                                        if (!serverPlayer.gameMode.destroyBlock(neighbor)) continue;
                                         queue.add(neighbor);
-                                        serverPlayer.interactionManager.tryBreakBlock(neighbor);
                                         broken++;
                                         if (broken >= maxBlocks) break;
                                     }
@@ -99,18 +99,18 @@ public class ModEventHandlers {
                     }
                 }
                 
-                java.util.List<net.minecraft.item.ItemStack> drops = com.libri.helper.TelepathyHelper.RESONANCE_DROPS.get();
+                java.util.List<net.minecraft.world.item.ItemStack> drops = com.libri.helper.TelepathyHelper.RESONANCE_DROPS.get();
                 if (drops != null && !drops.isEmpty()) {
-                    java.util.List<net.minecraft.item.ItemStack> compressed = new java.util.ArrayList<>();
-                    for (net.minecraft.item.ItemStack stack : drops) {
+                    java.util.List<net.minecraft.world.item.ItemStack> compressed = new java.util.ArrayList<>();
+                    for (net.minecraft.world.item.ItemStack stack : drops) {
                         if (stack.isEmpty()) continue;
-                        for (net.minecraft.item.ItemStack c : compressed) {
-                            if (net.minecraft.item.ItemStack.areItemsAndComponentsEqual(c, stack)) {
-                                int space = c.getMaxCount() - c.getCount();
+                        for (net.minecraft.world.item.ItemStack c : compressed) {
+                            if (net.minecraft.world.item.ItemStack.isSameItemSameComponents(c, stack)) {
+                                int space = c.getMaxStackSize() - c.getCount();
                                 if (space > 0) {
                                     int toAdd = Math.min(space, stack.getCount());
-                                    c.increment(toAdd);
-                                    stack.decrement(toAdd);
+                                    c.grow(toAdd);
+                                    stack.shrink(toAdd);
                                     if (stack.isEmpty()) {
                                         break;
                                     }
@@ -129,11 +129,11 @@ public class ModEventHandlers {
                     double vy = 0.2;
                     double vz = world.random.nextDouble() * 0.2 - 0.1;
 
-                    for (net.minecraft.item.ItemStack c : compressed) {
-                        net.minecraft.entity.ItemEntity itemEntity = new net.minecraft.entity.ItemEntity(world, d, e, f, c);
-                        itemEntity.setVelocity(vx, vy, vz);
-                        itemEntity.setToDefaultPickupDelay();
-                        world.spawnEntity(itemEntity);
+                    for (net.minecraft.world.item.ItemStack c : compressed) {
+                        net.minecraft.world.entity.item.ItemEntity itemEntity = new net.minecraft.world.entity.item.ItemEntity(world, d, e, f, c);
+                        itemEntity.setDeltaMovement(vx, vy, vz);
+                        itemEntity.setDefaultPickUpDelay();
+                        world.addFreshEntity(itemEntity);
                     }
                 }
             } finally {
@@ -145,48 +145,48 @@ public class ModEventHandlers {
             return false;
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                SWIFT_LEVEL_CACHE.remove(handler.getPlayer().getUuid()));
+                SWIFT_LEVEL_CACHE.remove(handler.getPlayer().getUUID()));
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) ->
-                SWIFT_LEVEL_CACHE.remove(oldPlayer.getUuid()));
+                SWIFT_LEVEL_CACHE.remove(oldPlayer.getUUID()));
     }
 
     private static void onServerTick(MinecraftServer server) {
-        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             handleWeaponEffects(player);
             handlePhoenix(player);
         }
     }
 
-    private static void handleWeaponEffects(ServerPlayerEntity player) {
-        ItemStack weapon = player.getMainHandStack();
+    private static void handleWeaponEffects(ServerPlayer player) {
+        ItemStack weapon = player.getMainHandItem();
         int swiftLevel = weapon.isEmpty()
                 ? 0
-                : ModEnchantmentHelper.getLevel(ModEnchantments.SWIFT_STRIKE, EnchantmentHelper.getEnchantments(weapon));
+                : ModEnchantmentHelper.getLevel(ModEnchantments.SWIFT_STRIKE, EnchantmentHelper.getEnchantmentsForCrafting(weapon));
 
         // Only touch the attribute when the level actually changed, so slot switching
         // applies on the very next tick instead of a fixed polling interval.
-        Integer cached = SWIFT_LEVEL_CACHE.get(player.getUuid());
+        Integer cached = SWIFT_LEVEL_CACHE.get(player.getUUID());
         if (cached != null && cached == swiftLevel) return;
-        SWIFT_LEVEL_CACHE.put(player.getUuid(), swiftLevel);
+        SWIFT_LEVEL_CACHE.put(player.getUUID(), swiftLevel);
 
-        var attr = player.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED);
+        var attr = player.getAttribute(Attributes.ATTACK_SPEED);
         if (attr == null) return;
 
         attr.removeModifier(SWIFT_STRIKE_MODIFIER_ID);
         if (swiftLevel > 0) {
-            attr.addTemporaryModifier(new EntityAttributeModifier(
+            attr.addTransientModifier(new AttributeModifier(
                 SWIFT_STRIKE_MODIFIER_ID, swiftLevel * 0.5,
-                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 
-    private static void handlePhoenix(ServerPlayerEntity player) {
+    private static void handlePhoenix(ServerPlayer player) {
         for (int i = 0; i < 41; i++) {
-            ItemStack stack = i < 36 ? player.getInventory().main.get(i) : (i < 40 ? player.getInventory().armor.get(i - 36) : player.getInventory().offHand.get(0));
-            if (stack.isEmpty() || !stack.hasEnchantments() || stack.getDamage() == 0) continue;
+            ItemStack stack = i < 36 ? player.getInventory().items.get(i) : (i < 40 ? player.getInventory().armor.get(i - 36) : player.getInventory().offhand.get(0));
+            if (stack.isEmpty() || !stack.isEnchanted() || stack.getDamageValue() == 0) continue;
             int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, stack);
-            if (level > 0 && player.age % Math.max(1, 100 / level) == 0) {
-                stack.setDamage(Math.max(0, stack.getDamage() - 1));
+            if (level > 0 && player.tickCount % Math.max(1, 100 / level) == 0) {
+                stack.setDamageValue(Math.max(0, stack.getDamageValue() - 1));
             }
         }
     }

@@ -2,32 +2,32 @@ package com.libri;
 
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.CustomModelDataComponent;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public class ModCreativeTab {
     public static void register() {
-        Registry.register(Registries.ITEM_GROUP,
-                Identifier.of("libri", "main"),
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+                ResourceLocation.fromNamespaceAndPath("libri", "main"),
                 FabricItemGroup.builder()
                         .icon(() -> {
                             ItemStack iconStack = new ItemStack(Items.ENCHANTED_BOOK);
-                            iconStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+                            iconStack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1));
                             return iconStack;
                         })
-                        .displayName(Text.translatable("itemGroup.libri"))
-                        .entries((context, entries) -> {
-                            context.lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
+                        .title(Component.translatable("itemGroup.libri"))
+                        .displayItems((context, entries) -> {
+                            context.holders().lookup(Registries.ENCHANTMENT).ifPresent(registry -> {
                                 addEnchantedBook(entries, registry, ModEnchantments.ETERNITY);
                                 addEnchantedBook(entries, registry, ModEnchantments.TELEKINESIS);
                                 addEnchantedBook(entries, registry, ModEnchantments.PHOENIX);
@@ -41,22 +41,22 @@ public class ModCreativeTab {
                                 addEnchantedBook(entries, registry, ModEnchantments.TROPHY);
                                 addEnchantedBook(entries, registry, ModEnchantments.PARALYSIS);
                             });
-                            entries.add(LibriMod.ADVANCED_ANVIL_ITEM);
+                            entries.accept(LibriMod.ADVANCED_ANVIL_ITEM);
                         })
                         .build()
         );
     }
 
-    private static void addEnchantedBook(ItemGroup.Entries entries, RegistryWrapper.Impl<net.minecraft.enchantment.Enchantment> registry,
-                                          net.minecraft.registry.RegistryKey<net.minecraft.enchantment.Enchantment> key) {
-        registry.getOptional(key).ifPresent(entry -> {
+    private static void addEnchantedBook(CreativeModeTab.Output entries, HolderLookup.RegistryLookup<net.minecraft.world.item.enchantment.Enchantment> registry,
+                                          net.minecraft.resources.ResourceKey<net.minecraft.world.item.enchantment.Enchantment> key) {
+        registry.get(key).ifPresent(entry -> {
             int level = entry.value().getMaxLevel();
             ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
-            var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-            builder.add(entry, level);
-            book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
-            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
-            entries.add(book);
+            var builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+            builder.upgrade(entry, level);
+            book.set(DataComponents.STORED_ENCHANTMENTS, builder.toImmutable());
+            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1));
+            entries.accept(book);
         });
     }
 }

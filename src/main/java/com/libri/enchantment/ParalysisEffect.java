@@ -1,21 +1,21 @@
 package com.libri.enchantment;
 
 import com.libri.LibriMod;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class ParalysisEffect extends StatusEffect {
+public class ParalysisEffect extends MobEffect {
     public ParalysisEffect() {
-        super(StatusEffectCategory.HARMFUL, 0x800080);
+        super(MobEffectCategory.HARMFUL, 0x800080);
 
         this.addAttributeModifier(
-                EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                Identifier.of(LibriMod.MOD_ID, "paralysis_slow"),
+                Attributes.MOVEMENT_SPEED,
+                ResourceLocation.fromNamespaceAndPath(LibriMod.MOD_ID, "paralysis_slow"),
                 -1.0,
-                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );
     }
 }

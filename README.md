@@ -18,7 +18,7 @@
 
 - **🪄 Balanced Disenchantment:** Place an enchanted item and a regular book into a **Grindstone** to safely extract enchantments into an enchanted book.
 - **🛠️ Anvil & Level Control:** Completely remove or adjust the vanilla anvil level cap.
-- **⚙️ Deep Customization:** Configure maximum enchantment levels (from `1` up to `10,000`) and tweak features easily.
+- **⚙️ Deep Customization:** Configure maximum enchantment levels (from `1` up to `255`) and tweak features easily.
 - **🖥️ Universal Compatibility:** Fully friendly for both singleplayer worlds and multiplayer servers.
 - **🎨 In-Game Config:** Seamlessly integrated with ModMenu and Cloth Config for real-time adjustments.
 
@@ -72,7 +72,7 @@ To run **Libri**, ensure you have the following installed:
 
 - **🪄 Сбалансированное снятие чар:** Положите зачарованный предмет и обычную книгу в **точило (Grindstone)**, чтобы безопасно перенести зачарования в книгу.
 - **🛠️ Контроль наковальни:** Полное отключение или настройка стандартного лимита уровней наковальни («Слишком дорого!»).
-- **⚙️ Глубокая настройка:** Изменение максимального уровня зачарований (от `1` до `10 000`) и гибкая регулировка функций.
+- **⚙️ Глубокая настройка:** Изменение максимального уровня зачарований (от `1` до `255`) и гибкая регулировка функций.
 - **🎨 Внутриигровое меню:** Полная интеграция с ModMenu и Cloth Config для удобного изменения настроек прямо в игре.
 
 ### 🔮 Зачарования

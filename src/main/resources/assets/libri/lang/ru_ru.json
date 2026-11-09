@@ -41,7 +41,7 @@
     "config.libri.enchantment_max_level_mode": "Максимальный уровень чар",
     "config.libri.enchantment_max_level_mode.tooltip": "Ванильный — оригинальные уровни, Кастомный — свой уровень",
     "config.libri.enchantment_custom_max_level": "Кастомный уровень",
-    "config.libri.enchantment_custom_max_level.tooltip": "Максимальный уровень для всех зачарований (1-10000)",
+    "config.libri.enchantment_custom_max_level.tooltip": "Максимальный уровень для всех зачарований (1-255)",
     "config.libri.sifting_junk_blocks": "Мусорные блоки",
     "config.libri.sifting_junk_blocks.tooltip": "Блоки, которые будут уничтожаться зачарованием Просеивание",
     "config.libri.resonance_max_blocks": "Максимум блоков Резонанса",

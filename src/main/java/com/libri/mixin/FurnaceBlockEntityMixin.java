@@ -1,11 +1,11 @@
 package com.libri.mixin;
 
 import com.libri.config.FurnaceEnchantmentData;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,22 +27,22 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
     @Override public void libri$setBaseCookTimeTotal(int v) { libri$baseCookTimeTotal = v; }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    private void onReadNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
+    private void onReadNbt(CompoundTag nbt, HolderLookup.Provider lookup, CallbackInfo ci) {
         libri$smeltingSpeed = nbt.getInt("libri:smelting_speed");
         libri$fuelEfficiency = nbt.getInt("libri:fuel_efficiency");
         libri$baseCookTimeTotal = nbt.getInt("libri:base_cook_time");
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void onWriteNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
+    private void onWriteNbt(CompoundTag nbt, HolderLookup.Provider lookup, CallbackInfo ci) {
         if (libri$smeltingSpeed > 0) nbt.putInt("libri:smelting_speed", libri$smeltingSpeed);
         if (libri$fuelEfficiency > 0) nbt.putInt("libri:fuel_efficiency", libri$fuelEfficiency);
         if (libri$baseCookTimeTotal > 0) nbt.putInt("libri:base_cook_time", libri$baseCookTimeTotal);
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    private static void onTick(World world, BlockPos pos, net.minecraft.block.BlockState state, AbstractFurnaceBlockEntity be, CallbackInfo ci) {
-        if (world.isClient) return;
+    private static void onTick(Level world, BlockPos pos, net.minecraft.world.level.block.state.BlockState state, AbstractFurnaceBlockEntity be, CallbackInfo ci) {
+        if (world.isClientSide) return;
         FurnaceEnchantmentData ench = (FurnaceEnchantmentData) be;
 
         int speed = ench.libri$getSmeltingSpeed();
