@@ -24,7 +24,7 @@ public class BlockItemMixin {
         if (world.isClient) return;
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof AbstractFurnaceBlockEntity furnace) {
-            var ench = EnchantmentHelper.getEnchantments(stack);
+            var ench = EnchantmentHelper.get(stack);
             int speed = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_SPEED, ench);
             int fuel = ModEnchantmentHelper.getLevel(ModEnchantments.FUEL_EFFICIENCY, ench);
             if (speed > 0 || fuel > 0) {

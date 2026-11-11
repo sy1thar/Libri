@@ -1,20 +1,24 @@
 package com.libri.mixin;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.GrindstoneScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Mixin(targets = "net/minecraft/screen/GrindstoneScreenHandler$4")
 public class GrindstoneTakeMixin {
@@ -44,23 +48,21 @@ public class GrindstoneTakeMixin {
         ItemStack enchantedItem = input.getStack(enchSlot);
         ItemStack bookStack = input.getStack(bookSlot);
 
-        var enchantments = enchantedItem.getOrDefault(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-        var entries = enchantments.getEnchantmentsMap();
-        var it = entries.iterator();
+        Map<Enchantment, Integer> enchantments = EnchantmentHelper.get(enchantedItem);
+        var it = enchantments.entrySet().iterator();
         if (!it.hasNext()) return;
 
         var topEntry = it.next();
-        int level = topEntry.getIntValue();
+        int level = topEntry.getValue();
 
-        var newBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+        Map<Enchantment, Integer> remainingEnch = new LinkedHashMap<>();
         while (it.hasNext()) {
             var entry = it.next();
-            newBuilder.add(entry.getKey().value(), entry.getIntValue());
+            remainingEnch.put(entry.getKey(), entry.getValue());
         }
-        ItemEnchantmentsComponent remainingEnch = newBuilder.build();
 
-        enchantedItem.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-        enchantedItem.set(DataComponentTypes.REPAIR_COST, 0);
+        EnchantmentHelper.set(Collections.emptyMap(), enchantedItem);
+        enchantedItem.setRepairCost(0);
         input.setStack(enchSlot, enchantedItem);
 
         bookStack.decrement(1);
@@ -76,8 +78,8 @@ public class GrindstoneTakeMixin {
             }
         }
 
-        enchantedItem.set(DataComponentTypes.ENCHANTMENTS, remainingEnch);
-        enchantedItem.set(DataComponentTypes.REPAIR_COST, 0);
+        EnchantmentHelper.set(remainingEnch, enchantedItem);
+        enchantedItem.setRepairCost(0);
         input.setStack(enchSlot, enchantedItem);
         for (var slot : handler.slots) {
             if (slot.inventory == input) {

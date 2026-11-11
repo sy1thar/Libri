@@ -3,7 +3,7 @@ package com.libri.mixin;
 import com.libri.enchantment.ModEnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EntityGroup;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentHelper.class)
 public class SharpnessMixin {
 
-    @Inject(method = "getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityType;)F", at = @At("RETURN"), cancellable = true)
-    private static void onGetAttackDamage(ItemStack stack, EntityType<?> target, CallbackInfoReturnable<Float> cir) {
+    @Inject(method = "getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityGroup;)F", at = @At("RETURN"), cancellable = true)
+    private static void onGetAttackDamage(ItemStack stack, EntityGroup group, CallbackInfoReturnable<Float> cir) {
         int sharpnessLevel = ModEnchantmentHelper.getLevel(Enchantments.SHARPNESS, stack);
         if (sharpnessLevel <= 5) return;
 

@@ -24,7 +24,7 @@ public class EntityDropMixin {
 
         ItemStack weapon = player.getMainHandStack();
         if (!weapon.isEmpty() && weapon.hasEnchantments()) {
-            var ench = EnchantmentHelper.getEnchantments(weapon);
+            var ench = EnchantmentHelper.get(weapon);
             if (ModEnchantmentHelper.getLevel(ModEnchantments.SACRIFICE, ench) > 0) {
                 int baseXp = stack.isDamageable() ? 5 : 2;
                 int lootingLevel = ModEnchantmentHelper.getLevel(Enchantments.LOOTING, ench);

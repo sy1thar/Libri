@@ -35,7 +35,7 @@ public class AnvilScreenHandlerMixin {
 
         boolean nameChanged = !input1.getName().getString().equals(output.getName().getString());
         boolean damageChanged = input1.getDamage() != output.getDamage();
-        boolean enchantmentsChanged = !EnchantmentHelper.getEnchantments(input1).equals(EnchantmentHelper.getEnchantments(output));
+        boolean enchantmentsChanged = !EnchantmentHelper.get(input1).equals(EnchantmentHelper.get(output));
 
         if (!nameChanged && !damageChanged && !enchantmentsChanged) {
             handler.getSlot(2).setStack(ItemStack.EMPTY);

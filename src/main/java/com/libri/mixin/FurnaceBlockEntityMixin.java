@@ -3,7 +3,6 @@ package com.libri.mixin;
 import com.libri.config.FurnaceEnchantmentData;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,14 +26,14 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
     @Override public void libri$setBaseCookTimeTotal(int v) { libri$baseCookTimeTotal = v; }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    private void onReadNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
+    private void onReadNbt(NbtCompound nbt, CallbackInfo ci) {
         libri$smeltingSpeed = nbt.getInt("libri:smelting_speed");
         libri$fuelEfficiency = nbt.getInt("libri:fuel_efficiency");
         libri$baseCookTimeTotal = nbt.getInt("libri:base_cook_time");
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void onWriteNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
+    private void onWriteNbt(NbtCompound nbt, CallbackInfo ci) {
         if (libri$smeltingSpeed > 0) nbt.putInt("libri:smelting_speed", libri$smeltingSpeed);
         if (libri$fuelEfficiency > 0) nbt.putInt("libri:fuel_efficiency", libri$fuelEfficiency);
         if (libri$baseCookTimeTotal > 0) nbt.putInt("libri:base_cook_time", libri$baseCookTimeTotal);
@@ -65,10 +64,9 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
         int fuelEff = ench.libri$getFuelEfficiency();
         if (fuelEff > 0) {
             FurnaceBlockEntityAccessor acc = (FurnaceBlockEntityAccessor) be;
-            if (acc.libri$getFuelTime() > 0 && world.random.nextInt(fuelEff + 10) < fuelEff) {
-                acc.libri$setFuelTime(acc.libri$getFuelTime() + 1);
+            if (acc.libri$getBurnTime() > 0 && world.random.nextInt(fuelEff + 10) < fuelEff) {
+                acc.libri$setBurnTime(acc.libri$getBurnTime() + 1);
             }
         }
     }
-
 }

@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EnchantmentMixin implements EnchantmentSlots {
 
     @Shadow @Final
-    private Enchantment.Properties properties;
+    private EquipmentSlot[] slotTypes;
 
     @Override
     public EquipmentSlot[] libri$getSlots() {
-        return this.properties.slots();
+        return this.slotTypes;
     }
 
     @Inject(method = "canCombine(Lnet/minecraft/enchantment/Enchantment;)Z", at = @At("RETURN"), cancellable = true)

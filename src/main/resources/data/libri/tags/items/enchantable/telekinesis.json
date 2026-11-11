@@ -1,7 +1,12 @@
 {
-    "replace": false,
-    "values": [
-        "#minecraft:enchantable/mining",
-        "#minecraft:enchantable/sharp_weapon"
-    ]
+  "replace": false,
+  "values": [
+    "#minecraft:pickaxes",
+    "#minecraft:axes",
+    "#minecraft:shovels",
+    "#minecraft:hoes",
+    "#minecraft:swords",
+    "minecraft:shears",
+    "minecraft:trident"
+  ]
 }

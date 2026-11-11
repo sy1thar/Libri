@@ -31,7 +31,7 @@ public abstract class LivingEntityDropMixin {
         if (source.getAttacker() instanceof ServerPlayerEntity player) {
             ItemStack weapon = player.getMainHandStack();
             if (!weapon.isEmpty() && weapon.hasEnchantments()) {
-                var ench = EnchantmentHelper.getEnchantments(weapon);
+                var ench = EnchantmentHelper.get(weapon);
                 if (ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0
                         || ModEnchantmentHelper.getLevel(ModEnchantments.SACRIFICE, ench) > 0) {
                     TelepathyHelper.TELEKINESIS_ATTACKER.set(player);

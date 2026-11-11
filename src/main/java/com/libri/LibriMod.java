@@ -21,7 +21,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +32,11 @@ public class LibriMod implements ModInitializer {
     public static final Block ADVANCED_ANVIL = new AdvancedAnvilBlock(AbstractBlock.Settings.copy(Blocks.ANVIL));
     public static final Item ADVANCED_ANVIL_ITEM = new BlockItem(ADVANCED_ANVIL, new Item.Settings());
 
-    public static RegistryEntry<StatusEffect> PARALYSIS_EFFECT_ENTRY;
+    public static StatusEffect PARALYSIS_EFFECT;
 
     @Override
     public void onInitialize() {
-        PARALYSIS_EFFECT_ENTRY = Registry.registerReference(Registries.STATUS_EFFECT, new Identifier(MOD_ID, "paralysis"), new ParalysisEffect());
+        PARALYSIS_EFFECT = Registry.register(Registries.STATUS_EFFECT, new Identifier(MOD_ID, "paralysis"), new ParalysisEffect());
 
         ModEnchantments.register();
         ModConfig.load();
@@ -57,18 +56,18 @@ public class LibriMod implements ModInitializer {
             Entity attacker = source.getAttacker();
             Entity directSource = source.getSource();
 
-            if (attacker instanceof LivingEntity livingAttacker && PARALYSIS_EFFECT_ENTRY != null) {
-                if (livingAttacker.hasStatusEffect(PARALYSIS_EFFECT_ENTRY)) {
+            if (attacker instanceof LivingEntity livingAttacker && PARALYSIS_EFFECT != null) {
+                if (livingAttacker.hasStatusEffect(PARALYSIS_EFFECT)) {
                     return false;
                 }
             }
 
-            if (directSource instanceof PersistentProjectileEntity && attacker instanceof LivingEntity shooter && PARALYSIS_EFFECT_ENTRY != null) {
+            if (directSource instanceof PersistentProjectileEntity && attacker instanceof LivingEntity shooter && PARALYSIS_EFFECT != null) {
                 int mainHandLvl = EnchantmentHelper.getLevel(ModEnchantments.PARALYSIS, shooter.getMainHandStack());
                 int offHandLvl = EnchantmentHelper.getLevel(ModEnchantments.PARALYSIS, shooter.getOffHandStack());
 
                 if (mainHandLvl > 0 || offHandLvl > 0) {
-                    entity.addStatusEffect(new StatusEffectInstance(PARALYSIS_EFFECT_ENTRY, 600, 0));
+                    entity.addStatusEffect(new StatusEffectInstance(PARALYSIS_EFFECT, 600, 0));
                 }
             }
 

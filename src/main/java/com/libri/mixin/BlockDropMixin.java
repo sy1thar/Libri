@@ -8,8 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.SimpleInventory;
@@ -25,7 +24,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(Block.class)
 public class BlockDropMixin {
@@ -36,14 +37,14 @@ public class BlockDropMixin {
         if (!(entity instanceof ServerPlayerEntity player)) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
-        var ench = EnchantmentHelper.getEnchantments(tool);
+        var ench = EnchantmentHelper.get(tool);
         boolean telekinesis = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
         boolean smeltingTouch = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         boolean sifting = !tool.isEmpty() && ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
         boolean enchantedFurnace = false;
 
         BlockPos originPos = TelepathyHelper.RESONANCE_ORIGIN.get();
-        java.util.List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
+        List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
         boolean resonanceRedirect = originPos != null && !originPos.equals(pos);
         boolean isResonating = resDrops != null;
         BlockPos dropPos = originPos != null ? originPos : pos;
@@ -70,20 +71,20 @@ public class BlockDropMixin {
             }
 
             if (sifting) {
-                java.util.List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
+                List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
                 drops.removeIf(stack -> junk.contains(net.minecraft.registry.Registries.ITEM.getId(stack.getItem()).toString()));
             }
 
             if (enchantedFurnace) {
-                var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+                Map<Enchantment, Integer> furnaceEnch = new LinkedHashMap<>();
                 FurnaceEnchantmentData data = (FurnaceEnchantmentData) blockEntity;
                 int speed = data.libri$getSmeltingSpeed();
                 int fuel = data.libri$getFuelEfficiency();
-                if (speed > 0) builder.add(ModEnchantments.SMELTING_SPEED, speed);
-                if (fuel > 0) builder.add(ModEnchantments.FUEL_EFFICIENCY, fuel);
+                if (speed > 0) furnaceEnch.put(ModEnchantments.SMELTING_SPEED, speed);
+                if (fuel > 0) furnaceEnch.put(ModEnchantments.FUEL_EFFICIENCY, fuel);
                 for (ItemStack stack : drops) {
                     if (stack.isOf(state.getBlock().asItem())) {
-                        stack.set(DataComponentTypes.ENCHANTMENTS, builder.build());
+                        EnchantmentHelper.set(furnaceEnch, stack);
                     }
                 }
             }
@@ -114,13 +115,13 @@ public class BlockDropMixin {
 
         ItemStack tool = player.getMainHandStack();
         if (tool.isEmpty()) return;
-        var ench = EnchantmentHelper.getEnchantments(tool);
+        var ench = EnchantmentHelper.get(tool);
         boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
         boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         boolean sifting = ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
-        
+
         BlockPos originPos = TelepathyHelper.RESONANCE_ORIGIN.get();
-        java.util.List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
+        List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
         boolean resonanceRedirect = originPos != null && !originPos.equals(pos);
         boolean isResonating = resDrops != null;
         BlockPos dropPos = originPos != null ? originPos : pos;
@@ -136,7 +137,7 @@ public class BlockDropMixin {
         }
 
         if (sifting) {
-            java.util.List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
+            List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
             drops.removeIf(stack -> junk.contains(net.minecraft.registry.Registries.ITEM.getId(stack.getItem()).toString()));
         }
 

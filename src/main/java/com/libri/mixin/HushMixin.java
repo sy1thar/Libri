@@ -5,7 +5,6 @@ import com.libri.enchantment.ModEnchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -33,9 +32,9 @@ public class HushMixin {
         return false;
     }
 
-    @Inject(method = "emitGameEvent(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/world/event/GameEvent$Emitter;)V",
+    @Inject(method = "emitGameEvent(Lnet/minecraft/world/event/GameEvent;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/world/event/GameEvent$Emitter;)V",
             at = @At("HEAD"), cancellable = true)
-    private void onEmitGameEvent(RegistryEntry<GameEvent> event, Vec3d pos, GameEvent.Emitter emitter, CallbackInfo ci) {
+    private void onEmitGameEvent(GameEvent event, Vec3d pos, GameEvent.Emitter emitter, CallbackInfo ci) {
         if (!(emitter.sourceEntity() instanceof ServerPlayerEntity player)) return;
 
         boolean isStep = event == GameEvent.STEP || event == GameEvent.HIT_GROUND;

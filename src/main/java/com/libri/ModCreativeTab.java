@@ -2,10 +2,9 @@ package com.libri;
 
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.CustomModelDataComponent;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
+import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,7 +20,7 @@ public class ModCreativeTab {
                 FabricItemGroup.builder()
                         .icon(() -> {
                             ItemStack iconStack = new ItemStack(Items.ENCHANTED_BOOK);
-                            iconStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+                            iconStack.getOrCreateNbt().putInt("CustomModelData", 1);
                             return iconStack;
                         })
                         .displayName(Text.translatable("itemGroup.libri"))
@@ -45,12 +44,9 @@ public class ModCreativeTab {
     }
 
     private static void addEnchantedBook(ItemGroup.Entries entries, Enchantment enchantment) {
-        int level = enchantment.getMaxLevel();
-        ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
-        var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        builder.add(enchantment, level);
-        book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
-        book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+        ItemStack book = EnchantedBookItem.forEnchantment(
+                new EnchantmentLevelEntry(enchantment, enchantment.getMaxLevel()));
+        book.getOrCreateNbt().putInt("CustomModelData", 1);
         entries.add(book);
     }
 }

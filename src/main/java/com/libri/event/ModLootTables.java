@@ -4,12 +4,10 @@ import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.EnchantRandomlyLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
 public class ModLootTables {
@@ -27,20 +25,19 @@ public class ModLootTables {
     };
 
     public static void register() {
-        LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (source.isBuiltin()) {
-                if (isChestTable(key)) {
+                if (isChestTable(id)) {
                     tableBuilder.pool(createTreasurePool(0.15f));
                 }
-                if (key.getValue().equals(new Identifier("minecraft", "chests/ancient_city"))) {
+                if (id.equals(new Identifier("minecraft", "chests/ancient_city"))) {
                     tableBuilder.pool(createSoulboundPool(0.025f));
                 }
             }
         });
     }
 
-    private static boolean isChestTable(RegistryKey<LootTable> key) {
-        Identifier tableId = key.getValue();
+    private static boolean isChestTable(Identifier tableId) {
         for (Identifier id : CHEST_TABLES) {
             if (tableId.equals(id)) return true;
         }

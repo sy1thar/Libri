@@ -54,11 +54,11 @@ public class ModConfig {
             INSTANCE = new ModConfig();
         }
         if (INSTANCE == null) INSTANCE = new ModConfig();
-        INSTANCE.enchantmentCustomMaxLevel = Math.clamp(INSTANCE.enchantmentCustomMaxLevel, 1, 255);
+        INSTANCE.enchantmentCustomMaxLevel = Math.max(1, Math.min(255, INSTANCE.enchantmentCustomMaxLevel));
     }
 
     public static void save() {
-        INSTANCE.enchantmentCustomMaxLevel = Math.clamp(INSTANCE.enchantmentCustomMaxLevel, 1, 255);
+        INSTANCE.enchantmentCustomMaxLevel = Math.max(1, Math.min(255, INSTANCE.enchantmentCustomMaxLevel));
         try {
             Files.createDirectories(PATH.getParent());
             Files.writeString(PATH, GSON.toJson(INSTANCE));

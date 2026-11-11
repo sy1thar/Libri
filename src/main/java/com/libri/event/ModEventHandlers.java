@@ -49,7 +49,7 @@ public class ModEventHandlers {
             ItemStack tool = player.getMainHandStack();
             if (tool.isEmpty()) return true;
 
-            var ench = EnchantmentHelper.getEnchantments(tool);
+            var ench = EnchantmentHelper.get(tool);
             int resonance = ModEnchantmentHelper.getLevel(ModEnchantments.RESONANCE, ench);
             if (resonance <= 0) return true;
 
@@ -105,7 +105,7 @@ public class ModEventHandlers {
                     for (net.minecraft.item.ItemStack stack : drops) {
                         if (stack.isEmpty()) continue;
                         for (net.minecraft.item.ItemStack c : compressed) {
-                            if (net.minecraft.item.ItemStack.areItemsAndComponentsEqual(c, stack)) {
+                            if (net.minecraft.item.ItemStack.canCombine(c, stack)) {
                                 int space = c.getMaxCount() - c.getCount();
                                 if (space > 0) {
                                     int toAdd = Math.min(space, stack.getCount());
@@ -161,7 +161,7 @@ public class ModEventHandlers {
         ItemStack weapon = player.getMainHandStack();
         int swiftLevel = weapon.isEmpty()
                 ? 0
-                : ModEnchantmentHelper.getLevel(ModEnchantments.SWIFT_STRIKE, EnchantmentHelper.getEnchantments(weapon));
+                : ModEnchantmentHelper.getLevel(ModEnchantments.SWIFT_STRIKE, EnchantmentHelper.get(weapon));
 
         // Only touch the attribute when the level actually changed, so slot switching
         // applies on the very next tick instead of a fixed polling interval.
@@ -176,7 +176,7 @@ public class ModEventHandlers {
         if (swiftLevel > 0) {
             attr.addTemporaryModifier(new EntityAttributeModifier(
                 SWIFT_STRIKE_MODIFIER_UUID, "libri:swift_strike", swiftLevel * 0.5,
-                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                EntityAttributeModifier.Operation.MULTIPLY_BASE));
         }
     }
 

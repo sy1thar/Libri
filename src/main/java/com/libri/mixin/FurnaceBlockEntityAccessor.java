@@ -10,10 +10,10 @@ public interface FurnaceBlockEntityAccessor {
     int libri$getCookTime();
     @Accessor("cookTime")
     void libri$setCookTime(int value);
-    @Accessor("fuelTime")
-    int libri$getFuelTime();
-    @Accessor("fuelTime")
-    void libri$setFuelTime(int value);
+    @Accessor("burnTime")
+    int libri$getBurnTime();
+    @Accessor("burnTime")
+    void libri$setBurnTime(int value);
     @Accessor("cookTimeTotal")
     int libri$getCookTimeTotal();
     @Accessor("cookTimeTotal")

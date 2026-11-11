@@ -33,7 +33,7 @@ public class SacrificeMixin {
 
         ItemStack weapon = player.getMainHandStack();
         if (weapon.isEmpty()) return;
-        var ench = EnchantmentHelper.getEnchantments(weapon);
+        var ench = EnchantmentHelper.get(weapon);
 
         if (ModEnchantmentHelper.getLevel(ModEnchantments.SACRIFICE, ench) <= 0) return;
 
@@ -41,8 +41,7 @@ public class SacrificeMixin {
         ServerWorld world = (ServerWorld) victim.getWorld();
 
         List<ItemStack> drops = new ArrayList<>();
-        var lookup = world.getServer().getReloadableRegistries();
-        var lootTable = lookup.getLootTable(victim.getLootTable());
+        var lootTable = world.getServer().getLootManager().getLootTable(victim.getLootTable());
 
         var ctx = new LootContextParameterSet.Builder(world)
                 .add(LootContextParameters.THIS_ENTITY, victim)
