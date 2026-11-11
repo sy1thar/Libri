@@ -7,7 +7,7 @@ import com.libri.helper.TelepathyHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -43,12 +43,12 @@ public abstract class LivingEntityDropMixin {
                     float headChance = config.trophyHeadBaseChance + (trophyLevel * config.trophyHeadLevelMultiplier);
                     if (world.getRandom().nextFloat() < headChance) {
                         ItemStack headStack = ItemStack.EMPTY;
-                        if (entity.getType() == EntityTypes.ZOMBIE) headStack = new ItemStack(Items.ZOMBIE_HEAD);
-                        else if (entity.getType() == EntityTypes.SKELETON) headStack = new ItemStack(Items.SKELETON_SKULL);
-                        else if (entity.getType() == EntityTypes.CREEPER) headStack = new ItemStack(Items.CREEPER_HEAD);
-                        else if (entity.getType() == EntityTypes.WITHER_SKELETON) headStack = new ItemStack(Items.WITHER_SKELETON_SKULL);
-                        else if (entity.getType() == EntityTypes.PIGLIN) headStack = new ItemStack(Items.PIGLIN_HEAD);
-                        else if (entity.getType() == EntityTypes.PLAYER) headStack = new ItemStack(Items.PLAYER_HEAD);
+                        if (entity.getType() == EntityType.ZOMBIE) headStack = new ItemStack(Items.ZOMBIE_HEAD);
+                        else if (entity.getType() == EntityType.SKELETON) headStack = new ItemStack(Items.SKELETON_SKULL);
+                        else if (entity.getType() == EntityType.CREEPER) headStack = new ItemStack(Items.CREEPER_HEAD);
+                        else if (entity.getType() == EntityType.WITHER_SKELETON) headStack = new ItemStack(Items.WITHER_SKELETON_SKULL);
+                        else if (entity.getType() == EntityType.PIGLIN) headStack = new ItemStack(Items.PIGLIN_HEAD);
+                        else if (entity.getType() == EntityType.PLAYER) headStack = new ItemStack(Items.PLAYER_HEAD);
 
                         if (!headStack.isEmpty()) {
                             entity.spawnAtLocation(world, headStack);
