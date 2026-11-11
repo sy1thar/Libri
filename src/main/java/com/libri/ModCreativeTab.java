@@ -15,6 +15,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
+
 public class ModCreativeTab {
     public static void register() {
         Registry.register(Registries.ITEM_GROUP,
@@ -22,7 +24,7 @@ public class ModCreativeTab {
                 FabricItemGroup.builder()
                         .icon(() -> {
                             ItemStack iconStack = new ItemStack(Items.ENCHANTED_BOOK);
-                            iconStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+                            iconStack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(1.0f), List.of(), List.of(), List.of()));
                             return iconStack;
                         })
                         .displayName(Text.translatable("itemGroup.libri"))
@@ -55,7 +57,7 @@ public class ModCreativeTab {
             var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
             builder.add(entry, level);
             book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
-            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of(1.0f), List.of(), List.of(), List.of()));
             entries.add(book);
         });
     }

@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractFurnaceBlockEntity.class)
 public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData {
-    @Shadow protected int cookTime;
     @Unique private int libri$smeltingSpeed;
     @Unique private int libri$fuelEfficiency;
     @Unique private int libri$baseCookTimeTotal;
