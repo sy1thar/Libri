@@ -27,9 +27,9 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     private void onReadNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
-        libri$smeltingSpeed = nbt.getInt("libri:smelting_speed");
-        libri$fuelEfficiency = nbt.getInt("libri:fuel_efficiency");
-        libri$baseCookTimeTotal = nbt.getInt("libri:base_cook_time");
+        libri$smeltingSpeed = nbt.getInt("libri:smelting_speed", 0);
+        libri$fuelEfficiency = nbt.getInt("libri:fuel_efficiency", 0);
+        libri$baseCookTimeTotal = nbt.getInt("libri:base_cook_time", 0);
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))

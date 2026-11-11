@@ -2,8 +2,8 @@ package com.libri.mixin;
 
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -47,9 +47,9 @@ public class HushMixin {
         }
     }
 
-    @Inject(method = "syncWorldEvent(Lnet/minecraft/entity/player/PlayerEntity;ILnet/minecraft/util/math/BlockPos;I)V",
+    @Inject(method = "syncWorldEvent(Lnet/minecraft/entity/Entity;ILnet/minecraft/util/math/BlockPos;I)V",
             at = @At("HEAD"), cancellable = true)
-    private void onSyncWorldEvent(PlayerEntity player, int eventId, BlockPos pos, int data, CallbackInfo ci) {
+    private void onSyncWorldEvent(Entity player, int eventId, BlockPos pos, int data, CallbackInfo ci) {
         if (eventId == 2001 && player instanceof ServerPlayerEntity serverPlayer && libri$hasHush(serverPlayer, true)) {
             ci.cancel();
         }
