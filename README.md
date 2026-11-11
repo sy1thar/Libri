@@ -2,7 +2,7 @@
 
 [![en](https://img.shields.io/badge/lang-English-blue.svg)](#english) [![ru](https://img.shields.io/badge/lang-Русский-green.svg)](#русский)
 
-![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-2E8B57?style=for-the-badge&logo=minecraft&logoColor=white)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1_--_26.3-2E8B57?style=for-the-badge&logo=minecraft&logoColor=white)
 ![Mod Loader](https://img.shields.io/badge/Fabric-0.16.0+-D32F2F?style=for-the-badge)
 ![API](https://img.shields.io/badge/Fabric_API-Required-1976D2?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-FBC02D?style=for-the-badge)
@@ -48,16 +48,17 @@
 | **Sacrifice** | `I+` | Converts mob drops directly into extra XP (scales with *Looting*). |
 | **Swift Strike** | `I+` | Increases your weapon's attack speed. |
 | **Trophy** | `I` | Increases the chance of dropping mob heads and rarely drops spawn eggs. |
+| **Paralysis** | `I` | Immobilizes targets hit by arrows shot from a bow/crossbow and prevents paralyzed attackers from dealing damage. |
 
 ### 📦 Requirements & Dependencies
 
 To run **Libri**, ensure you have the following installed:
 
-* **Minecraft:** `1.21.1`
-* **Mod Loader:** [Fabric Loader](https://fabricmc.net/) `>= 0.16.0`
+* **Minecraft:** `1.20.1 – 26.3` (matching `libri-1.7.0+<mc>.jar` from `releases/` or `releases/legacy/`)
+* **Mod Loader:** [Fabric Loader](https://fabricmc.net/) `>= 0.16.0` (`>= 0.20.1` for `26.3`)
 * **Dependencies:**
   * [Fabric API](https://modrinth.com/mod/fabric-api)
-  * [Cloth Config API](https://modrinth.com/mod/cloth-config) `>= 15.0.0`
+  * [Cloth Config API](https://modrinth.com/mod/cloth-config) (matching your Minecraft version)
 * **Optional (Recommended):**
   * [ModMenu](https://modrinth.com/mod/modmenu) *(for accessing the in-game configuration screen)*
 
@@ -101,16 +102,17 @@ To run **Libri**, ensure you have the following installed:
 | **Sacrifice (Жертва)** | `I+` | Превращает лут из мобов напрямую в дополнительный опыт (масштабируется с чарами *Добыча / Looting*). |
 | **Swift Strike (Быстрый удар)** | `I+` | Увеличивает скорость атаки вашим оружием. |
 | **Trophy (Трофей)** | `I` | Повышает шанс выбить голову моба, а на высоком уровне с небольшим шансом выбивает яйцо призыва. |
+| **Paralysis (Паралич)** | `I` | Обездвиживает цель при попадании стрелой и не даёт парализованным атаковать. |
 
 ### 📦 Требования и зависимости
 
 Для работы мода **Libri** убедитесь, что у вас установлено следующее:
 
-* **Minecraft:** `1.21.1`
-* **Загрузчик модов:** [Fabric Loader](https://fabricmc.net/) `>= 0.16.0`
+* **Minecraft:** `1.20.1 – 26.3` (соответствующий файл `libri-1.7.0+<mc>.jar` из `releases/` или `releases/legacy/`)
+* **Загрузчик модов:** [Fabric Loader](https://fabricmc.net/) `>= 0.16.0` (`>= 0.20.1` для `26.3`)
 * **Зависимости:**
   * [Fabric API](https://modrinth.com/mod/fabric-api)
-  * [Cloth Config API](https://modrinth.com/mod/cloth-config) `>= 15.0.0`
+  * [Cloth Config API](https://modrinth.com/mod/cloth-config) (под вашу версию Minecraft)
 * **Опционально (Рекомендуется):**
   * [ModMenu](https://modrinth.com/mod/modmenu) *(для доступа к экрану конфигурации внутри игры)*
 
