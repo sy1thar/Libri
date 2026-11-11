@@ -19,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BlockItem.class)
 public class BlockItemMixin {
 
-    @Inject(method = "postPlacement", at = @At("TAIL"))
-    private void onPostPlacement(BlockPos pos, Level world, Player player, ItemStack stack, net.minecraft.world.level.block.state.BlockState state, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "updateCustomBlockEntityTag(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;)Z", at = @At("TAIL"))
+    private static void onPostPlacement(Level world, Player player, BlockPos pos, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (world.isClientSide()) return;
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof AbstractFurnaceBlockEntity furnace) {

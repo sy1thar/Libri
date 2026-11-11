@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Enchantment.class)
 public class EnchantmentIsAcceptableMixin {
 
-    @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
+    @Inject(method = {"canEnchant", "isSupportedItem"}, at = @At("HEAD"), cancellable = true)
     private void onIsAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         Enchantment self = (Enchantment) (Object) this;
         if (self.description().getContents() instanceof TranslatableContents translatable) {

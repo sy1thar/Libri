@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentHelper.class)
 public class SharpnessMixin {
 
-    @Inject(method = "getDamage", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "modifyDamage", at = @At("RETURN"), cancellable = true)
     private static void onGetDamage(ServerLevel world, ItemStack stack, Entity target, DamageSource damageSource, float baseDamage, CallbackInfoReturnable<Float> cir) {
         float damage = cir.getReturnValueF();
         float bonus = damage - baseDamage;

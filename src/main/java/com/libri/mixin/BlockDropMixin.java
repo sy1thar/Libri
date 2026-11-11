@@ -4,18 +4,13 @@ import com.libri.config.FurnaceEnchantmentData;
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import com.libri.helper.TelepathyHelper;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -27,11 +22,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(Block.class)
 public class BlockDropMixin {
 
-    @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "dropResources(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/entity/BlockEntity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
     private static void onDropStacks(BlockState state, Level world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack tool, CallbackInfo ci) {
         if (world.isClientSide()) return;
         if (!(entity instanceof ServerPlayer player)) return;
@@ -44,7 +46,7 @@ public class BlockDropMixin {
         boolean enchantedFurnace = false;
 
         BlockPos originPos = TelepathyHelper.RESONANCE_ORIGIN.get();
-        java.util.List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
+        List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
         boolean resonanceRedirect = originPos != null && !originPos.equals(pos);
         boolean isResonating = resDrops != null;
         BlockPos dropPos = originPos != null ? originPos : pos;
@@ -71,8 +73,8 @@ public class BlockDropMixin {
             }
 
             if (sifting) {
-                java.util.List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
-                drops.removeIf(stack -> junk.contains(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()));
+                List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
+                drops.removeIf(stack -> junk.contains(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()));
             }
 
             if (enchantedFurnace) {
@@ -81,8 +83,8 @@ public class BlockDropMixin {
                 FurnaceEnchantmentData data = (FurnaceEnchantmentData) blockEntity;
                 int speed = data.libri$getSmeltingSpeed();
                 int fuel = data.libri$getFuelEfficiency();
-                var speedEnch = registry.getHolder(ModEnchantments.SMELTING_SPEED);
-                var fuelEnch = registry.getHolder(ModEnchantments.FUEL_EFFICIENCY);
+                var speedEnch = registry.get(ModEnchantments.SMELTING_SPEED);
+                var fuelEnch = registry.get(ModEnchantments.FUEL_EFFICIENCY);
                 speedEnch.ifPresent(entry -> builder.upgrade(entry, speed));
                 fuelEnch.ifPresent(entry -> builder.upgrade(entry, fuel));
                 for (ItemStack stack : drops) {
@@ -95,7 +97,7 @@ public class BlockDropMixin {
             for (ItemStack drop : drops) {
                 if (!drop.isEmpty()) {
                     if (telekinesis) {
-                        player.getInventory().placeItemBackInInventory(drop);
+                        player.getInventory().placeItemBackInInventory(drop, Prediction.SERVER_ONLY);
                     } else if (resDrops != null) {
                         resDrops.add(drop);
                     } else {
@@ -110,7 +112,7 @@ public class BlockDropMixin {
         }
     }
 
-    @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "dropResources(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V", at = @At("HEAD"), cancellable = true)
     private static void onNaturalDropStacks(BlockState state, Level world, BlockPos pos, CallbackInfo ci) {
         if (world.isClientSide()) return;
         ServerPlayer player = TelepathyHelper.BLOCK_MINER.get();
@@ -122,9 +124,9 @@ public class BlockDropMixin {
         boolean telekinesis = ModEnchantmentHelper.getLevel(ModEnchantments.TELEKINESIS, ench) > 0;
         boolean smeltingTouch = ModEnchantmentHelper.getLevel(ModEnchantments.SMELTING_TOUCH, ench) > 0;
         boolean sifting = ModEnchantmentHelper.getLevel(ModEnchantments.SIFTING, ench) > 0;
-        
+
         BlockPos originPos = TelepathyHelper.RESONANCE_ORIGIN.get();
-        java.util.List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
+        List<ItemStack> resDrops = TelepathyHelper.RESONANCE_DROPS.get();
         boolean resonanceRedirect = originPos != null && !originPos.equals(pos);
         boolean isResonating = resDrops != null;
         BlockPos dropPos = originPos != null ? originPos : pos;
@@ -140,14 +142,14 @@ public class BlockDropMixin {
         }
 
         if (sifting) {
-            java.util.List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
-            drops.removeIf(stack -> junk.contains(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()));
+            List<String> junk = com.libri.config.ModConfig.get().siftingJunkBlocks;
+            drops.removeIf(stack -> junk.contains(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()));
         }
 
         for (ItemStack drop : drops) {
             if (!drop.isEmpty()) {
                 if (telekinesis) {
-                    player.getInventory().placeItemBackInInventory(drop);
+                    player.getInventory().placeItemBackInInventory(drop, Prediction.SERVER_ONLY);
                 } else if (resDrops != null) {
                     resDrops.add(drop);
                 } else {
@@ -162,16 +164,16 @@ public class BlockDropMixin {
         List<ItemStack> smelted = new ArrayList<>();
         for (ItemStack drop : drops) {
             if (drop.isEmpty()) continue;
-            ItemStack matchInput = drop;
+            SingleRecipeInput matchInput = new SingleRecipeInput(drop);
             var recipe = world.recipeAccess()
-                    .getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(matchInput), world);
+                    .getRecipeFor(RecipeType.SMELTING, matchInput, world);
             if (!recipe.isPresent()) {
-                matchInput = new ItemStack(drop.getItem(), drop.getCount());
+                matchInput = new SingleRecipeInput(new ItemStack(drop.getItem(), drop.getCount()));
                 recipe = world.recipeAccess()
-                        .getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(matchInput), world);
+                        .getRecipeFor(RecipeType.SMELTING, matchInput, world);
             }
             if (recipe.isPresent()) {
-                ItemStack result = recipe.get().value().getResultItem(world.registryAccess()).copy();
+                ItemStack result = recipe.get().value().assemble(matchInput).copy();
                 if (!result.isEmpty()) {
                     long remaining = (long) result.getCount() * drop.getCount();
                     while (remaining > 0) {

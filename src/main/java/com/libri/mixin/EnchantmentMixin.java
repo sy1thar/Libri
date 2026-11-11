@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Enchantment.class)
 public class EnchantmentMixin {
 
-    @Inject(method = "canBeCombined(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/registry/entry/RegistryEntry;)Z", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "areCompatible(Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;)Z", at = @At("RETURN"), cancellable = true)
     private static void onCanBeCombined(Holder<Enchantment> first, Holder<Enchantment> second, CallbackInfoReturnable<Boolean> cir) {
         // Vanilla forbids combinations inside an exclusive set (e.g. Protection vs Fire Protection).
         // We override that: enchantments are compatible whenever they apply to the same equipment

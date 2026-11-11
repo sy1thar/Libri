@@ -15,7 +15,7 @@ public class EnchantmentHelperMixin {
 
     private static final TagKey<net.minecraft.world.item.Item> FURNACE_TAG = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("libri", "enchantable/furnace"));
 
-    @Inject(method = "canHaveEnchantments", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "canStoreEnchantments", at = @At("HEAD"), cancellable = true)
     private static void onCanHaveEnchantments(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (stack.is(FURNACE_TAG)) {
             cir.setReturnValue(true);

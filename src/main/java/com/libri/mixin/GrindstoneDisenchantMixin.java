@@ -15,16 +15,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(GrindstoneMenu.class)
 public class GrindstoneDisenchantMixin {
 
-    @Shadow @Final private Container input;
-    @Shadow @Final private Container result;
+    @Shadow @Final private Container repairSlots;
+    @Shadow @Final private Container resultSlots;
 
-    @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
     private void handleUpdateResult(CallbackInfo ci) {
-        ItemStack slot0 = this.input.getItem(0);
-        ItemStack slot1 = this.input.getItem(1);
+        ItemStack slot0 = this.repairSlots.getItem(0);
+        ItemStack slot1 = this.repairSlots.getItem(1);
 
         int enchSlot = -1;
         ItemStack enchanted = ItemStack.EMPTY;
@@ -52,10 +54,10 @@ public class GrindstoneDisenchantMixin {
         bb.upgrade(topEntry.getKey(), topEntry.getIntValue());
         book.set(DataComponents.STORED_ENCHANTMENTS, bb.toImmutable());
         if (isModEnchant) {
-            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(java.util.List.of(1.0f), java.util.List.of(), java.util.List.of(), java.util.List.of()));
+            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(1.0f), List.of(), List.of(), List.of()));
         }
 
-        this.result.setItem(0, book);
+        this.resultSlots.setItem(0, book);
         ci.cancel();
     }
 }

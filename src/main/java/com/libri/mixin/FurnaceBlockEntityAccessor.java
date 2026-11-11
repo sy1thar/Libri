@@ -6,16 +6,16 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(AbstractFurnaceBlockEntity.class)
 public interface FurnaceBlockEntityAccessor {
-    @Accessor("cookTime")
+    @Accessor("cookingTimer")
     int libri$getCookTime();
-    @Accessor("cookTime")
+    @Accessor("cookingTimer")
     void libri$setCookTime(int value);
-    @Accessor("fuelTime")
+    @Accessor("litTimeRemaining")
     int libri$getFuelTime();
-    @Accessor("fuelTime")
+    @Accessor("litTimeRemaining")
     void libri$setFuelTime(int value);
-    @Accessor("cookTimeTotal")
+    @Accessor("cookingTotalTime")
     int libri$getCookTimeTotal();
-    @Accessor("cookTimeTotal")
+    @Accessor("cookingTotalTime")
     void libri$setCookTimeTotal(int value);
 }

@@ -11,7 +11,8 @@
     "enchantment.libri.paralysis": "Параліч",
     "enchantment.libri.hush": "Тиша",
     "enchantment.libri.soulbound": "Душевна прив'язка",
-    "item.minecraft.enchanted_book": "Зачарована книга",
+    "effect.libri.paralysis": "Параліч",
+    "tooltip.libri.sharpness_damage": " %s Шкода від атаки (зачар.)",
 
     "enchantment.libri.eternity.desc": "Предмет ніколи не втрачає міцність",
     "enchantment.libri.telekinesis.desc": "Предмети потрапляють прямо в інвентар",

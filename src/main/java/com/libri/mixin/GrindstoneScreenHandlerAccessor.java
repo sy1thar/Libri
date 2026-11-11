@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(GrindstoneMenu.class)
 public interface GrindstoneScreenHandlerAccessor {
-    @Accessor("input")
+    @Accessor("repairSlots")
     Container libri$getInput();
 
-    @Accessor("context")
+    @Accessor("access")
     ContainerLevelAccess libri$getContext();
 }

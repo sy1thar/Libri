@@ -54,7 +54,7 @@ public class ModEventHandlers {
             if (resonance <= 0) return true;
 
             String blockName = BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath();
-            boolean isOre = blockName.endsWith("_ore") || blockName.equals("ancient_debris") || state.getTags().anyMatch(t -> t.identifier().getPath().endsWith("ores"));
+            boolean isOre = blockName.endsWith("_ore") || blockName.equals("ancient_debris") || state.tags().anyMatch(t -> t.location().getPath().endsWith("ores"));
 
             if (!isOre) return true;
 
@@ -182,7 +182,7 @@ public class ModEventHandlers {
 
     private static void handlePhoenix(ServerPlayer player) {
         for (int i = 0; i < 41; i++) {
-            ItemStack stack = i < 36 ? player.getInventory().getItem(i) : player.getInventory().getItem(i);
+            ItemStack stack = player.getInventory().getItem(i);
             if (stack.isEmpty() || !stack.isEnchanted() || stack.getDamageValue() == 0) continue;
             int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, stack);
             if (level > 0 && player.tickCount % Math.max(1, 100 / level) == 0) {

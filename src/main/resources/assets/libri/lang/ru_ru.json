@@ -9,7 +9,8 @@
     "enchantment.libri.sacrifice": "Жертвоприношение",
     "enchantment.libri.swift_strike": "Быстрый удар",
     "enchantment.libri.paralysis": "Паралич",
-    "item.minecraft.enchanted_book": "Зачарованная книга",
+    "effect.libri.paralysis": "Паралич",
+    "tooltip.libri.sharpness_damage": " %s Урон от атаки (зачар.)",
 
     "enchantment.libri.eternity.desc": "Предмет никогда не теряет прочность",
     "enchantment.libri.telekinesis.desc": "Предметы попадают прямо в инвентарь",

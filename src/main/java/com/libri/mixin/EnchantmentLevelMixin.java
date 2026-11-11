@@ -19,7 +19,7 @@ public class EnchantmentLevelMixin {
         }
     }
 
-    @Inject(method = "getMinPower", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getMinCost", at = @At("RETURN"), cancellable = true)
     private void onGetMinPower(int level, CallbackInfoReturnable<Integer> cir) {
         ModConfig config = ModConfig.get();
         if (config.enchantmentMaxLevelMode == ModConfig.EnchantmentMaxLevelMode.VANILLA) return;
@@ -31,7 +31,7 @@ public class EnchantmentLevelMixin {
         cir.setReturnValue(Math.min(cir.getReturnValue(), adjusted));
     }
 
-    @Inject(method = "getMaxPower", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getMaxCost", at = @At("RETURN"), cancellable = true)
     private void onGetMaxPower(int level, CallbackInfoReturnable<Integer> cir) {
         ModConfig config = ModConfig.get();
         if (config.enchantmentMaxLevelMode == ModConfig.EnchantmentMaxLevelMode.VANILLA) return;

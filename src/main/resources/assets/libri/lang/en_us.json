@@ -11,7 +11,8 @@
     "enchantment.libri.trophy": "Trophy",
     "enchantment.libri.swift_strike": "Swift Strike",
     "enchantment.libri.paralysis": "Paralysis",
-    "item.minecraft.enchanted_book": "Enchanted Book",
+    "effect.libri.paralysis": "Paralysis",
+    "tooltip.libri.sharpness_damage": " %s Attack Damage (enchanted)",
 
     "enchantment.libri.eternity.desc": "Item never loses durability",
     "enchantment.libri.telekinesis.desc": "Items go directly to your inventory",

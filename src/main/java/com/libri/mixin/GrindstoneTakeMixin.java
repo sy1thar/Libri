@@ -16,15 +16,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(targets = "net/minecraft/screen/GrindstoneScreenHandler$4")
+@Mixin(targets = "net/minecraft/world/inventory/GrindstoneMenu$4")
 public class GrindstoneTakeMixin {
 
-    @Shadow(remap = false) @Final
-    private GrindstoneMenu field_16780;
+    @Shadow @Final
+    private GrindstoneMenu this$0;
 
-    @Inject(method = "onTakeItem", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onTake", at = @At("HEAD"), cancellable = true)
     private void preOnTakeItem(Player player, ItemStack stack, CallbackInfo ci) {
-        GrindstoneMenu handler = this.field_16780;
+        GrindstoneMenu handler = this.this$0;
         Container input = ((GrindstoneScreenHandlerAccessor) handler).libri$getInput();
 
         ItemStack slot0 = input.getItem(0);

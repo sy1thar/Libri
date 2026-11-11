@@ -34,15 +34,19 @@ public class LibriMod implements ModInitializer {
     public static final String MOD_ID = "libri";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final Block ADVANCED_ANVIL = new AdvancedAnvilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL));
-    public static final Item ADVANCED_ANVIL_ITEM = new BlockItem(ADVANCED_ANVIL, new Item.Properties());
+    public static final ResourceKey<Block> ADVANCED_ANVIL_BLOCK_KEY = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "advanced_anvil"));
+    public static final ResourceKey<Item> ADVANCED_ANVIL_ITEM_KEY = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "advanced_anvil"));
+
+    public static final Block ADVANCED_ANVIL = new AdvancedAnvilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).setId(ADVANCED_ANVIL_BLOCK_KEY));
+    public static final Item ADVANCED_ANVIL_ITEM = new BlockItem(ADVANCED_ANVIL, new Item.Properties().setId(ADVANCED_ANVIL_ITEM_KEY).useBlockDescriptionPrefix());
 
     public static MobEffect PARALYSIS_EFFECT;
+    public static Holder<MobEffect> PARALYSIS_EFFECT_HOLDER;
 
     @Override
     public void onInitialize() {
         PARALYSIS_EFFECT = new ParalysisEffect();
-        Registry.register(BuiltInRegistries.MOB_EFFECT, Identifier.fromNamespaceAndPath(MOD_ID, "paralysis"), PARALYSIS_EFFECT);
+        PARALYSIS_EFFECT_HOLDER = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, Identifier.fromNamespaceAndPath(MOD_ID, "paralysis"), PARALYSIS_EFFECT);
 
         ModConfig.load();
         ModEventHandlers.register();
@@ -50,10 +54,10 @@ public class LibriMod implements ModInitializer {
         ModCreativeTab.register();
         registerParalysisEvent();
 
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL);
-        Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL_ITEM);
+        Registry.register(BuiltInRegistries.BLOCK, ADVANCED_ANVIL_BLOCK_KEY, ADVANCED_ANVIL);
+        Registry.register(BuiltInRegistries.ITEM, ADVANCED_ANVIL_ITEM_KEY, ADVANCED_ANVIL_ITEM);
 
-        LOGGER.info("Libri mod initialized with 9 enchantments");
+        LOGGER.info("Libri mod initialized with 14 enchantments");
     }
 
     private void registerParalysisEvent() {
@@ -62,8 +66,7 @@ public class LibriMod implements ModInitializer {
             Entity directSource = source.getDirectEntity();
 
             if (attacker instanceof LivingEntity livingAttacker) {
-                Optional<Holder.Reference<MobEffect>> effectEntry = BuiltInRegistries.MOB_EFFECT.getHolder(BuiltInRegistries.MOB_EFFECT.getId(PARALYSIS_EFFECT));
-                if (effectEntry.isPresent() && livingAttacker.hasEffect(effectEntry.get())) {
+                if (PARALYSIS_EFFECT_HOLDER != null && livingAttacker.hasEffect(PARALYSIS_EFFECT_HOLDER)) {
                     return false;
                 }
             }
@@ -80,8 +83,9 @@ public class LibriMod implements ModInitializer {
                         int offHandLvl = EnchantmentHelper.getItemEnchantmentLevel(paralysisEnch.get(), shooter.getOffhandItem());
 
                         if (mainHandLvl > 0 || offHandLvl > 0) {
-                            Optional<Holder.Reference<MobEffect>> effectEntry = BuiltInRegistries.MOB_EFFECT.getHolder(BuiltInRegistries.MOB_EFFECT.getId(PARALYSIS_EFFECT));
-                            effectEntry.ifPresent(entry -> entity.addEffect(new MobEffectInstance(entry, 600, 0)));
+                            if (PARALYSIS_EFFECT_HOLDER != null) {
+                                entity.addEffect(new MobEffectInstance(PARALYSIS_EFFECT_HOLDER, 600, 0));
+                            }
                         }
                     }
                 }
