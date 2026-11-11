@@ -173,8 +173,15 @@ public class BlockDropMixin {
             if (recipe.isPresent()) {
                 ItemStack result = recipe.get().value().getResult(world.getRegistryManager()).copy();
                 if (!result.isEmpty()) {
-                    result.setCount(Math.min(drop.getCount(), 64));
-                    smelted.add(result);
+                    int total = drop.getCount() * result.getCount();
+                    int maxStack = result.getMaxCount();
+                    while (total > 0) {
+                        int take = Math.min(total, maxStack);
+                        ItemStack stack = result.copy();
+                        stack.setCount(take);
+                        smelted.add(stack);
+                        total -= take;
+                    }
                     continue;
                 }
             }

@@ -38,7 +38,7 @@ public class ModConfigScreen {
                 .startIntField(Text.translatable("config.libri.enchantment_custom_max_level"), config.enchantmentCustomMaxLevel)
                 .setDefaultValue(10)
                 .setMin(1)
-                .setMax(10000)
+                .setMax(255)
                 .setTooltip(Text.translatable("config.libri.enchantment_custom_max_level.tooltip"))
                 .setSaveConsumer(val -> config.enchantmentCustomMaxLevel = val)
                 .build());

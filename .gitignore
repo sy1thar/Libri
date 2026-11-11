@@ -9,3 +9,6 @@ out/
 # Loom decompiled sources
 /assets/
 /net/
+remappedSrc/
+run/
+releases/

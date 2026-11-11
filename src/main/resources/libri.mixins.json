@@ -9,6 +9,7 @@
         "ItemStackMixin",
         "EnchantmentLevelMixin",
         "AnvilScreenHandlerMixin",
+        "ForgingScreenHandlerAccessor",
         "BlockDropMixin",
         "EntityDropMixin",
         "LivingEntityDropMixin",

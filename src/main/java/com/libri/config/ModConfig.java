@@ -53,9 +53,12 @@ public class ModConfig {
         } catch (Exception e) {
             INSTANCE = new ModConfig();
         }
+        if (INSTANCE == null) INSTANCE = new ModConfig();
+        INSTANCE.enchantmentCustomMaxLevel = Math.clamp(INSTANCE.enchantmentCustomMaxLevel, 1, 255);
     }
 
     public static void save() {
+        INSTANCE.enchantmentCustomMaxLevel = Math.clamp(INSTANCE.enchantmentCustomMaxLevel, 1, 255);
         try {
             Files.createDirectories(PATH.getParent());
             Files.writeString(PATH, GSON.toJson(INSTANCE));

@@ -12,7 +12,8 @@ public class AnvilScreenMixin {
     @ModifyConstant(method = "drawForeground", constant = @Constant(intValue = 40))
     private int onTooExpensiveCheck(int original) {
         AnvilScreen screen = (AnvilScreen) (Object) this;
-        if (screen.getTitle().getString().equals(net.minecraft.text.Text.translatable("container.libri.advanced_anvil").getString())) {
+        boolean isAdvanced = screen.getTitle().getString().equals(net.minecraft.text.Text.translatable("container.libri.advanced_anvil").getString());
+        if (isAdvanced || ModConfig.get().removeAnvilCap) {
             return 99999;
         }
         return original;
