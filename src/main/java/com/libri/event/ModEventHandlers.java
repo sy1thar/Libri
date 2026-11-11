@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 public class ModEventHandlers {
     private static final Map<UUID, Integer> SWIFT_LEVEL_CACHE = new HashMap<>();
-    private static final Identifier SWIFT_STRIKE_MODIFIER_ID = Identifier.of("libri", "swift_strike");
+    private static final UUID SWIFT_STRIKE_MODIFIER_UUID = UUID.fromString("4a1b2c3d-5e6f-4789-9abc-def012345678");
     private static final ThreadLocal<Boolean> IS_RESONATING = ThreadLocal.withInitial(() -> false);
 
     public static void register() {
@@ -172,10 +172,10 @@ public class ModEventHandlers {
         var attr = player.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED);
         if (attr == null) return;
 
-        attr.removeModifier(SWIFT_STRIKE_MODIFIER_ID);
+        attr.removeModifier(SWIFT_STRIKE_MODIFIER_UUID);
         if (swiftLevel > 0) {
             attr.addTemporaryModifier(new EntityAttributeModifier(
-                SWIFT_STRIKE_MODIFIER_ID, swiftLevel * 0.5,
+                SWIFT_STRIKE_MODIFIER_UUID, "libri:swift_strike", swiftLevel * 0.5,
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }

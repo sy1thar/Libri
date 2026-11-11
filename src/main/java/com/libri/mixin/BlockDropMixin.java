@@ -12,10 +12,9 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -76,15 +75,12 @@ public class BlockDropMixin {
             }
 
             if (enchantedFurnace) {
-                var registry = serverWorld.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
                 var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
                 FurnaceEnchantmentData data = (FurnaceEnchantmentData) blockEntity;
                 int speed = data.libri$getSmeltingSpeed();
                 int fuel = data.libri$getFuelEfficiency();
-                var speedEnch = registry.getEntry(ModEnchantments.SMELTING_SPEED);
-                var fuelEnch = registry.getEntry(ModEnchantments.FUEL_EFFICIENCY);
-                speedEnch.ifPresent(entry -> builder.add(entry, speed));
-                fuelEnch.ifPresent(entry -> builder.add(entry, fuel));
+                if (speed > 0) builder.add(ModEnchantments.SMELTING_SPEED, speed);
+                if (fuel > 0) builder.add(ModEnchantments.FUEL_EFFICIENCY, fuel);
                 for (ItemStack stack : drops) {
                     if (stack.isOf(state.getBlock().asItem())) {
                         stack.set(DataComponentTypes.ENCHANTMENTS, builder.build());
@@ -164,11 +160,11 @@ public class BlockDropMixin {
             if (drop.isEmpty()) continue;
             ItemStack matchInput = drop;
             var recipe = world.getRecipeManager()
-                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+                    .getFirstMatch(RecipeType.SMELTING, new SimpleInventory(matchInput), world);
             if (!recipe.isPresent()) {
                 matchInput = new ItemStack(drop.getItem(), drop.getCount());
                 recipe = world.getRecipeManager()
-                        .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+                        .getFirstMatch(RecipeType.SMELTING, new SimpleInventory(matchInput), world);
             }
             if (recipe.isPresent()) {
                 ItemStack result = recipe.get().value().getResult(world.getRegistryManager()).copy();

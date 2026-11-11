@@ -7,7 +7,9 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.GrindstoneScreenHandler;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,18 +40,16 @@ public class GrindstoneDisenchantMixin {
         if (enchSlot < 0) return;
 
         var enchantments = EnchantmentHelper.getEnchantments(enchanted);
-        var it = enchantments.getEnchantmentEntries().iterator();
+        var it = enchantments.getEnchantmentsMap().iterator();
         if (!it.hasNext()) return;
 
         var topEntry = it.next();
-
-        boolean isModEnchant = topEntry.getKey().getKey()
-                .map(key -> key.getValue().getNamespace().equals("libri"))
-                .orElse(false);
+        Identifier enchId = Registries.ENCHANTMENT.getId(topEntry.getKey().value());
+        boolean isModEnchant = enchId != null && enchId.getNamespace().equals("libri");
 
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
         var bb = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        bb.add(topEntry.getKey(), topEntry.getIntValue());
+        bb.add(topEntry.getKey().value(), topEntry.getIntValue());
         book.set(DataComponentTypes.STORED_ENCHANTMENTS, bb.build());
         if (isModEnchant) {
             book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));

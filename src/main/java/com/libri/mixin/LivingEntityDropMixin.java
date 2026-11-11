@@ -1,18 +1,19 @@
 package com.libri.mixin;
 
+import com.libri.config.ModConfig;
 import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import com.libri.helper.TelepathyHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.entity.EntityType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import com.libri.config.ModConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,11 +22,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityDropMixin {
 
-    @Inject(method = "drop(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("HEAD"))
-    private void onDropStart(ServerWorld world, DamageSource source, CallbackInfo ci) {
+    @Inject(method = "drop(Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("HEAD"))
+    private void onDropStart(DamageSource source, CallbackInfo ci) {
         TelepathyHelper.TELEKINESIS_ATTACKER.set(null);
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity instanceof net.minecraft.entity.player.PlayerEntity) return;
+        if (entity instanceof PlayerEntity) return;
+        if (!(entity.getWorld() instanceof ServerWorld world)) return;
         if (source.getAttacker() instanceof ServerPlayerEntity player) {
             ItemStack weapon = player.getMainHandStack();
             if (!weapon.isEmpty() && weapon.hasEnchantments()) {
@@ -48,7 +50,7 @@ public abstract class LivingEntityDropMixin {
                         else if (entity.getType() == EntityType.WITHER_SKELETON) headStack = new ItemStack(Items.WITHER_SKELETON_SKULL);
                         else if (entity.getType() == EntityType.PIGLIN) headStack = new ItemStack(Items.PIGLIN_HEAD);
                         else if (entity.getType() == EntityType.PLAYER) headStack = new ItemStack(Items.PLAYER_HEAD);
-                        
+
                         if (!headStack.isEmpty()) {
                             entity.dropStack(headStack);
                         }
@@ -67,8 +69,8 @@ public abstract class LivingEntityDropMixin {
         }
     }
 
-    @Inject(method = "drop(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("RETURN"))
-    private void onDropEnd(ServerWorld world, DamageSource source, CallbackInfo ci) {
+    @Inject(method = "drop(Lnet/minecraft/entity/damage/DamageSource;)V", at = @At("RETURN"))
+    private void onDropEnd(DamageSource source, CallbackInfo ci) {
         TelepathyHelper.TELEKINESIS_ATTACKER.remove();
     }
 }

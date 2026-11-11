@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
 
-    private static final TagKey<net.minecraft.item.Item> FURNACE_TAG = TagKey.of(RegistryKeys.ITEM, Identifier.of("libri", "enchantable/furnace"));
+    private static final TagKey<net.minecraft.item.Item> FURNACE_TAG = TagKey.of(RegistryKeys.ITEM, new Identifier("libri", "enchantable/furnace"));
 
     @Inject(method = "canHaveEnchantments", at = @At("HEAD"), cancellable = true)
     private static void onCanHaveEnchantments(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {

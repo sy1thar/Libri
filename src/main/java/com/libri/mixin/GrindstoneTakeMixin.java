@@ -45,7 +45,7 @@ public class GrindstoneTakeMixin {
         ItemStack bookStack = input.getStack(bookSlot);
 
         var enchantments = enchantedItem.getOrDefault(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-        var entries = enchantments.getEnchantmentEntries();
+        var entries = enchantments.getEnchantmentsMap();
         var it = entries.iterator();
         if (!it.hasNext()) return;
 
@@ -55,7 +55,7 @@ public class GrindstoneTakeMixin {
         var newBuilder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
         while (it.hasNext()) {
             var entry = it.next();
-            newBuilder.add(entry.getKey(), entry.getIntValue());
+            newBuilder.add(entry.getKey().value(), entry.getIntValue());
         }
         ItemEnchantmentsComponent remainingEnch = newBuilder.build();
 

@@ -1,11 +1,9 @@
 package com.libri.enchantment;
 
-import com.libri.LibriMod;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.util.Identifier;
 
 public class ParalysisEffect extends StatusEffect {
     public ParalysisEffect() {
@@ -13,7 +11,7 @@ public class ParalysisEffect extends StatusEffect {
 
         this.addAttributeModifier(
                 EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                Identifier.of(LibriMod.MOD_ID, "paralysis_slow"),
+                "9f6b4b2a-1d3c-4e5f-8a7b-6c5d4e3f2a10",
                 -1.0,
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );

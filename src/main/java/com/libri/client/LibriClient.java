@@ -9,8 +9,10 @@ import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +32,7 @@ public class LibriClient implements ClientModInitializer {
             float baseDamage = 0f;
             var attrModifiers = stack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
             for (var modifier : attrModifiers.modifiers()) {
-                if (modifier.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE
+                if (modifier.attribute().equals(EntityAttributes.GENERIC_ATTACK_DAMAGE)
                         && modifier.slot() == AttributeModifierSlot.MAINHAND) {
                     baseDamage += (float) modifier.modifier().value();
                 }
@@ -49,10 +51,10 @@ public class LibriClient implements ClientModInitializer {
 
     private static void addDescriptions(ItemEnchantmentsComponent enchantments, List<Text> lines, Set<String> added) {
         if (enchantments == null || enchantments.isEmpty()) return;
-        for (var entry : enchantments.getEnchantmentEntries()) {
-            var key = entry.getKey().getKey().orElse(null);
-            if (key != null && key.getValue().getNamespace().equals("libri")) {
-                String descKey = key.getValue().toTranslationKey("enchantment") + ".desc";
+        for (var entry : enchantments.getEnchantmentsMap()) {
+            Identifier id = Registries.ENCHANTMENT.getId(entry.getKey().value());
+            if (id != null && id.getNamespace().equals("libri")) {
+                String descKey = id.toTranslationKey("enchantment") + ".desc";
                 if (added.add(descKey)) {
                     lines.add(Text.translatable(descKey).copy().formatted(Formatting.DARK_GRAY));
                 }

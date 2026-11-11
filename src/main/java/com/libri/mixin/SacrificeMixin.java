@@ -7,6 +7,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
@@ -27,7 +28,7 @@ public class SacrificeMixin {
     @Inject(method = "dropLoot(Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
     private void onDropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
         if (!causedByPlayer) return;
-        if ((Object) this instanceof net.minecraft.entity.player.PlayerEntity) return;
+        if ((Object) this instanceof PlayerEntity) return;
         if (!(source.getAttacker() instanceof ServerPlayerEntity player)) return;
 
         ItemStack weapon = player.getMainHandStack();
@@ -47,8 +48,8 @@ public class SacrificeMixin {
                 .add(LootContextParameters.THIS_ENTITY, victim)
                 .add(LootContextParameters.ORIGIN, victim.getPos())
                 .add(LootContextParameters.DAMAGE_SOURCE, source)
-                .addOptional(LootContextParameters.ATTACKING_ENTITY, source.getAttacker())
-                .addOptional(LootContextParameters.DIRECT_ATTACKING_ENTITY, source.getSource())
+                .addOptional(LootContextParameters.KILLER_ENTITY, source.getAttacker())
+                .addOptional(LootContextParameters.DIRECT_KILLER_ENTITY, source.getSource())
                 .build(LootContextTypes.ENTITY);
         lootTable.generateLoot(ctx, victim.getLootTableSeed(), drops::add);
 
