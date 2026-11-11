@@ -2,7 +2,6 @@ package com.libri.event;
 
 import com.libri.enchantment.ModEnchantments;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ints.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 public class ModLootTables {
     private static final Identifier[] CHEST_TABLES = {
@@ -53,11 +52,11 @@ public class ModLootTables {
     @SuppressWarnings("unchecked")
     private static LootPool.Builder createTreasurePool(HolderLookup.Provider registries, float chance) {
         LootPool.Builder pool = LootPool.lootPool()
-                .setRolls(Holder.direct(new ConstantValue(1)))
+                .setRolls(ConstantValue.exactly(1))
                 .when(LootItemRandomChanceCondition.randomChance(chance));
 
         HolderLookup.RegistryLookup<Enchantment> registry = registries.lookupOrThrow(Registries.ENCHANTMENT);
-        var builder = EnchantRandomlyFunction.randomApplicableEnchantment(registry);
+        var builder = EnchantRandomlyFunction.randomApplicableEnchantment(registries);
         boolean valid = true;
         for (ResourceKey<Enchantment> key : new ResourceKey[]{
                 ModEnchantments.ETERNITY,
@@ -86,11 +85,11 @@ public class ModLootTables {
 
     private static LootPool.Builder createSoulboundPool(HolderLookup.Provider registries, float chance) {
         LootPool.Builder pool = LootPool.lootPool()
-                .setRolls(Holder.direct(new ConstantValue(1)))
+                .setRolls(ConstantValue.exactly(1))
                 .when(LootItemRandomChanceCondition.randomChance(chance));
 
         HolderLookup.RegistryLookup<Enchantment> registry = registries.lookupOrThrow(Registries.ENCHANTMENT);
-        var builder = EnchantRandomlyFunction.randomApplicableEnchantment(registry);
+        var builder = EnchantRandomlyFunction.randomApplicableEnchantment(registries);
         try {
             builder.withEnchantment(registry.getOrThrow(ModEnchantments.SOULBOUND));
             pool.add(LootItem.lootTableItem(Items.ENCHANTED_BOOK));

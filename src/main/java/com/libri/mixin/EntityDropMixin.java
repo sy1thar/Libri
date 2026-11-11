@@ -4,7 +4,6 @@ import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import com.libri.helper.TelepathyHelper;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -42,7 +41,7 @@ public class EntityDropMixin {
             }
         }
 
-        player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
+        player.getInventory().placeItemBackInInventory(stack);
         ci.setReturnValue(null);
     }
 }

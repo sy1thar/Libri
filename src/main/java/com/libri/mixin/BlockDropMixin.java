@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -97,7 +96,7 @@ public class BlockDropMixin {
             for (ItemStack drop : drops) {
                 if (!drop.isEmpty()) {
                     if (telekinesis) {
-                        player.getInventory().placeItemBackInInventory(drop, Prediction.SERVER_ONLY);
+                        player.getInventory().placeItemBackInInventory(drop);
                     } else if (resDrops != null) {
                         resDrops.add(drop);
                     } else {
@@ -149,7 +148,7 @@ public class BlockDropMixin {
         for (ItemStack drop : drops) {
             if (!drop.isEmpty()) {
                 if (telekinesis) {
-                    player.getInventory().placeItemBackInInventory(drop, Prediction.SERVER_ONLY);
+                    player.getInventory().placeItemBackInInventory(drop);
                 } else if (resDrops != null) {
                     resDrops.add(drop);
                 } else {
