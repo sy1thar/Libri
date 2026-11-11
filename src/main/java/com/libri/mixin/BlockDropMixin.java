@@ -168,7 +168,7 @@ public class BlockDropMixin {
                         .getFirstMatch(RecipeType.SMELTING, new SimpleInventory(matchInput), world);
             }
             if (recipe.isPresent()) {
-                ItemStack result = recipe.get().value().getResult(world.getRegistryManager()).copy();
+                ItemStack result = recipe.get().getOutput(world.getRegistryManager()).copy();
                 if (!result.isEmpty()) {
                     int total = drop.getCount() * result.getCount();
                     int maxStack = result.getMaxCount();
