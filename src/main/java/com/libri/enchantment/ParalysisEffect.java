@@ -12,7 +12,7 @@ public class ParalysisEffect extends StatusEffect {
         super(StatusEffectCategory.HARMFUL, 0x800080);
 
         this.addAttributeModifier(
-                EntityAttributes.GENERIC_MOVEMENT_SPEED,
+                EntityAttributes.MOVEMENT_SPEED,
                 Identifier.of(LibriMod.MOD_ID, "paralysis_slow"),
                 -1.0,
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL

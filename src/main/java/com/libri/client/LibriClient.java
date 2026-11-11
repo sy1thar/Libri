@@ -30,7 +30,7 @@ public class LibriClient implements ClientModInitializer {
             float baseDamage = 0f;
             var attrModifiers = stack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
             for (var modifier : attrModifiers.modifiers()) {
-                if (modifier.attribute() == EntityAttributes.GENERIC_ATTACK_DAMAGE
+                if (modifier.attribute() == EntityAttributes.ATTACK_DAMAGE
                         && modifier.slot() == AttributeModifierSlot.MAINHAND) {
                     baseDamage += (float) modifier.modifier().value();
                 }

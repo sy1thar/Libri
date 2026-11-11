@@ -8,9 +8,11 @@ import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.context.LootWorldContext;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,12 +22,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public class SacrificeMixin {
 
-    @Inject(method = "dropLoot(Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
-    private void onDropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
+    @Inject(method = "dropLoot(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
+    private void onDropLoot(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
         if (!causedByPlayer) return;
         if ((Object) this instanceof net.minecraft.entity.player.PlayerEntity) return;
         if (!(source.getAttacker() instanceof ServerPlayerEntity player)) return;
@@ -37,13 +40,14 @@ public class SacrificeMixin {
         if (ModEnchantmentHelper.getLevel(ModEnchantments.SACRIFICE, ench) <= 0) return;
 
         LivingEntity victim = (LivingEntity) (Object) this;
-        ServerWorld world = (ServerWorld) victim.getWorld();
+        Optional<RegistryKey<LootTable>> lootTableKey = victim.getLootTableKey();
+        if (lootTableKey.isEmpty()) return;
 
         List<ItemStack> drops = new ArrayList<>();
         var lookup = world.getServer().getReloadableRegistries();
-        var lootTable = lookup.getLootTable(victim.getLootTable());
+        var lootTable = lookup.getLootTable(lootTableKey.get());
 
-        var ctx = new LootContextParameterSet.Builder(world)
+        var ctx = new LootWorldContext.Builder(world)
                 .add(LootContextParameters.THIS_ENTITY, victim)
                 .add(LootContextParameters.ORIGIN, victim.getPos())
                 .add(LootContextParameters.DAMAGE_SOURCE, source)

@@ -50,7 +50,7 @@ public abstract class LivingEntityDropMixin {
                         else if (entity.getType() == EntityType.PLAYER) headStack = new ItemStack(Items.PLAYER_HEAD);
                         
                         if (!headStack.isEmpty()) {
-                            entity.dropStack(headStack);
+                            entity.dropStack(world, headStack);
                         }
                     }
 
@@ -58,7 +58,7 @@ public abstract class LivingEntityDropMixin {
                         if (world.random.nextFloat() < config.trophyEggChance) {
                             SpawnEggItem egg = SpawnEggItem.forEntity(entity.getType());
                             if (egg != null) {
-                                entity.dropStack(new ItemStack(egg));
+                                entity.dropStack(world, new ItemStack(egg));
                             }
                         }
                     }

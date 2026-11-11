@@ -169,7 +169,7 @@ public class ModEventHandlers {
         if (cached != null && cached == swiftLevel) return;
         SWIFT_LEVEL_CACHE.put(player.getUuid(), swiftLevel);
 
-        var attr = player.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED);
+        var attr = player.getAttributeInstance(EntityAttributes.ATTACK_SPEED);
         if (attr == null) return;
 
         attr.removeModifier(SWIFT_STRIKE_MODIFIER_ID);

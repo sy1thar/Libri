@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public class EntityDropMixin {
 
-    @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void onDropStack(ItemStack stack, float yOffset, CallbackInfoReturnable<Entity> ci) {
+    @Inject(method = "dropStack(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
+    private void onDropStack(net.minecraft.server.world.ServerWorld world, ItemStack stack, float yOffset, CallbackInfoReturnable<net.minecraft.entity.ItemEntity> ci) {
         var player = TelepathyHelper.TELEKINESIS_ATTACKER.get();
         if (player == null) return;
         if (stack.isEmpty()) return;

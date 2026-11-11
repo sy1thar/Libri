@@ -34,8 +34,10 @@ public class LibriMod implements ModInitializer {
     public static final String MOD_ID = "libri";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final Block ADVANCED_ANVIL = new AdvancedAnvilBlock(AbstractBlock.Settings.copy(Blocks.ANVIL));
-    public static final Item ADVANCED_ANVIL_ITEM = new BlockItem(ADVANCED_ANVIL, new Item.Settings());
+    public static final RegistryKey<Block> ADVANCED_ANVIL_KEY = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MOD_ID, "advanced_anvil"));
+    public static final RegistryKey<Item> ADVANCED_ANVIL_ITEM_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "advanced_anvil"));
+    public static final Block ADVANCED_ANVIL = new AdvancedAnvilBlock(AbstractBlock.Settings.copy(Blocks.ANVIL).registryKey(ADVANCED_ANVIL_KEY));
+    public static final Item ADVANCED_ANVIL_ITEM = new BlockItem(ADVANCED_ANVIL, new Item.Settings().registryKey(ADVANCED_ANVIL_ITEM_KEY).useBlockPrefixedTranslationKey());
 
     public static StatusEffect PARALYSIS_EFFECT;
 
@@ -50,8 +52,8 @@ public class LibriMod implements ModInitializer {
         ModCreativeTab.register();
         registerParalysisEvent();
 
-        Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL);
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL_ITEM);
+        Registry.register(Registries.BLOCK, ADVANCED_ANVIL_KEY, ADVANCED_ANVIL);
+        Registry.register(Registries.ITEM, ADVANCED_ANVIL_ITEM_KEY, ADVANCED_ANVIL_ITEM);
 
         LOGGER.info("Libri mod initialized with 14 enchantments");
     }
@@ -71,7 +73,7 @@ public class LibriMod implements ModInitializer {
             if (directSource instanceof PersistentProjectileEntity) {
                 if (attacker instanceof LivingEntity shooter) {
                     var registryManager = entity.getWorld().getRegistryManager();
-                    var enchantmentRegistry = registryManager.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+                    var enchantmentRegistry = registryManager.getOrThrow(RegistryKeys.ENCHANTMENT);
                     Optional<RegistryEntry.Reference<Enchantment>> paralysisEnch = enchantmentRegistry.getOptional(
                             RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(MOD_ID, "paralysis")));
 

@@ -56,7 +56,7 @@ public class ModLootTables {
                 .conditionally(RandomChanceLootCondition.builder(chance));
 
         var builder = EnchantRandomlyLootFunction.builder(registries);
-        RegistryWrapper<Enchantment> registry = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryWrapper<Enchantment> registry = registries.getOrThrow(RegistryKeys.ENCHANTMENT);
         boolean valid = true;
         for (RegistryKey<Enchantment> key : new RegistryKey[]{
                 ModEnchantments.ETERNITY,
@@ -89,7 +89,7 @@ public class ModLootTables {
                 .conditionally(RandomChanceLootCondition.builder(chance));
 
         var builder = EnchantRandomlyLootFunction.builder(registries);
-        RegistryWrapper<Enchantment> registry = registries.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryWrapper<Enchantment> registry = registries.getOrThrow(RegistryKeys.ENCHANTMENT);
         try {
             builder.option(registry.getOrThrow(ModEnchantments.SOULBOUND));
             pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));

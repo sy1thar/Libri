@@ -76,13 +76,13 @@ public class BlockDropMixin {
             }
 
             if (enchantedFurnace) {
-                var registry = serverWorld.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+                var registry = serverWorld.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
                 var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
                 FurnaceEnchantmentData data = (FurnaceEnchantmentData) blockEntity;
                 int speed = data.libri$getSmeltingSpeed();
                 int fuel = data.libri$getFuelEfficiency();
-                var speedEnch = registry.getEntry(ModEnchantments.SMELTING_SPEED);
-                var fuelEnch = registry.getEntry(ModEnchantments.FUEL_EFFICIENCY);
+                var speedEnch = registry.getOptional(ModEnchantments.SMELTING_SPEED);
+                var fuelEnch = registry.getOptional(ModEnchantments.FUEL_EFFICIENCY);
                 speedEnch.ifPresent(entry -> builder.add(entry, speed));
                 fuelEnch.ifPresent(entry -> builder.add(entry, fuel));
                 for (ItemStack stack : drops) {
@@ -162,16 +162,16 @@ public class BlockDropMixin {
         List<ItemStack> smelted = new ArrayList<>();
         for (ItemStack drop : drops) {
             if (drop.isEmpty()) continue;
-            ItemStack matchInput = drop;
+            var input = new SingleStackRecipeInput(drop);
             var recipe = world.getRecipeManager()
-                    .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+                    .getFirstMatch(RecipeType.SMELTING, input, world);
             if (!recipe.isPresent()) {
-                matchInput = new ItemStack(drop.getItem(), drop.getCount());
+                input = new SingleStackRecipeInput(new ItemStack(drop.getItem(), drop.getCount()));
                 recipe = world.getRecipeManager()
-                        .getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(matchInput), world);
+                        .getFirstMatch(RecipeType.SMELTING, input, world);
             }
             if (recipe.isPresent()) {
-                ItemStack result = recipe.get().value().getResult(world.getRegistryManager()).copy();
+                ItemStack result = recipe.get().value().craft(input, world.getRegistryManager()).copy();
                 if (!result.isEmpty()) {
                     int total = drop.getCount() * result.getCount();
                     int maxStack = result.getMaxCount();

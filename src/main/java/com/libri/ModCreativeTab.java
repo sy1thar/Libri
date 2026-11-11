@@ -27,7 +27,7 @@ public class ModCreativeTab {
                         })
                         .displayName(Text.translatable("itemGroup.libri"))
                         .entries((context, entries) -> {
-                            context.lookup().getOptionalWrapper(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
+                            context.lookup().getOptional(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
                                 addEnchantedBook(entries, registry, ModEnchantments.ETERNITY);
                                 addEnchantedBook(entries, registry, ModEnchantments.TELEKINESIS);
                                 addEnchantedBook(entries, registry, ModEnchantments.PHOENIX);

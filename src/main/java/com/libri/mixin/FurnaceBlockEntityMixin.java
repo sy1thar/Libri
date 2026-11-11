@@ -4,8 +4,8 @@ import com.libri.config.FurnaceEnchantmentData;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -41,8 +41,8 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    private static void onTick(World world, BlockPos pos, net.minecraft.block.BlockState state, AbstractFurnaceBlockEntity be, CallbackInfo ci) {
-        if (world.isClient) return;
+    private static void onTick(ServerWorld world, BlockPos pos, net.minecraft.block.BlockState state, AbstractFurnaceBlockEntity be, CallbackInfo ci) {
+        if (world.isClient()) return;
         FurnaceEnchantmentData ench = (FurnaceEnchantmentData) be;
 
         int speed = ench.libri$getSmeltingSpeed();
