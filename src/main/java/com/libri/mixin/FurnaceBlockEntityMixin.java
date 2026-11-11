@@ -2,12 +2,11 @@ package com.libri.mixin;
 
 import com.libri.config.FurnaceEnchantmentData;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,18 +24,18 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
     @Override public int libri$getBaseCookTimeTotal() { return libri$baseCookTimeTotal; }
     @Override public void libri$setBaseCookTimeTotal(int v) { libri$baseCookTimeTotal = v; }
 
-    @Inject(method = "readNbt", at = @At("TAIL"))
-    private void onReadNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
-        libri$smeltingSpeed = nbt.getInt("libri:smelting_speed", 0);
-        libri$fuelEfficiency = nbt.getInt("libri:fuel_efficiency", 0);
-        libri$baseCookTimeTotal = nbt.getInt("libri:base_cook_time", 0);
+    @Inject(method = "readData", at = @At("TAIL"))
+    private void onReadData(ReadView view, CallbackInfo ci) {
+        libri$smeltingSpeed = view.getInt("libri:smelting_speed", 0);
+        libri$fuelEfficiency = view.getInt("libri:fuel_efficiency", 0);
+        libri$baseCookTimeTotal = view.getInt("libri:base_cook_time", 0);
     }
 
-    @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void onWriteNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup lookup, CallbackInfo ci) {
-        if (libri$smeltingSpeed > 0) nbt.putInt("libri:smelting_speed", libri$smeltingSpeed);
-        if (libri$fuelEfficiency > 0) nbt.putInt("libri:fuel_efficiency", libri$fuelEfficiency);
-        if (libri$baseCookTimeTotal > 0) nbt.putInt("libri:base_cook_time", libri$baseCookTimeTotal);
+    @Inject(method = "writeData", at = @At("TAIL"))
+    private void onWriteData(WriteView view, CallbackInfo ci) {
+        if (libri$smeltingSpeed > 0) view.putInt("libri:smelting_speed", libri$smeltingSpeed);
+        if (libri$fuelEfficiency > 0) view.putInt("libri:fuel_efficiency", libri$fuelEfficiency);
+        if (libri$baseCookTimeTotal > 0) view.putInt("libri:base_cook_time", libri$baseCookTimeTotal);
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
@@ -69,5 +68,4 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
             }
         }
     }
-
 }
