@@ -1,7 +1,7 @@
 package com.libri.enchantment;
 
 import com.libri.LibriMod;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,7 +13,7 @@ public class ParalysisEffect extends MobEffect {
 
         this.addAttributeModifier(
                 Attributes.MOVEMENT_SPEED,
-                ResourceLocation.fromNamespaceAndPath(LibriMod.MOD_ID, "paralysis_slow"),
+                Identifier.fromNamespaceAndPath(LibriMod.MOD_ID, "paralysis_slow"),
                 -1.0,
                 AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );

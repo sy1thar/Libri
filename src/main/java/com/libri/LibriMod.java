@@ -11,12 +11,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -42,7 +42,7 @@ public class LibriMod implements ModInitializer {
     @Override
     public void onInitialize() {
         PARALYSIS_EFFECT = new ParalysisEffect();
-        Registry.register(BuiltInRegistries.MOB_EFFECT, ResourceLocation.fromNamespaceAndPath(MOD_ID, "paralysis"), PARALYSIS_EFFECT);
+        Registry.register(BuiltInRegistries.MOB_EFFECT, Identifier.fromNamespaceAndPath(MOD_ID, "paralysis"), PARALYSIS_EFFECT);
 
         ModConfig.load();
         ModEventHandlers.register();
@@ -50,8 +50,8 @@ public class LibriMod implements ModInitializer {
         ModCreativeTab.register();
         registerParalysisEvent();
 
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL_ITEM);
+        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL);
+        Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "advanced_anvil"), ADVANCED_ANVIL_ITEM);
 
         LOGGER.info("Libri mod initialized with 9 enchantments");
     }
@@ -73,7 +73,7 @@ public class LibriMod implements ModInitializer {
                     var registryManager = entity.level().registryAccess();
                     var enchantmentRegistry = registryManager.lookupOrThrow(Registries.ENCHANTMENT);
                     Optional<Holder.Reference<Enchantment>> paralysisEnch = enchantmentRegistry.get(
-                            ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MOD_ID, "paralysis")));
+                            ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MOD_ID, "paralysis")));
 
                     if (paralysisEnch.isPresent()) {
                         int mainHandLvl = EnchantmentHelper.getItemEnchantmentLevel(paralysisEnch.get(), shooter.getMainHandItem());

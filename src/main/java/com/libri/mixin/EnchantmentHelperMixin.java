@@ -1,7 +1,7 @@
 package com.libri.mixin;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
 
-    private static final TagKey<net.minecraft.world.item.Item> FURNACE_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("libri", "enchantable/furnace"));
+    private static final TagKey<net.minecraft.world.item.Item> FURNACE_TAG = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("libri", "enchantable/furnace"));
 
     @Inject(method = "canHaveEnchantments", at = @At("HEAD"), cancellable = true)
     private static void onCanHaveEnchantments(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {

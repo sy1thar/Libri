@@ -40,7 +40,7 @@ public abstract class LivingEntityDropMixin {
                     ModConfig config = ModConfig.get();
 
                     float headChance = config.trophyHeadBaseChance + (trophyLevel * config.trophyHeadLevelMultiplier);
-                    if (world.random.nextFloat() < headChance) {
+                    if (world.getRandom().nextFloat() < headChance) {
                         ItemStack headStack = ItemStack.EMPTY;
                         if (entity.getType() == EntityType.ZOMBIE) headStack = new ItemStack(Items.ZOMBIE_HEAD);
                         else if (entity.getType() == EntityType.SKELETON) headStack = new ItemStack(Items.SKELETON_SKULL);
@@ -55,7 +55,7 @@ public abstract class LivingEntityDropMixin {
                     }
 
                     if (trophyLevel >= config.trophyEggMinLevel) {
-                        if (world.random.nextFloat() < config.trophyEggChance) {
+                        if (world.getRandom().nextFloat() < config.trophyEggChance) {
                             SpawnEggItem egg = SpawnEggItem.byId(entity.getType());
                             if (egg != null) {
                                 entity.spawnAtLocation(new ItemStack(egg));

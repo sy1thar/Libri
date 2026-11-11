@@ -18,8 +18,8 @@ public class LibriClient implements ClientModInitializer {
 
             for (var entry : enchantments.entrySet()) {
                 var key = entry.getKey().unwrapKey().orElse(null);
-                if (key != null && key.location().getNamespace().equals("libri")) {
-                    String descKey = key.location().toLanguageKey("enchantment") + ".desc";
+                if (key != null && key.identifier().getNamespace().equals("libri")) {
+                    String descKey = key.identifier().toLanguageKey("enchantment") + ".desc";
                     Component desc = Component.translatable(descKey).copy().withStyle(ChatFormatting.DARK_GRAY);
                     lines.add(desc);
                 }

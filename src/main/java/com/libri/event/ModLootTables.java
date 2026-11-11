@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -16,17 +16,17 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 public class ModLootTables {
-    private static final ResourceLocation[] CHEST_TABLES = {
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/simple_dungeon"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/stronghold_library"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/stronghold_corridor"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/desert_pyramid"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/jungle_temple"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/woodland_mansion"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/ancient_city"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/end_city_treasure"),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "chests/bastion_treasure")
+    private static final Identifier[] CHEST_TABLES = {
+            Identifier.fromNamespaceAndPath("minecraft", "chests/simple_dungeon"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/stronghold_library"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/stronghold_corridor"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/jungle_temple"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/woodland_mansion"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/ancient_city"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/end_city_treasure"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/bastion_treasure")
     };
 
     public static void register() {
@@ -35,7 +35,7 @@ public class ModLootTables {
                 if (isChestTable(key)) {
                     tableBuilder.withPool(createTreasurePool(registries, 0.15f));
                 }
-                if (key.location().equals(ResourceLocation.fromNamespaceAndPath("minecraft", "chests/ancient_city"))) {
+                if (key.identifier().equals(Identifier.fromNamespaceAndPath("minecraft", "chests/ancient_city"))) {
                     tableBuilder.withPool(createSoulboundPool(registries, 0.025f));
                 }
             }
@@ -43,8 +43,8 @@ public class ModLootTables {
     }
 
     private static boolean isChestTable(ResourceKey<LootTable> key) {
-        for (ResourceLocation id : CHEST_TABLES) {
-            if (key.location().equals(id)) return true;
+        for (Identifier id : CHEST_TABLES) {
+            if (key.identifier().equals(id)) return true;
         }
         return false;
     }

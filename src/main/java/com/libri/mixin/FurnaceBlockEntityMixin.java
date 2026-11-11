@@ -28,9 +28,9 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
 
     @Inject(method = "readNbt", at = @At("TAIL"))
     private void onReadNbt(CompoundTag nbt, HolderLookup.Provider lookup, CallbackInfo ci) {
-        libri$smeltingSpeed = nbt.getInt("libri:smelting_speed");
-        libri$fuelEfficiency = nbt.getInt("libri:fuel_efficiency");
-        libri$baseCookTimeTotal = nbt.getInt("libri:base_cook_time");
+        libri$smeltingSpeed = nbt.getIntOr("libri:smelting_speed", 0);
+        libri$fuelEfficiency = nbt.getIntOr("libri:fuel_efficiency", 0);
+        libri$baseCookTimeTotal = nbt.getIntOr("libri:base_cook_time", 0);
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
@@ -42,7 +42,7 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
 
     @Inject(method = "tick", at = @At("HEAD"))
     private static void onTick(Level world, BlockPos pos, net.minecraft.world.level.block.state.BlockState state, AbstractFurnaceBlockEntity be, CallbackInfo ci) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
         FurnaceEnchantmentData ench = (FurnaceEnchantmentData) be;
 
         int speed = ench.libri$getSmeltingSpeed();
@@ -65,7 +65,7 @@ public abstract class FurnaceBlockEntityMixin implements FurnaceEnchantmentData 
         int fuelEff = ench.libri$getFuelEfficiency();
         if (fuelEff > 0) {
             FurnaceBlockEntityAccessor acc = (FurnaceBlockEntityAccessor) be;
-            if (acc.libri$getFuelTime() > 0 && world.random.nextInt(fuelEff + 10) < fuelEff) {
+            if (acc.libri$getFuelTime() > 0 && world.getRandom().nextInt(fuelEff + 10) < fuelEff) {
                 acc.libri$setFuelTime(acc.libri$getFuelTime() + 1);
             }
         }

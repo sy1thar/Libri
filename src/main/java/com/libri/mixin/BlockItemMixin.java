@@ -21,7 +21,7 @@ public class BlockItemMixin {
 
     @Inject(method = "postPlacement", at = @At("TAIL"))
     private void onPostPlacement(BlockPos pos, Level world, Player player, ItemStack stack, net.minecraft.world.level.block.state.BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof AbstractFurnaceBlockEntity furnace) {
             var ench = EnchantmentHelper.getEnchantmentsForCrafting(stack);

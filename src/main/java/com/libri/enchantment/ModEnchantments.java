@@ -3,7 +3,7 @@ package com.libri.enchantment;
 import com.libri.LibriMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 public class ModEnchantments {
@@ -23,6 +23,6 @@ public class ModEnchantments {
     public static final ResourceKey<Enchantment> PARALYSIS = of("paralysis");
 
     private static ResourceKey<Enchantment> of(String name) {
-        return ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(LibriMod.MOD_ID, name));
+        return ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(LibriMod.MOD_ID, name));
     }
 }

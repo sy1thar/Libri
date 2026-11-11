@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -25,7 +25,7 @@ import java.util.HashSet;
 
 public class ModEventHandlers {
     private static final Map<UUID, Integer> SWIFT_LEVEL_CACHE = new HashMap<>();
-    private static final ResourceLocation SWIFT_STRIKE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath("libri", "swift_strike");
+    private static final Identifier SWIFT_STRIKE_MODIFIER_ID = Identifier.fromNamespaceAndPath("libri", "swift_strike");
     private static final ThreadLocal<Boolean> IS_RESONATING = ThreadLocal.withInitial(() -> false);
 
     public static void register() {
@@ -44,7 +44,7 @@ public class ModEventHandlers {
         });
 
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {
-            if (world.isClientSide || IS_RESONATING.get()) return true;
+            if (world.isClientSide() || IS_RESONATING.get()) return true;
 
             ItemStack tool = player.getMainHandItem();
             if (tool.isEmpty()) return true;
@@ -54,7 +54,7 @@ public class ModEventHandlers {
             if (resonance <= 0) return true;
 
             String blockName = BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath();
-            boolean isOre = blockName.endsWith("_ore") || blockName.equals("ancient_debris") || state.getTags().anyMatch(t -> t.location().getPath().endsWith("ores"));
+            boolean isOre = blockName.endsWith("_ore") || blockName.equals("ancient_debris") || state.getTags().anyMatch(t -> t.identifier().getPath().endsWith("ores"));
 
             if (!isOre) return true;
 
@@ -122,12 +122,12 @@ public class ModEventHandlers {
                         }
                     }
                     
-                    double d = pos.getX() + 0.5 + world.random.nextDouble() * 0.5 - 0.25;
-                    double e = pos.getY() + 0.5 + world.random.nextDouble() * 0.5 - 0.25;
-                    double f = pos.getZ() + 0.5 + world.random.nextDouble() * 0.5 - 0.25;
-                    double vx = world.random.nextDouble() * 0.2 - 0.1;
+                    double d = pos.getX() + 0.5 + world.getRandom().nextDouble() * 0.5 - 0.25;
+                    double e = pos.getY() + 0.5 + world.getRandom().nextDouble() * 0.5 - 0.25;
+                    double f = pos.getZ() + 0.5 + world.getRandom().nextDouble() * 0.5 - 0.25;
+                    double vx = world.getRandom().nextDouble() * 0.2 - 0.1;
                     double vy = 0.2;
-                    double vz = world.random.nextDouble() * 0.2 - 0.1;
+                    double vz = world.getRandom().nextDouble() * 0.2 - 0.1;
 
                     for (net.minecraft.world.item.ItemStack c : compressed) {
                         net.minecraft.world.entity.item.ItemEntity itemEntity = new net.minecraft.world.entity.item.ItemEntity(world, d, e, f, c);
@@ -182,7 +182,7 @@ public class ModEventHandlers {
 
     private static void handlePhoenix(ServerPlayer player) {
         for (int i = 0; i < 41; i++) {
-            ItemStack stack = i < 36 ? player.getInventory().items.get(i) : (i < 40 ? player.getInventory().armor.get(i - 36) : player.getInventory().offhand.get(0));
+            ItemStack stack = i < 36 ? player.getInventory().getItem(i) : player.getInventory().getItem(i);
             if (stack.isEmpty() || !stack.isEnchanted() || stack.getDamageValue() == 0) continue;
             int level = ModEnchantmentHelper.getLevel(ModEnchantments.PHOENIX, stack);
             if (level > 0 && player.tickCount % Math.max(1, 100 / level) == 0) {

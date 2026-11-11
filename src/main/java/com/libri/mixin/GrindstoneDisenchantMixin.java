@@ -44,7 +44,7 @@ public class GrindstoneDisenchantMixin {
         var topEntry = it.next();
 
         boolean isModEnchant = topEntry.getKey().unwrapKey()
-                .map(key -> key.location().getNamespace().equals("libri"))
+                .map(key -> key.identifier().getNamespace().equals("libri"))
                 .orElse(false);
 
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
@@ -52,7 +52,7 @@ public class GrindstoneDisenchantMixin {
         bb.upgrade(topEntry.getKey(), topEntry.getIntValue());
         book.set(DataComponents.STORED_ENCHANTMENTS, bb.toImmutable());
         if (isModEnchant) {
-            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1));
+            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(java.util.List.of(1.0f), java.util.List.of(), java.util.List.of(), java.util.List.of()));
         }
 
         this.result.setItem(0, book);

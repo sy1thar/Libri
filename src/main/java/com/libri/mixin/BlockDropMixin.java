@@ -33,7 +33,7 @@ public class BlockDropMixin {
 
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
     private static void onDropStacks(BlockState state, Level world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack tool, CallbackInfo ci) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
         if (!(entity instanceof ServerPlayer player)) return;
 
         ServerLevel serverWorld = (ServerLevel) world;
@@ -76,7 +76,7 @@ public class BlockDropMixin {
             }
 
             if (enchantedFurnace) {
-                var registry = serverWorld.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+                var registry = serverWorld.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
                 var builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
                 FurnaceEnchantmentData data = (FurnaceEnchantmentData) blockEntity;
                 int speed = data.libri$getSmeltingSpeed();
@@ -112,7 +112,7 @@ public class BlockDropMixin {
 
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V", at = @At("HEAD"), cancellable = true)
     private static void onNaturalDropStacks(BlockState state, Level world, BlockPos pos, CallbackInfo ci) {
-        if (world.isClientSide) return;
+        if (world.isClientSide()) return;
         ServerPlayer player = TelepathyHelper.BLOCK_MINER.get();
         if (player == null) return;
 
@@ -163,11 +163,11 @@ public class BlockDropMixin {
         for (ItemStack drop : drops) {
             if (drop.isEmpty()) continue;
             ItemStack matchInput = drop;
-            var recipe = world.getRecipeManager()
+            var recipe = world.recipeAccess()
                     .getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(matchInput), world);
             if (!recipe.isPresent()) {
                 matchInput = new ItemStack(drop.getItem(), drop.getCount());
-                recipe = world.getRecipeManager()
+                recipe = world.recipeAccess()
                         .getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(matchInput), world);
             }
             if (recipe.isPresent()) {

@@ -1,14 +1,14 @@
 package com.libri;
 
 import com.libri.enchantment.ModEnchantments;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -18,11 +18,11 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 public class ModCreativeTab {
     public static void register() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
-                ResourceLocation.fromNamespaceAndPath("libri", "main"),
-                FabricItemGroup.builder()
+                Identifier.fromNamespaceAndPath("libri", "main"),
+                FabricCreativeModeTab.builder()
                         .icon(() -> {
                             ItemStack iconStack = new ItemStack(Items.ENCHANTED_BOOK);
-                            iconStack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1));
+                            iconStack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(java.util.List.of(1.0f), java.util.List.of(), java.util.List.of(), java.util.List.of()));
                             return iconStack;
                         })
                         .title(Component.translatable("itemGroup.libri"))
@@ -55,7 +55,7 @@ public class ModCreativeTab {
             var builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
             builder.upgrade(entry, level);
             book.set(DataComponents.STORED_ENCHANTMENTS, builder.toImmutable());
-            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1));
+            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(java.util.List.of(1.0f), java.util.List.of(), java.util.List.of(), java.util.List.of()));
             entries.accept(book);
         });
     }
