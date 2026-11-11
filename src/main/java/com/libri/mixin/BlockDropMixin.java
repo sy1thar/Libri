@@ -33,7 +33,7 @@ public class BlockDropMixin {
 
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)V", at = @At("HEAD"), cancellable = true)
     private static void onDropStacks(BlockState state, World world, BlockPos pos, BlockEntity blockEntity, Entity entity, ItemStack tool, CallbackInfo ci) {
-        if (world.isClient) return;
+        if (world.isClient()) return;
         if (!(entity instanceof ServerPlayerEntity player)) return;
 
         ServerWorld serverWorld = (ServerWorld) world;
@@ -112,7 +112,7 @@ public class BlockDropMixin {
 
     @Inject(method = "dropStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V", at = @At("HEAD"), cancellable = true)
     private static void onNaturalDropStacks(BlockState state, World world, BlockPos pos, CallbackInfo ci) {
-        if (world.isClient) return;
+        if (world.isClient()) return;
         ServerPlayerEntity player = TelepathyHelper.BLOCK_MINER.get();
         if (player == null) return;
 

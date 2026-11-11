@@ -30,8 +30,8 @@ public class EntityDropMixin {
                 int lootingLevel = ModEnchantmentHelper.getLevel(Enchantments.LOOTING, ench);
                 int xp = (int) (stack.getCount() * baseXp * (1.0f + lootingLevel * 0.5f));
                 if (xp > 0) {
-                    player.getWorld().spawnEntity(new ExperienceOrbEntity(
-                        player.getWorld(), player.getX(), player.getY(), player.getZ(), xp));
+                    player.getEntityWorld().spawnEntity(new ExperienceOrbEntity(
+                        player.getEntityWorld(), player.getX(), player.getY(), player.getZ(), xp));
                 }
                 ci.setReturnValue(null);
                 return;

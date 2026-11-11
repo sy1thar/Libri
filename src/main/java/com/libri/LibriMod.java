@@ -72,7 +72,7 @@ public class LibriMod implements ModInitializer {
 
             if (directSource instanceof PersistentProjectileEntity) {
                 if (attacker instanceof LivingEntity shooter) {
-                    var registryManager = entity.getWorld().getRegistryManager();
+                    var registryManager = entity.getEntityWorld().getRegistryManager();
                     var enchantmentRegistry = registryManager.getOrThrow(RegistryKeys.ENCHANTMENT);
                     Optional<RegistryEntry.Reference<Enchantment>> paralysisEnch = enchantmentRegistry.getOptional(
                             RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(MOD_ID, "paralysis")));

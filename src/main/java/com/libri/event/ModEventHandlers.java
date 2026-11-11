@@ -44,7 +44,7 @@ public class ModEventHandlers {
         });
 
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {
-            if (world.isClient || IS_RESONATING.get()) return true;
+            if (world.isClient() || IS_RESONATING.get()) return true;
 
             ItemStack tool = player.getMainHandStack();
             if (tool.isEmpty()) return true;

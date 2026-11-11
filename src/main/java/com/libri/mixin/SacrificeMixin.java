@@ -49,7 +49,7 @@ public class SacrificeMixin {
 
         var ctx = new LootWorldContext.Builder(world)
                 .add(LootContextParameters.THIS_ENTITY, victim)
-                .add(LootContextParameters.ORIGIN, victim.getPos())
+                .add(LootContextParameters.ORIGIN, victim.getEntityPos())
                 .add(LootContextParameters.DAMAGE_SOURCE, source)
                 .addOptional(LootContextParameters.ATTACKING_ENTITY, source.getAttacker())
                 .addOptional(LootContextParameters.DIRECT_ATTACKING_ENTITY, source.getSource())
