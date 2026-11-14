@@ -4,9 +4,9 @@
     "compatibilityLevel": "JAVA_25",
     "mixins": [
         "EnchantmentMixin",
-        "EnchantmentIsAcceptableMixin",
         "EnchantmentHelperMixin",
         "ItemStackMixin",
+        "CreativeModeTabsMixin",
         "EnchantmentLevelMixin",
         "AnvilScreenHandlerMixin",
         "ForgingScreenHandlerAccessor",
@@ -31,6 +31,7 @@
         "defaultRequire": 1
     },
     "client": [
-        "AnvilScreenMixin"
+        "AnvilScreenMixin",
+        "CustomModelDataPropertyMixin"
     ]
 }
