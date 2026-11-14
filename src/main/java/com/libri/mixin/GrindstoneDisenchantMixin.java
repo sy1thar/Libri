@@ -1,11 +1,11 @@
 package com.libri.mixin;
 
+import com.libri.enchantment.ModEnchantmentHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.GrindstoneMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.spongepowered.asm.mixin.Final;
@@ -14,8 +14,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(GrindstoneMenu.class)
 public class GrindstoneDisenchantMixin {
@@ -45,16 +43,14 @@ public class GrindstoneDisenchantMixin {
 
         var topEntry = it.next();
 
-        boolean isModEnchant = topEntry.getKey().unwrapKey()
-                .map(key -> key.identifier().getNamespace().equals("libri"))
-                .orElse(false);
+        boolean isModEnchant = ModEnchantmentHelper.isModEnchantment(topEntry.getKey());
 
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
         var bb = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
         bb.upgrade(topEntry.getKey(), topEntry.getIntValue());
         book.set(DataComponents.STORED_ENCHANTMENTS, bb.toImmutable());
         if (isModEnchant) {
-            book.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(1.0f), List.of(), List.of(), List.of()));
+            ModEnchantmentHelper.applyCustomBookModel(book);
         }
 
         this.resultSlots.setItem(0, book);

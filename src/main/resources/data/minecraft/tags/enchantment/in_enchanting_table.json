@@ -1,0 +1,19 @@
+{
+    "replace": false,
+    "values": [
+        "libri:phoenix",
+        "libri:sacrifice",
+        "libri:swift_strike",
+        "libri:telekinesis",
+        "libri:smelting_speed",
+        "libri:fuel_efficiency",
+        "libri:sifting",
+        "libri:resonance",
+        "libri:trophy",
+        "libri:smelting_touch",
+        "libri:hush",
+        "libri:eternity",
+        "libri:crusher",
+        "libri:lumberjack"
+    ]
+}

@@ -4,9 +4,9 @@
     "compatibilityLevel": "JAVA_25",
     "mixins": [
         "EnchantmentMixin",
-        "EnchantmentIsAcceptableMixin",
         "EnchantmentHelperMixin",
         "ItemStackMixin",
+        "CreativeModeTabsMixin",
         "EnchantmentLevelMixin",
         "AnvilScreenHandlerMixin",
         "ForgingScreenHandlerAccessor",
@@ -24,12 +24,15 @@
         "GrindstoneSlotMixin",
         "GrindstoneTakeMixin",
         "HushMixin",
-        "PlayerDropMixin"
+        "PlayerDropMixin",
+        "ServerPlayerGameModeMixin"
     ],
     "injectors": {
         "defaultRequire": 1
     },
     "client": [
-        "AnvilScreenMixin"
+        "AnvilScreenMixin",
+        "CustomModelDataPropertyMixin",
+        "ItemModelResolverMixin"
     ]
 }
