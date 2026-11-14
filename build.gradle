@@ -45,6 +45,55 @@ jar {
     }
 }
 
+tasks.register('copyDevJar', Copy) {
+    doFirst {
+        delete fileTree(layout.projectDirectory.dir('dev-builds')) {
+            include '*.jar'
+        }
+    }
+    from tasks.named('jar')
+    into layout.projectDirectory.dir('dev-builds')
+}
+
+def instanceDirs = [
+    file('C:/Users/Nick/.minecraftx/instances/26.3-fabric0.19.5/mods'),
+    file('C:/Users/Nick/Downloads/f0dc6a2a-6766-4b2b-98c3-6fad9397c828/minecraft/mods')
+]
+
+tasks.register('copyInstanceJar') {
+    dependsOn tasks.named('jar')
+    doLast {
+        def jarFile = tasks.named('jar').get().archiveFile.get().asFile
+        instanceDirs.each { instanceModsDir ->
+            if (instanceModsDir.exists() && instanceModsDir.isDirectory()) {
+                def targetFile = new File(instanceModsDir, jarFile.name)
+                boolean blocked = false
+                instanceModsDir.listFiles()?.findAll { it.name.startsWith('libri-') && it.name.endsWith('.jar') && it.name != jarFile.name }?.each { oldJar ->
+                    oldJar.setWritable(true)
+                    if (!oldJar.delete()) {
+                        logger.warn("[Libri] Cannot remove locked mod jar (is Minecraft running?): {}", oldJar.absolutePath)
+                        blocked = true
+                    }
+                }
+                if (blocked) {
+                    logger.warn("[Libri] Skipped copying {} to instance mods to avoid duplicate Libri jars while old jar is locked.", jarFile.name)
+                    return
+                }
+                try {
+                    java.nio.file.Files.copy(jarFile.toPath(), targetFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+                    logger.lifecycle("[Libri] Updated instance mod jar: {}", targetFile.absolutePath)
+                } catch (IOException e) {
+                    logger.warn("[Libri] Could not overwrite instance mod jar (close Minecraft first): {} ({})", targetFile.absolutePath, e.message)
+                }
+            }
+        }
+    }
+}
+
+tasks.named('build') {
+    finalizedBy 'copyDevJar', 'copyInstanceJar'
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {

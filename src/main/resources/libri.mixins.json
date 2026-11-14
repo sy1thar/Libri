@@ -24,7 +24,8 @@
         "GrindstoneSlotMixin",
         "GrindstoneTakeMixin",
         "HushMixin",
-        "PlayerDropMixin"
+        "PlayerDropMixin",
+        "ServerPlayerGameModeMixin"
     ],
     "injectors": {
         "defaultRequire": 1
