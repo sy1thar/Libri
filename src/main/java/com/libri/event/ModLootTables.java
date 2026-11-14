@@ -31,7 +31,7 @@ public class ModLootTables {
                     tableBuilder.pool(createTreasurePool(0.15f));
                 }
                 if (id.equals(new Identifier("minecraft", "chests/ancient_city"))) {
-                    tableBuilder.pool(createSoulboundPool(0.025f));
+                    tableBuilder.pool(createSoulboundPool(0.05f));
                 }
             }
         });
@@ -55,7 +55,16 @@ public class ModLootTables {
                 .add(ModEnchantments.PHOENIX)
                 .add(ModEnchantments.SACRIFICE)
                 .add(ModEnchantments.SWIFT_STRIKE)
-                .add(ModEnchantments.PARALYSIS);
+                .add(ModEnchantments.SMELTING_SPEED)
+                .add(ModEnchantments.FUEL_EFFICIENCY)
+                .add(ModEnchantments.SMELTING_TOUCH)
+                .add(ModEnchantments.HUSH)
+                .add(ModEnchantments.SIFTING)
+                .add(ModEnchantments.RESONANCE)
+                .add(ModEnchantments.TROPHY)
+                .add(ModEnchantments.PARALYSIS)
+                .add(ModEnchantments.CRUSHER)
+                .add(ModEnchantments.LUMBERJACK);
 
         pool.with(ItemEntry.builder(Items.ENCHANTED_BOOK));
         pool.apply(builder.build());

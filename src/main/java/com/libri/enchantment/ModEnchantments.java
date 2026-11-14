@@ -65,6 +65,24 @@ public class ModEnchantments {
             Enchantment.Rarity.RARE, EnchantmentTarget.BOW, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND},
             1, 15, 0, 65, 0, true, false, false);
 
+    public static final Enchantment CRUSHER = new LibriEnchantment(
+            Enchantment.Rarity.RARE, EnchantmentTarget.DIGGER, new EquipmentSlot[]{EquipmentSlot.MAINHAND},
+            1, 15, 0, 65, 0, false, true, true) {
+        @Override
+        public boolean isAcceptableItem(net.minecraft.item.ItemStack stack) {
+            return stack.getItem() instanceof net.minecraft.item.PickaxeItem;
+        }
+    };
+
+    public static final Enchantment LUMBERJACK = new LibriEnchantment(
+            Enchantment.Rarity.RARE, EnchantmentTarget.DIGGER, new EquipmentSlot[]{EquipmentSlot.MAINHAND},
+            1, 15, 0, 65, 0, false, true, true) {
+        @Override
+        public boolean isAcceptableItem(net.minecraft.item.ItemStack stack) {
+            return stack.getItem() instanceof net.minecraft.item.AxeItem;
+        }
+    };
+
     public static void register() {
         registerOne("eternity", ETERNITY);
         registerOne("telekinesis", TELEKINESIS);
@@ -80,13 +98,15 @@ public class ModEnchantments {
         registerOne("resonance", RESONANCE);
         registerOne("trophy", TROPHY);
         registerOne("paralysis", PARALYSIS);
+        registerOne("crusher", CRUSHER);
+        registerOne("lumberjack", LUMBERJACK);
     }
 
     private static void registerOne(String name, Enchantment enchantment) {
         Registry.register(Registries.ENCHANTMENT, new Identifier(LibriMod.MOD_ID, name), enchantment);
     }
 
-    public static final class LibriEnchantment extends Enchantment {
+    public static class LibriEnchantment extends Enchantment {
         private final int maxLevel;
         private final int minBaseCost;
         private final int minCostPerLevel;
