@@ -30,6 +30,8 @@ public class ModCreativeTab {
                             addEnchantedBook(entries, ModEnchantments.PHOENIX);
                             addEnchantedBook(entries, ModEnchantments.SACRIFICE);
                             addEnchantedBook(entries, ModEnchantments.SWIFT_STRIKE);
+                            addEnchantedBook(entries, ModEnchantments.SMELTING_SPEED);
+                            addEnchantedBook(entries, ModEnchantments.FUEL_EFFICIENCY);
                             addEnchantedBook(entries, ModEnchantments.SMELTING_TOUCH);
                             addEnchantedBook(entries, ModEnchantments.HUSH);
                             addEnchantedBook(entries, ModEnchantments.SOULBOUND);
@@ -37,6 +39,8 @@ public class ModCreativeTab {
                             addEnchantedBook(entries, ModEnchantments.RESONANCE);
                             addEnchantedBook(entries, ModEnchantments.TROPHY);
                             addEnchantedBook(entries, ModEnchantments.PARALYSIS);
+                            addEnchantedBook(entries, ModEnchantments.CRUSHER);
+                            addEnchantedBook(entries, ModEnchantments.LUMBERJACK);
                             entries.add(LibriMod.ADVANCED_ANVIL_ITEM);
                         })
                         .build()
@@ -44,9 +48,11 @@ public class ModCreativeTab {
     }
 
     private static void addEnchantedBook(ItemGroup.Entries entries, Enchantment enchantment) {
-        ItemStack book = EnchantedBookItem.forEnchantment(
-                new EnchantmentLevelEntry(enchantment, enchantment.getMaxLevel()));
-        book.getOrCreateNbt().putInt("CustomModelData", 1);
-        entries.add(book);
+        int maxLevel = enchantment.getMaxLevel();
+        for (int l = 1; l <= maxLevel; l++) {
+            ItemStack book = EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(enchantment, l));
+            book.getOrCreateNbt().putInt("CustomModelData", 1);
+            entries.add(book);
+        }
     }
 }
