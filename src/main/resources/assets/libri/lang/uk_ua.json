@@ -34,6 +34,10 @@
     "enchantment.libri.resonance.desc": "Руйнує ланцюжок однакових рудних блоків при видобутку",
     "enchantment.libri.trophy": "Трофей",
     "enchantment.libri.trophy.desc": "Підвищує шанс вибити голову моба та яйце спавну",
+    "enchantment.libri.crusher": "Нищівник",
+    "enchantment.libri.crusher.desc": "Руйнує область 3х3 блоки навколо цілі з фільтрацією за інструментом",
+    "enchantment.libri.lumberjack": "Лісоруб",
+    "enchantment.libri.lumberjack.desc": "Зрубує дерево повністю, захищаючи споруди без листя",
 
     "config.libri.title": "Налаштування Libri",
     "config.libri.category.general": "Основні",

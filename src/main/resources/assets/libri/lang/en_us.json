@@ -35,6 +35,10 @@
     "enchantment.libri.resonance": "Resonance",
     "enchantment.libri.resonance.desc": "Breaks a chain of identical ore blocks when mining",
     "enchantment.libri.trophy.desc": "Increases the chance to drop mob heads and spawn eggs",
+    "enchantment.libri.crusher": "Crusher",
+    "enchantment.libri.crusher.desc": "Breaks a 3x3 area around the mined block with per-tool filtering",
+    "enchantment.libri.lumberjack": "Lumberjack",
+    "enchantment.libri.lumberjack.desc": "Fells whole trees while protecting structures without leaves",
 
     "config.libri.title": "Libri Config",
     "config.libri.category.general": "General",

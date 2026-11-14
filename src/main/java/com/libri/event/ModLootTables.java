@@ -75,7 +75,9 @@ public class ModLootTables {
                 ModEnchantments.SIFTING,
                 ModEnchantments.RESONANCE,
                 ModEnchantments.TROPHY,
-                ModEnchantments.PARALYSIS
+                ModEnchantments.PARALYSIS,
+                ModEnchantments.CRUSHER,
+                ModEnchantments.LUMBERJACK
         }) {
             try {
                 builder.withEnchantment(registry.getOrThrow(key));

@@ -42,6 +42,8 @@ public class ModCreativeTab {
                                 addEnchantedBook(entries, registry, ModEnchantments.RESONANCE);
                                 addEnchantedBook(entries, registry, ModEnchantments.TROPHY);
                                 addEnchantedBook(entries, registry, ModEnchantments.PARALYSIS);
+                                addEnchantedBook(entries, registry, ModEnchantments.CRUSHER);
+                                addEnchantedBook(entries, registry, ModEnchantments.LUMBERJACK);
                             });
                             entries.accept(LibriMod.ADVANCED_ANVIL_ITEM);
                         })

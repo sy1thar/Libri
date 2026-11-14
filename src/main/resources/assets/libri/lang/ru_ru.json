@@ -34,6 +34,10 @@
     "enchantment.libri.resonance.desc": "Разрушает цепочку одинаковых рудных блоков при добыче",
     "enchantment.libri.trophy": "Трофей",
     "enchantment.libri.trophy.desc": "Повышает шанс выбить голову моба и спавн-яйцо",
+    "enchantment.libri.crusher": "Крушитель",
+    "enchantment.libri.crusher.desc": "Разрушает область 3х3 блока вокруг цели с фильтрацией по инструменту",
+    "enchantment.libri.lumberjack": "Лесоруб",
+    "enchantment.libri.lumberjack.desc": "Срубает дерево целиком, не разрушая постройки без листвы",
 
     "config.libri.title": "Настройки Libri",
     "config.libri.category.general": "Основные",
