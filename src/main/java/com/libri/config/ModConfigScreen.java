@@ -29,7 +29,8 @@ public class ModConfigScreen {
                         Text.translatable("config.libri.enchantment_max_level_mode"),
                         ModConfig.EnchantmentMaxLevelMode.class,
                         config.enchantmentMaxLevelMode)
-                .setDefaultValue(ModConfig.EnchantmentMaxLevelMode.CUSTOM)
+                .setDefaultValue(ModConfig.EnchantmentMaxLevelMode.VANILLA)
+                .setEnumNameProvider(mode -> Text.translatable("config.libri.enchantment_max_level_mode." + mode.name().toLowerCase()))
                 .setTooltip(Text.translatable("config.libri.enchantment_max_level_mode.tooltip"))
                 .setSaveConsumer(val -> config.enchantmentMaxLevelMode = val)
                 .build());

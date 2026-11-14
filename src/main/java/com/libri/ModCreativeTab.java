@@ -31,6 +31,8 @@ public class ModCreativeTab {
                             addEnchantedBook(entries, ModEnchantments.PHOENIX);
                             addEnchantedBook(entries, ModEnchantments.SACRIFICE);
                             addEnchantedBook(entries, ModEnchantments.SWIFT_STRIKE);
+                            addEnchantedBook(entries, ModEnchantments.SMELTING_SPEED);
+                            addEnchantedBook(entries, ModEnchantments.FUEL_EFFICIENCY);
                             addEnchantedBook(entries, ModEnchantments.SMELTING_TOUCH);
                             addEnchantedBook(entries, ModEnchantments.HUSH);
                             addEnchantedBook(entries, ModEnchantments.SOULBOUND);
@@ -38,6 +40,8 @@ public class ModCreativeTab {
                             addEnchantedBook(entries, ModEnchantments.RESONANCE);
                             addEnchantedBook(entries, ModEnchantments.TROPHY);
                             addEnchantedBook(entries, ModEnchantments.PARALYSIS);
+                            addEnchantedBook(entries, ModEnchantments.CRUSHER);
+                            addEnchantedBook(entries, ModEnchantments.LUMBERJACK);
                             entries.add(LibriMod.ADVANCED_ANVIL_ITEM);
                         })
                         .build()
@@ -45,12 +49,14 @@ public class ModCreativeTab {
     }
 
     private static void addEnchantedBook(ItemGroup.Entries entries, Enchantment enchantment) {
-        int level = enchantment.getMaxLevel();
-        ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
-        var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
-        builder.add(enchantment, level);
-        book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
-        book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
-        entries.add(book);
+        int maxLevel = enchantment.getMaxLevel();
+        for (int l = 1; l <= maxLevel; l++) {
+            ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+            var builder = new ItemEnchantmentsComponent.Builder(ItemEnchantmentsComponent.DEFAULT);
+            builder.add(enchantment, l);
+            book.set(DataComponentTypes.STORED_ENCHANTMENTS, builder.build());
+            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+            entries.add(book);
+        }
     }
 }

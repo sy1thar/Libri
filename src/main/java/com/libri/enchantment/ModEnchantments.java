@@ -82,6 +82,16 @@ public class ModEnchantments {
             2, 1, Enchantment.leveledCost(15, 0), Enchantment.leveledCost(65, 0), 4,
             true, false, false, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
 
+    public static final Enchantment CRUSHER = create(
+            tag("crusher"), tag("crusher"),
+            2, 1, Enchantment.leveledCost(15, 0), Enchantment.leveledCost(65, 0), 4,
+            false, true, true, EquipmentSlot.MAINHAND);
+
+    public static final Enchantment LUMBERJACK = create(
+            tag("lumberjack"), tag("lumberjack"),
+            2, 1, Enchantment.leveledCost(15, 0), Enchantment.leveledCost(65, 0), 4,
+            false, true, true, EquipmentSlot.MAINHAND);
+
     private static TagKey<Item> tag(String name) {
         return TagKey.of(RegistryKeys.ITEM, new Identifier(LibriMod.MOD_ID, "enchantable/" + name));
     }
@@ -111,6 +121,8 @@ public class ModEnchantments {
         registerOne("resonance", RESONANCE);
         registerOne("trophy", TROPHY);
         registerOne("paralysis", PARALYSIS);
+        registerOne("crusher", CRUSHER);
+        registerOne("lumberjack", LUMBERJACK);
     }
 
     private static void registerOne(String name, Enchantment enchantment) {
