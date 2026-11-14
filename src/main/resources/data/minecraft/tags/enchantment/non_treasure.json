@@ -9,6 +9,8 @@
         "libri:fuel_efficiency",
         "libri:sifting",
         "libri:resonance",
-        "libri:trophy"
+        "libri:trophy",
+        "libri:crusher",
+        "libri:lumberjack"
     ]
 }

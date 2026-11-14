@@ -26,7 +26,10 @@ public class ModLootTables {
             Identifier.of("minecraft", "chests/woodland_mansion"),
             Identifier.of("minecraft", "chests/ancient_city"),
             Identifier.of("minecraft", "chests/end_city_treasure"),
-            Identifier.of("minecraft", "chests/bastion_treasure")
+            Identifier.of("minecraft", "chests/bastion_treasure"),
+            Identifier.of("minecraft", "chests/pillager_outpost"),
+            Identifier.of("minecraft", "chests/nether_bridge"),
+            Identifier.of("minecraft", "chests/trial_chambers/reward")
     };
 
     public static void register() {
@@ -36,7 +39,7 @@ public class ModLootTables {
                     tableBuilder.pool(createTreasurePool(registries, 0.15f));
                 }
                 if (key.getValue().equals(Identifier.of("minecraft", "chests/ancient_city"))) {
-                    tableBuilder.pool(createSoulboundPool(registries, 0.025f));
+                    tableBuilder.pool(createSoulboundPool(registries, 0.05f));
                 }
             }
         });
@@ -64,7 +67,16 @@ public class ModLootTables {
                 ModEnchantments.PHOENIX,
                 ModEnchantments.SACRIFICE,
                 ModEnchantments.SWIFT_STRIKE,
-                ModEnchantments.PARALYSIS
+                ModEnchantments.SMELTING_SPEED,
+                ModEnchantments.FUEL_EFFICIENCY,
+                ModEnchantments.SMELTING_TOUCH,
+                ModEnchantments.HUSH,
+                ModEnchantments.SIFTING,
+                ModEnchantments.RESONANCE,
+                ModEnchantments.TROPHY,
+                ModEnchantments.PARALYSIS,
+                ModEnchantments.CRUSHER,
+                ModEnchantments.LUMBERJACK
         }) {
             try {
                 builder.option(registry.getOrThrow(key));
