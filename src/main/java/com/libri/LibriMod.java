@@ -55,7 +55,7 @@ public class LibriMod implements ModInitializer {
         Registry.register(Registries.BLOCK, ADVANCED_ANVIL_KEY, ADVANCED_ANVIL);
         Registry.register(Registries.ITEM, ADVANCED_ANVIL_ITEM_KEY, ADVANCED_ANVIL_ITEM);
 
-        LOGGER.info("Libri mod initialized with 14 enchantments");
+        LOGGER.info("Libri mod initialized with 16 enchantments");
     }
 
     private void registerParalysisEvent() {

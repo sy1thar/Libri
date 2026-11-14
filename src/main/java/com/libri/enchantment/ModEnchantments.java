@@ -21,6 +21,8 @@ public class ModEnchantments {
     public static final RegistryKey<Enchantment> RESONANCE = of("resonance");
     public static final RegistryKey<Enchantment> TROPHY = of("trophy");
     public static final RegistryKey<Enchantment> PARALYSIS = of("paralysis");
+    public static final RegistryKey<Enchantment> CRUSHER = of("crusher");
+    public static final RegistryKey<Enchantment> LUMBERJACK = of("lumberjack");
 
     private static RegistryKey<Enchantment> of(String name) {
         return RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(LibriMod.MOD_ID, name));
