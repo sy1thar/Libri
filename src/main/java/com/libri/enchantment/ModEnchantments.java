@@ -21,6 +21,8 @@ public class ModEnchantments {
     public static final ResourceKey<Enchantment> RESONANCE = of("resonance");
     public static final ResourceKey<Enchantment> TROPHY = of("trophy");
     public static final ResourceKey<Enchantment> PARALYSIS = of("paralysis");
+    public static final ResourceKey<Enchantment> CRUSHER = of("crusher");
+    public static final ResourceKey<Enchantment> LUMBERJACK = of("lumberjack");
 
     private static ResourceKey<Enchantment> of(String name) {
         return ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(LibriMod.MOD_ID, name));

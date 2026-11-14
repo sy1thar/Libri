@@ -26,7 +26,10 @@ public class ModLootTables {
             Identifier.fromNamespaceAndPath("minecraft", "chests/woodland_mansion"),
             Identifier.fromNamespaceAndPath("minecraft", "chests/ancient_city"),
             Identifier.fromNamespaceAndPath("minecraft", "chests/end_city_treasure"),
-            Identifier.fromNamespaceAndPath("minecraft", "chests/bastion_treasure")
+            Identifier.fromNamespaceAndPath("minecraft", "chests/bastion_treasure"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/pillager_outpost"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/nether_bridge"),
+            Identifier.fromNamespaceAndPath("minecraft", "chests/trial_chambers/reward")
     };
 
     public static void register() {
@@ -36,7 +39,7 @@ public class ModLootTables {
                     tableBuilder.withPool(createTreasurePool(registries, 0.15f));
                 }
                 if (key.identifier().equals(Identifier.fromNamespaceAndPath("minecraft", "chests/ancient_city"))) {
-                    tableBuilder.withPool(createSoulboundPool(registries, 0.025f));
+                    tableBuilder.withPool(createSoulboundPool(registries, 0.05f));
                 }
             }
         });
@@ -64,7 +67,16 @@ public class ModLootTables {
                 ModEnchantments.PHOENIX,
                 ModEnchantments.SACRIFICE,
                 ModEnchantments.SWIFT_STRIKE,
-                ModEnchantments.PARALYSIS
+                ModEnchantments.SMELTING_SPEED,
+                ModEnchantments.FUEL_EFFICIENCY,
+                ModEnchantments.SMELTING_TOUCH,
+                ModEnchantments.HUSH,
+                ModEnchantments.SIFTING,
+                ModEnchantments.RESONANCE,
+                ModEnchantments.TROPHY,
+                ModEnchantments.PARALYSIS,
+                ModEnchantments.CRUSHER,
+                ModEnchantments.LUMBERJACK
         }) {
             try {
                 builder.withEnchantment(registry.getOrThrow(key));
