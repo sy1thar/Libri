@@ -3,6 +3,7 @@ package com.libri.enchantment;
 import com.libri.LibriMod;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -12,10 +13,12 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ModEnchantmentHelper {
     public static final CustomModelData CUSTOM_BOOK_MODEL =
             new CustomModelData(List.of(1.0f), List.of(), List.of(), List.of());
+    public static final Identifier BOOK_MODEL_ID = Identifier.fromNamespaceAndPath(LibriMod.MOD_ID, "book");
 
     public static int getLevel(ResourceKey<Enchantment> key, ItemStack stack) {
         if (stack.isEmpty()) return 0;
@@ -32,9 +35,16 @@ public class ModEnchantmentHelper {
     }
 
     public static boolean isModEnchantment(Holder<Enchantment> holder) {
-        return holder.unwrapKey()
-                .map(key -> key.identifier().getNamespace().equals(LibriMod.MOD_ID))
-                .orElse(false);
+        if (holder == null) return false;
+        Optional<ResourceKey<Enchantment>> key = holder.unwrapKey();
+        if (key.isPresent()) {
+            return key.get().identifier().getNamespace().equals(LibriMod.MOD_ID);
+        }
+        Optional<String> registeredName = holder.getRegisteredNameIfPresent();
+        if (registeredName.isPresent()) {
+            return registeredName.get().startsWith(LibriMod.MOD_ID + ":");
+        }
+        return false;
     }
 
     public static boolean hasModEnchantment(ItemEnchantments enchantments) {
@@ -60,6 +70,7 @@ public class ModEnchantmentHelper {
 
     public static void applyCustomBookModel(ItemStack stack) {
         stack.set(DataComponents.CUSTOM_MODEL_DATA, CUSTOM_BOOK_MODEL);
+        stack.set(DataComponents.ITEM_MODEL, BOOK_MODEL_ID);
     }
 
     public static void applyCustomBookModelIfModEnchanted(ItemStack stack) {

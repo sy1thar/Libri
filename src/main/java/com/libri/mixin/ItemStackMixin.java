@@ -4,6 +4,8 @@ import com.libri.enchantment.ModEnchantmentHelper;
 import com.libri.enchantment.ModEnchantments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -62,9 +64,19 @@ public class ItemStackMixin {
 
     @Inject(method = "set(Lnet/minecraft/core/component/DataComponentType;Ljava/lang/Object;)Ljava/lang/Object;", at = @At("TAIL"))
     private <T> void libri$applyCustomBookModelOnSet(DataComponentType<T> type, T value, CallbackInfoReturnable<T> cir) {
-        if (type == DataComponents.STORED_ENCHANTMENTS) {
+        if (type == DataComponents.STORED_ENCHANTMENTS || type == DataComponents.ENCHANTMENTS) {
             ModEnchantmentHelper.applyCustomBookModelIfModEnchanted((ItemStack) (Object) this);
         }
+    }
+
+    @Inject(method = "applyComponents(Lnet/minecraft/core/component/DataComponentPatch;)V", at = @At("TAIL"))
+    private void libri$applyCustomBookModelOnApplyPatch(DataComponentPatch patch, CallbackInfo ci) {
+        ModEnchantmentHelper.applyCustomBookModelIfModEnchanted((ItemStack) (Object) this);
+    }
+
+    @Inject(method = "applyComponents(Lnet/minecraft/core/component/DataComponentMap;)V", at = @At("TAIL"))
+    private void libri$applyCustomBookModelOnApplyMap(DataComponentMap map, CallbackInfo ci) {
+        ModEnchantmentHelper.applyCustomBookModelIfModEnchanted((ItemStack) (Object) this);
     }
 
     @Inject(method = "getStyledHoverName", at = @At("RETURN"), cancellable = true)

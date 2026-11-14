@@ -32,6 +32,7 @@
     },
     "client": [
         "AnvilScreenMixin",
-        "CustomModelDataPropertyMixin"
+        "CustomModelDataPropertyMixin",
+        "ItemModelResolverMixin"
     ]
 }

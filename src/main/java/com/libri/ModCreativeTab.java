@@ -54,13 +54,15 @@ public class ModCreativeTab {
     private static void addEnchantedBook(CreativeModeTab.Output entries, HolderLookup.RegistryLookup<net.minecraft.world.item.enchantment.Enchantment> registry,
                                           net.minecraft.resources.ResourceKey<net.minecraft.world.item.enchantment.Enchantment> key) {
         registry.get(key).ifPresent(entry -> {
-            int level = entry.value().getMaxLevel();
-            ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
-            var builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-            builder.upgrade(entry, level);
-            book.set(DataComponents.STORED_ENCHANTMENTS, builder.toImmutable());
-            ModEnchantmentHelper.applyCustomBookModel(book);
-            entries.accept(book);
+            int maxLevel = entry.value().getMaxLevel();
+            for (int level = 1; level <= maxLevel; level++) {
+                ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+                var builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+                builder.upgrade(entry, level);
+                book.set(DataComponents.STORED_ENCHANTMENTS, builder.toImmutable());
+                ModEnchantmentHelper.applyCustomBookModel(book);
+                entries.accept(book);
+            }
         });
     }
 }
