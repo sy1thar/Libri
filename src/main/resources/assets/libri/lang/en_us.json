@@ -45,6 +45,8 @@
     "config.libri.remove_anvil_cap": "Remove Anvil Cap",
     "config.libri.remove_anvil_cap.tooltip": "Removes the 40-level limit in anvils",
     "config.libri.enchantment_max_level_mode": "Enchantment Max Level",
+    "config.libri.enchantment_max_level_mode.vanilla": "Vanilla",
+    "config.libri.enchantment_max_level_mode.custom": "Custom",
     "config.libri.enchantment_max_level_mode.tooltip": "Vanilla leaves original max levels, Custom sets your own",
     "config.libri.enchantment_custom_max_level": "Custom Max Level",
     "config.libri.enchantment_custom_max_level.tooltip": "Max level for all enchantments (1-255)",

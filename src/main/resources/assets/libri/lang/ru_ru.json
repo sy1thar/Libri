@@ -44,6 +44,8 @@
     "config.libri.remove_anvil_cap": "Убрать лимит наковальни",
     "config.libri.remove_anvil_cap.tooltip": "Убирает ограничение в 40 уровней на наковальне",
     "config.libri.enchantment_max_level_mode": "Максимальный уровень чар",
+    "config.libri.enchantment_max_level_mode.vanilla": "Ванильный",
+    "config.libri.enchantment_max_level_mode.custom": "Кастомный",
     "config.libri.enchantment_max_level_mode.tooltip": "Ванильный — оригинальные уровни, Кастомный — свой уровень",
     "config.libri.enchantment_custom_max_level": "Кастомный уровень",
     "config.libri.enchantment_custom_max_level.tooltip": "Максимальный уровень для всех зачарований (1-255)",

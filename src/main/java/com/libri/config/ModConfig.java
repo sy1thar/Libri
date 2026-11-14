@@ -15,7 +15,7 @@ public class ModConfig {
     private static ModConfig INSTANCE = new ModConfig();
 
     public boolean removeAnvilCap = true;
-    public EnchantmentMaxLevelMode enchantmentMaxLevelMode = EnchantmentMaxLevelMode.CUSTOM;
+    public EnchantmentMaxLevelMode enchantmentMaxLevelMode = EnchantmentMaxLevelMode.VANILLA;
     public int enchantmentCustomMaxLevel = 10;
     public int resonanceMaxBlocks = 16;
     public List<String> siftingJunkBlocks = Arrays.asList(
