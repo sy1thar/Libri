@@ -52,7 +52,7 @@ public class GrindstoneDisenchantMixin {
         bb.add(topEntry.getKey(), topEntry.getIntValue());
         book.set(DataComponentTypes.STORED_ENCHANTMENTS, bb.build());
         if (isModEnchant) {
-            book.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
+            com.libri.enchantment.ModEnchantmentHelper.applyCustomBookModel(book);
         }
 
         this.result.setStack(0, book);

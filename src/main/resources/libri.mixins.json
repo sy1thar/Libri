@@ -4,7 +4,6 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "EnchantmentMixin",
-        "EnchantmentIsAcceptableMixin",
         "EnchantmentHelperMixin",
         "ItemStackMixin",
         "EnchantmentLevelMixin",
@@ -24,7 +23,9 @@
         "GrindstoneSlotMixin",
         "GrindstoneTakeMixin",
         "HushMixin",
-        "PlayerDropMixin"
+        "PlayerDropMixin",
+        "ItemGroupsMixin",
+        "ServerPlayerInteractionManagerMixin"
     ],
     "injectors": {
         "defaultRequire": 1
